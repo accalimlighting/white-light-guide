@@ -60,7 +60,9 @@ function App() {
                 alt="Acclaim Lighting"
                 className="w-48 h-auto drop-shadow-[0_4px_20px_rgba(1,21,42,0.35)]"
               />
-              <h1 className="text-4xl md:text-5xl font-semibold tracking-tight">White Light Guide</h1>
+              <h1 className="pt-3 text-3xl md:text-4xl font-semibold tracking-tight">
+                Linear White Light Guide
+              </h1>
               <p className="text-base md:text-lg text-white/75 max-w-2xl">
                 A quick-reference companion for the White Light Linear family with DN pricing, specs, and accessories presented in the refined Acclaim brand system highlighted in the current style guide.
               </p>
