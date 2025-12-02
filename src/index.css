@@ -147,7 +147,7 @@
 @tailwind utilities;
 
 body {
-  font-family: 'Suisse Intl', 'Space Grotesk', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Suisse Intl', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: #f7f9fc;
   color: #0f1e2e;
   letter-spacing: -0.01em;

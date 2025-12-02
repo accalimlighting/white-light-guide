@@ -55,7 +55,11 @@ function App() {
         <div className="relative max-w-6xl mx-auto px-4 py-10">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <div className="space-y-4">
-              <p className="text-xs uppercase tracking-[0.4em] text-acclaim-teal/80">Acclaim Lighting</p>
+              <img
+                src="/Acclaim_Horizontal_Logo_Dark.svg"
+                alt="Acclaim Lighting"
+                className="w-48 h-auto drop-shadow-[0_4px_20px_rgba(1,21,42,0.35)]"
+              />
               <h1 className="text-4xl md:text-5xl font-semibold tracking-tight">White Light Guide</h1>
               <p className="text-base md:text-lg text-white/75 max-w-2xl">
                 A quick-reference companion for the White Light Linear family with DN pricing, specs, and accessories presented in the refined Acclaim brand system highlighted in the current style guide.
