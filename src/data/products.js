@@ -730,14 +730,14 @@ export const products = [
 ];
 
 export const categories = [
-  { id: 'all', name: 'All Products' },
+  { id: 'all', name: 'Series' },
   { id: 'flex', name: 'Flex Products' },
   { id: 'adapt', name: 'Adapt Products' },
   { id: 'linear', name: 'Linear Products' },
 ];
 
 export const ipRatings = [
-  { id: 'all', name: 'All Ratings' },
+  { id: 'all', name: 'Environment' },
   { id: 'ip68', name: 'IP68 (Submersible)' },
   { id: 'ip66', name: 'IP66 (Exterior)' },
   { id: 'ip40', name: 'IP40 (Interior)' },

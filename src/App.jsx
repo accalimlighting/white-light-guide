@@ -1,14 +1,42 @@
 import { useState, useRef } from 'react';
-import { Search, ChevronDown, ChevronUp, Filter, Printer, ExternalLink, X } from 'lucide-react';
+import { Search, Printer, ExternalLink, X } from 'lucide-react';
 import { products, categories, ipRatings } from './data/products';
 import ProductCard from './components/ProductCard';
+
+const uniqueWattages = products.reduce((acc, product) => {
+  const watt = product.specs?.wattage;
+  if (watt && watt !== 'TBD' && !acc.includes(watt)) {
+    acc.push(watt);
+  }
+  return acc;
+}, []);
+
+const uniqueCCTs = products.reduce((acc, product) => {
+  product.ccts?.forEach((cct) => {
+    if (cct && cct !== 'TBD' && !acc.includes(cct)) {
+      acc.push(cct);
+    }
+  });
+  return acc;
+}, []);
+
+const wattageFilters = [
+  { value: 'all', label: 'Watts p/f' },
+  ...uniqueWattages.map((watt) => ({ value: watt, label: watt })),
+];
+
+const cctFilters = [
+  { value: 'all', label: 'CCT' },
+  ...uniqueCCTs.map((cct) => ({ value: cct, label: cct })),
+];
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [expandedProducts, setExpandedProducts] = useState(new Set());
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedIP, setSelectedIP] = useState('all');
-  const [showFilters, setShowFilters] = useState(false);
+  const [selectedSeries, setSelectedSeries] = useState('all');
+  const [selectedEnvironment, setSelectedEnvironment] = useState('all');
+  const [selectedWattage, setSelectedWattage] = useState('all');
+  const [selectedCCT, setSelectedCCT] = useState('all');
   const printRef = useRef();
 
   const toggleProduct = (productId) => {
@@ -35,17 +63,38 @@ function App() {
       product.tagline.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (product.subtitle && product.subtitle.toLowerCase().includes(searchTerm.toLowerCase()));
     
-    const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
+    const matchesSeries = selectedSeries === 'all' || product.category === selectedSeries;
     
-    const matchesIP = selectedIP === 'all' || 
-      (product.specs.ip && product.specs.ip.toLowerCase().includes(selectedIP.toLowerCase()));
+    const productEnvironment = (product.specs.ip || '').toLowerCase();
+    const matchesEnvironment = selectedEnvironment === 'all' || 
+      productEnvironment.includes(selectedEnvironment.toLowerCase());
+
+    const productWattage = (product.specs.wattage || '').toLowerCase();
+    const matchesWattage = selectedWattage === 'all' || 
+      productWattage === selectedWattage.toLowerCase();
+
+    const matchesCCT = selectedCCT === 'all' || product.ccts?.includes(selectedCCT);
     
-    return matchesSearch && matchesCategory && matchesIP;
+    return matchesSearch && matchesSeries && matchesEnvironment && matchesWattage && matchesCCT;
   });
 
   const handlePrint = () => {
     window.print();
   };
+
+  const resetFilters = () => {
+    setSelectedSeries('all');
+    setSelectedEnvironment('all');
+    setSelectedWattage('all');
+    setSelectedCCT('all');
+    setSearchTerm('');
+  };
+
+  const filtersActive = 
+    selectedSeries !== 'all' ||
+    selectedEnvironment !== 'all' ||
+    selectedWattage !== 'all' ||
+    selectedCCT !== 'all';
 
   return (
     <div className="min-h-screen bg-acclaim-fog">
@@ -98,7 +147,7 @@ function App() {
 
       {/* Controls Bar */}
       <section className="relative -mt-12 px-4 no-print z-20">
-        <div className="glass-panel max-w-6xl mx-auto p-6 sticky top-4">
+        <div className="glass-panel max-w-6xl mx-auto p-6 sticky top-4 space-y-4">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             {/* Search */}
             <div className="relative flex-1 w-full">
@@ -121,63 +170,80 @@ function App() {
               )}
             </div>
 
-            {/* Filters & Actions */}
-            <div className="flex flex-wrap items-center gap-3 justify-end">
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-3 py-2.5 rounded-xl border border-acclaim-cloud bg-acclaim-mist text-sm text-acclaim-slate focus:outline-none focus:ring-2 focus:ring-acclaim-accent/30"
+            {/* Actions */}
+            <div className="flex flex-wrap gap-2 justify-end">
+              <button
+                onClick={expandAll}
+                className="px-4 py-2 text-sm rounded-xl bg-gradient-to-r from-acclaim-accent to-acclaim-coral text-white font-semibold tracking-wide shadow hover:opacity-95 transition"
               >
-                {categories.map(cat => (
-                  <option key={cat.id} value={cat.id}>{cat.name}</option>
-                ))}
-              </select>
-
-              <select
-                value={selectedIP}
-                onChange={(e) => setSelectedIP(e.target.value)}
-                className="px-3 py-2.5 rounded-xl border border-acclaim-cloud bg-acclaim-mist text-sm text-acclaim-slate focus:outline-none focus:ring-2 focus:ring-acclaim-accent/30"
+                Expand All
+              </button>
+              <button
+                onClick={collapseAll}
+                className="px-4 py-2 text-sm rounded-xl border border-acclaim-cloud text-acclaim-slate bg-white/60 hover:bg-acclaim-fog font-medium"
               >
-                {ipRatings.map(ip => (
-                  <option key={ip.id} value={ip.id}>{ip.name}</option>
-                ))}
-              </select>
-
-              <div className="flex flex-wrap gap-2">
-                <button
-                  onClick={expandAll}
-                  className="px-4 py-2 text-sm rounded-xl bg-gradient-to-r from-acclaim-accent to-acclaim-coral text-white font-semibold tracking-wide shadow hover:opacity-95 transition"
-                >
-                  Expand All
-                </button>
-                <button
-                  onClick={collapseAll}
-                  className="px-4 py-2 text-sm rounded-xl border border-acclaim-cloud text-acclaim-slate bg-white/60 hover:bg-acclaim-fog font-medium"
-                >
-                  Collapse
-                </button>
-                <button
-                  onClick={handlePrint}
-                  className="px-4 py-2 text-sm rounded-xl bg-acclaim-navy text-white font-medium flex items-center gap-2 shadow-sm hover:-translate-y-0.5 transition"
-                >
-                  <Printer className="w-4 h-4" />
-                  <span className="hidden sm:inline">Print</span>
-                </button>
-              </div>
+                Collapse
+              </button>
+              <button
+                onClick={handlePrint}
+                className="px-4 py-2 text-sm rounded-xl bg-acclaim-navy text-white font-medium flex items-center gap-2 shadow-sm hover:-translate-y-0.5 transition"
+              >
+                <Printer className="w-4 h-4" />
+                <span className="hidden sm:inline">Print</span>
+              </button>
             </div>
           </div>
 
-          <div className="mt-4 text-sm text-acclaim-steel flex flex-wrap items-center gap-3">
+          {/* Filter Row */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <select
+              value={selectedSeries}
+              onChange={(e) => setSelectedSeries(e.target.value)}
+              className="px-3 py-2.5 rounded-xl border border-acclaim-cloud bg-acclaim-mist text-sm text-acclaim-slate focus:outline-none focus:ring-2 focus:ring-acclaim-accent/30"
+            >
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>{cat.name}</option>
+              ))}
+            </select>
+
+            <select
+              value={selectedEnvironment}
+              onChange={(e) => setSelectedEnvironment(e.target.value)}
+              className="px-3 py-2.5 rounded-xl border border-acclaim-cloud bg-acclaim-mist text-sm text-acclaim-slate focus:outline-none focus:ring-2 focus:ring-acclaim-accent/30"
+            >
+              {ipRatings.map((ip) => (
+                <option key={ip.id} value={ip.id}>{ip.name}</option>
+              ))}
+            </select>
+
+            <select
+              value={selectedWattage}
+              onChange={(e) => setSelectedWattage(e.target.value)}
+              className="px-3 py-2.5 rounded-xl border border-acclaim-cloud bg-acclaim-mist text-sm text-acclaim-slate focus:outline-none focus:ring-2 focus:ring-acclaim-accent/30"
+            >
+              {wattageFilters.map((option) => (
+                <option key={option.value} value={option.value}>{option.label}</option>
+              ))}
+            </select>
+
+            <select
+              value={selectedCCT}
+              onChange={(e) => setSelectedCCT(e.target.value)}
+              className="px-3 py-2.5 rounded-xl border border-acclaim-cloud bg-acclaim-mist text-sm text-acclaim-slate focus:outline-none focus:ring-2 focus:ring-acclaim-accent/30"
+            >
+              {cctFilters.map((option) => (
+                <option key={option.value} value={option.value}>{option.label}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="text-sm text-acclaim-steel flex flex-wrap items-center gap-3">
             <span className="font-medium text-acclaim-slate">
               Showing {filteredProducts.length} of {products.length} products
             </span>
-            {(selectedCategory !== 'all' || selectedIP !== 'all' || searchTerm) && (
+            {(filtersActive || searchTerm) && (
               <button
-                onClick={() => {
-                  setSelectedCategory('all');
-                  setSelectedIP('all');
-                  setSearchTerm('');
-                }}
+                onClick={resetFilters}
                 className="text-acclaim-accent font-medium hover:underline"
               >
                 Clear filters
@@ -204,11 +270,7 @@ function App() {
           <div className="text-center py-20 glass-panel">
             <div className="text-acclaim-slate text-lg mb-3 font-medium">No products match your criteria</div>
             <button
-              onClick={() => {
-                setSelectedCategory('all');
-                setSelectedIP('all');
-                setSearchTerm('');
-              }}
+              onClick={resetFilters}
               className="text-acclaim-accent font-semibold hover:underline"
             >
               Clear all filters
