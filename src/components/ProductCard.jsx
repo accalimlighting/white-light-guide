@@ -71,7 +71,6 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
 
   return (
     <div className={`glass-panel overflow-hidden transition-all duration-200 relative ${product.isPlaceholder ? 'ring-1 ring-amber-300/60' : ''}`}>
-      <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-acclaim-accent via-acclaim-coral to-acclaim-teal" />
       {/* Card Header - Always Visible */}
       <div className="p-6 cursor-pointer" onClick={onToggle}>
         <div className="flex items-start gap-5">
@@ -92,10 +91,12 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
             <div className="flex items-start justify-between">
               <div>
                 <div className="flex items-center gap-2 flex-wrap">
-                  <h3 className="text-xl font-semibold text-acclaim-slate tracking-tight">{product.name}</h3>
-                  {product.subtitle && (
-                    <span className="text-lg text-acclaim-steel font-medium">{product.subtitle}</span>
-                  )}
+                  <h3 className="text-xl font-semibold text-acclaim-slate tracking-tight">
+                    {product.name}
+                    {product.subtitle && (
+                      <span className="text-xl font-semibold text-acclaim-slate tracking-tight"> {product.subtitle}</span>
+                    )}
+                  </h3>
                   {product.isPlaceholder && (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-amber-100 text-amber-700 text-xs font-medium rounded-full">
                       <AlertTriangle className="w-3 h-3" />
