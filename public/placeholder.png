@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 120" fill="none">
+  <rect width="300" height="120" fill="#f8fafc"/>
+  <rect x="10" y="10" width="280" height="100" rx="8" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="150" y="60" text-anchor="middle" fill="#94a3b8" font-family="system-ui" font-size="14" font-weight="500">Product Image</text>
+  <text x="150" y="80" text-anchor="middle" fill="#cbd5e1" font-family="system-ui" font-size="11">Coming Soon</text>
+</svg>
