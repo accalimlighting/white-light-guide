@@ -8,16 +8,21 @@ export default {
     extend: {
       colors: {
         acclaim: {
-          blue: '#0066CC',
-          dark: '#1a1a2e',
-          darker: '#0f0f1a',
-          gray: '#2d2d44',
-          light: '#e8e8e8',
-          accent: '#00a8ff',
+          navy: '#03233F',
+          midnight: '#01152A',
+          ocean: '#0B3A59',
+          slate: '#102543',
+          fog: '#E5EAF1',
+          mist: '#F7F9FC',
+          cloud: '#C7D2E3',
+          steel: '#6C7F94',
+          accent: '#E6463D',
+          coral: '#F26C5F',
+          teal: '#2F8C9F',
         }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['"Space Grotesk"', 'Inter', 'system-ui', 'sans-serif'],
       }
     },
   },

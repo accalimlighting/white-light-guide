@@ -1,13 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  font-family: 'Inter', system-ui, sans-serif;
-  background-color: #f8fafc;
+  font-family: 'Space Grotesk', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #f7f9fc;
+  color: #0f1e2e;
+  letter-spacing: -0.01em;
 }
 
 @layer components {
+  .hero-gradient {
+    background-image: radial-gradient(circle at top right, rgba(230, 70, 61, 0.45), transparent 55%), 
+                      radial-gradient(circle at 20% 20%, rgba(47, 140, 159, 0.35), transparent 45%),
+                      linear-gradient(120deg, #01152a 0%, #03233f 55%, #0b3a59 100%);
+  }
+
+  .glass-panel {
+    @apply bg-white/90 backdrop-blur border border-acclaim-cloud/60 rounded-2xl shadow-[0_20px_45px_rgba(3,35,63,0.08)];
+  }
+
   .cct-chip {
     @apply inline-flex items-center px-2 py-1 rounded text-xs font-medium;
   }
