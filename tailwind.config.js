@@ -22,7 +22,7 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['"Space Grotesk"', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['"Suisse Intl"', '"Space Grotesk"', 'Inter', 'system-ui', 'sans-serif'],
       }
     },
   },
