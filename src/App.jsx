@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useMemo } from 'react';
 import { Search, Printer, ExternalLink, X } from 'lucide-react';
 import { products, categories, ipRatings } from './data/products';
 import ProductCard from './components/ProductCard';
@@ -39,6 +39,39 @@ function App() {
   const [selectedCCT, setSelectedCCT] = useState('all');
   const printRef = useRef();
 
+  const applyFilters = ({
+    series = selectedSeries,
+    environment = selectedEnvironment,
+    wattage = selectedWattage,
+    cct = selectedCCT,
+    term = searchTerm,
+  } = {}) => {
+    const normalizedTerm = term.toLowerCase();
+    const normalizedEnvironment = environment.toLowerCase();
+    const normalizedWattage = wattage.toLowerCase();
+
+    return products.filter((product) => {
+      const matchesSearch =
+        product.name.toLowerCase().includes(normalizedTerm) ||
+        product.tagline.toLowerCase().includes(normalizedTerm) ||
+        (product.subtitle && product.subtitle.toLowerCase().includes(normalizedTerm));
+
+      const matchesSeries = series === 'all' || product.category === series;
+
+      const productEnvironment = (product.specs.ip || '').toLowerCase();
+      const matchesEnvironment =
+        environment === 'all' || productEnvironment.includes(normalizedEnvironment);
+
+      const productWattage = (product.specs.wattage || '').toLowerCase();
+      const matchesWattage =
+        wattage === 'all' || productWattage === normalizedWattage;
+
+      const matchesCCT = cct === 'all' || product.ccts?.includes(cct);
+
+      return matchesSearch && matchesSeries && matchesEnvironment && matchesWattage && matchesCCT;
+    });
+  };
+
   const toggleProduct = (productId) => {
     const newExpanded = new Set(expandedProducts);
     if (newExpanded.has(productId)) {
@@ -57,26 +90,75 @@ function App() {
     setExpandedProducts(new Set());
   };
 
-  const filteredProducts = products.filter(product => {
-    const matchesSearch = 
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.tagline.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (product.subtitle && product.subtitle.toLowerCase().includes(searchTerm.toLowerCase()));
-    
-    const matchesSeries = selectedSeries === 'all' || product.category === selectedSeries;
-    
-    const productEnvironment = (product.specs.ip || '').toLowerCase();
-    const matchesEnvironment = selectedEnvironment === 'all' || 
-      productEnvironment.includes(selectedEnvironment.toLowerCase());
+  const filteredProducts = applyFilters();
 
-    const productWattage = (product.specs.wattage || '').toLowerCase();
-    const matchesWattage = selectedWattage === 'all' || 
-      productWattage === selectedWattage.toLowerCase();
+  const seriesOptions = useMemo(() => {
+    const available = new Set(applyFilters({ series: 'all' }).map((product) => product.category));
+    const baseOptions = categories.filter(
+      (cat) => cat.id === 'all' || available.has(cat.id)
+    );
 
-    const matchesCCT = selectedCCT === 'all' || product.ccts?.includes(selectedCCT);
-    
-    return matchesSearch && matchesSeries && matchesEnvironment && matchesWattage && matchesCCT;
-  });
+    if (selectedSeries !== 'all' && !baseOptions.some((opt) => opt.id === selectedSeries)) {
+      const current = categories.find((cat) => cat.id === selectedSeries);
+      if (current) baseOptions.push(current);
+    }
+
+    return baseOptions;
+  }, [selectedSeries, selectedEnvironment, selectedWattage, selectedCCT, searchTerm]);
+
+  const environmentOptions = useMemo(() => {
+    const availableProducts = applyFilters({ environment: 'all' });
+    const baseOptions = ipRatings.filter((ip) => {
+      if (ip.id === 'all') return true;
+      return availableProducts.some((product) =>
+        (product.specs.ip || '').toLowerCase().includes(ip.id)
+      );
+    });
+
+    if (selectedEnvironment !== 'all' && !baseOptions.some((opt) => opt.id === selectedEnvironment)) {
+      const current = ipRatings.find((ip) => ip.id === selectedEnvironment);
+      if (current) baseOptions.push(current);
+    }
+
+    return baseOptions;
+  }, [selectedSeries, selectedEnvironment, selectedWattage, selectedCCT, searchTerm]);
+
+  const dynamicWattageFilters = useMemo(() => {
+    const available = new Set(
+      applyFilters({ wattage: 'all' })
+        .map((product) => product.specs?.wattage)
+        .filter((watt) => watt && watt !== 'TBD')
+        .map((watt) => watt.toLowerCase())
+    );
+
+    const options = wattageFilters.filter(
+      (option) => option.value === 'all' || available.has(option.value.toLowerCase())
+    );
+
+    if (selectedWattage !== 'all' && !options.some((opt) => opt.value === selectedWattage)) {
+      options.push({ value: selectedWattage, label: selectedWattage });
+    }
+
+    return options;
+  }, [selectedSeries, selectedEnvironment, selectedWattage, selectedCCT, searchTerm]);
+
+  const dynamicCctFilters = useMemo(() => {
+    const available = new Set(
+      applyFilters({ cct: 'all' })
+        .flatMap((product) => product.ccts || [])
+        .filter((cct) => cct && cct !== 'TBD')
+    );
+
+    const options = cctFilters.filter(
+      (option) => option.value === 'all' || available.has(option.value)
+    );
+
+    if (selectedCCT !== 'all' && !options.some((opt) => opt.value === selectedCCT)) {
+      options.push({ value: selectedCCT, label: selectedCCT });
+    }
+
+    return options;
+  }, [selectedSeries, selectedEnvironment, selectedWattage, selectedCCT, searchTerm]);
 
   const handlePrint = () => {
     window.print();
@@ -201,7 +283,7 @@ function App() {
               onChange={(e) => setSelectedSeries(e.target.value)}
               className="px-3 py-2.5 rounded-xl border border-acclaim-cloud bg-acclaim-mist text-sm text-acclaim-slate focus:outline-none focus:ring-2 focus:ring-acclaim-accent/30"
             >
-              {categories.map((cat) => (
+              {seriesOptions.map((cat) => (
                 <option key={cat.id} value={cat.id}>{cat.name}</option>
               ))}
             </select>
@@ -211,7 +293,7 @@ function App() {
               onChange={(e) => setSelectedEnvironment(e.target.value)}
               className="px-3 py-2.5 rounded-xl border border-acclaim-cloud bg-acclaim-mist text-sm text-acclaim-slate focus:outline-none focus:ring-2 focus:ring-acclaim-accent/30"
             >
-              {ipRatings.map((ip) => (
+              {environmentOptions.map((ip) => (
                 <option key={ip.id} value={ip.id}>{ip.name}</option>
               ))}
             </select>
@@ -221,7 +303,7 @@ function App() {
               onChange={(e) => setSelectedWattage(e.target.value)}
               className="px-3 py-2.5 rounded-xl border border-acclaim-cloud bg-acclaim-mist text-sm text-acclaim-slate focus:outline-none focus:ring-2 focus:ring-acclaim-accent/30"
             >
-              {wattageFilters.map((option) => (
+              {dynamicWattageFilters.map((option) => (
                 <option key={option.value} value={option.value}>{option.label}</option>
               ))}
             </select>
@@ -231,7 +313,7 @@ function App() {
               onChange={(e) => setSelectedCCT(e.target.value)}
               className="px-3 py-2.5 rounded-xl border border-acclaim-cloud bg-acclaim-mist text-sm text-acclaim-slate focus:outline-none focus:ring-2 focus:ring-acclaim-accent/30"
             >
-              {cctFilters.map((option) => (
+              {dynamicCctFilters.map((option) => (
                 <option key={option.value} value={option.value}>{option.label}</option>
               ))}
             </select>
