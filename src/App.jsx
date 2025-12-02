@@ -64,25 +64,32 @@ function App() {
                 Linear White Light Guide
               </h1>
               <p className="text-base md:text-lg text-white/75 max-w-2xl">
-                A quick-reference companion for the White Light Linear family with DN pricing, specs, and accessories presented in the refined Acclaim brand system highlighted in the current style guide.
+                A quick reference companion for Acclaim&apos;s white light linear products and associated accessories.
               </p>
             </div>
             <div className="bg-white/10 border border-white/15 rounded-2xl px-6 py-4 backdrop-blur max-w-sm">
-              <p className="text-xs uppercase tracking-[0.2em] text-white/70">Prepared for</p>
-              <p className="text-2xl font-semibold">ARDD + Winter</p>
-              <p className="text-sm text-white/70">Updated November 2025</p>
+              <p className="text-sm text-white/80">Updated December 2025</p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-10 text-sm">
             {[
               { label: 'Guide Focus', value: 'White Light Linear Portfolio' },
-              { label: 'Pricing Format', value: 'Dealer Net (DN)' },
-              { label: 'Support', value: 'standards@acclaimlighting.com' },
+              { label: 'Pricing Format', value: 'USA Distributor Net (DN)' },
+              { label: 'For official quotations', value: 'quotes@acclaimlighting.com', isMail: true },
             ].map((item) => (
               <div key={item.label} className="bg-white/10 border border-white/10 rounded-xl px-4 py-3 backdrop-blur">
                 <p className="text-white/60 uppercase text-[11px] tracking-[0.3em]">{item.label}</p>
-                <p className="text-base font-medium mt-1">{item.value}</p>
+                {item.isMail ? (
+                  <a
+                    href={`mailto:${item.value}`}
+                    className="text-base font-medium mt-1 inline-flex items-center gap-1 text-white hover:text-acclaim-teal transition"
+                  >
+                    {item.value}
+                  </a>
+                ) : (
+                  <p className="text-base font-medium mt-1">{item.value}</p>
+                )}
               </div>
             ))}
           </div>
