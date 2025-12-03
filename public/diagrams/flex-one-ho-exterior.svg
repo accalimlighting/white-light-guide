@@ -1,48 +1,61 @@
-<svg width="780" height="300" viewBox="0 0 780 300" xmlns="http://www.w3.org/2000/svg">
+<svg width="900" height="340" viewBox="0 0 900 340" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <style>
-      .label { font-family: 'Space Grotesk', 'Inter', Arial, sans-serif; fill: #0f2941; font-size: 14px; }
+      .label { font-family: 'Space Grotesk', 'Inter', Arial, sans-serif; fill: #0f2941; font-size: 15px; }
       .note { font-family: 'Space Grotesk', 'Inter', Arial, sans-serif; fill: #6c7f94; font-size: 12px; }
       .port { fill: #0f2941; }
       .wire { stroke-width: 3; fill: none; stroke-linecap: round; }
     </style>
   </defs>
-  <rect x="120" y="90" width="540" height="130" rx="18" fill="#f4f6fb" stroke="#c7d2e3" stroke-width="2"/>
-  <text class="label" x="390" y="75" text-anchor="middle">3 output 24VDC Driver (MLE288-24DC-UD)</text>
+
+  <!-- driver body -->
+  <rect x="110" y="85" width="680" height="150" rx="22" fill="#f4f6fb" stroke="#c7d2e3" stroke-width="2"/>
+  <text class="label" x="450" y="70" text-anchor="middle">3 output 24VDC Driver (MLE288-24DC-UD)</text>
 
   <!-- inputs -->
-  <rect x="150" y="125" width="90" height="55" rx="8" fill="#dfe7f3" stroke="#9fb4cf"/>
-  <rect x="275" y="125" width="90" height="55" rx="8" fill="#dfe7f3" stroke="#9fb4cf"/>
+  <g transform="translate(150,125)">
+    <rect width="110" height="70" rx="10" fill="#dfe7f3" stroke="#9fb4cf"/>
+    <text class="label" x="55" y="50" text-anchor="middle">Mains Input</text>
+    <text class="note" x="55" y="65" text-anchor="middle">(dim or non-dim)</text>
+  </g>
+
+  <g transform="translate(300,125)">
+    <rect width="110" height="70" rx="10" fill="#dfe7f3" stroke="#9fb4cf"/>
+    <text class="label" x="55" y="50" text-anchor="middle">0-10V Input</text>
+  </g>
 
   <!-- outputs -->
-  <rect x="420" y="125" width="90" height="55" rx="8" fill="#dfe7f3" stroke="#9fb4cf"/>
-  <rect x="545" y="125" width="90" height="55" rx="8" fill="#dfe7f3" stroke="#9fb4cf"/>
-  <rect x="670" y="125" width="90" height="55" rx="8" fill="#dfe7f3" stroke="#9fb4cf"/>
-
-  <text class="label" x="195" y="200" text-anchor="middle">Mains Input</text>
-  <text class="note" x="195" y="215" text-anchor="middle">(dim or non-dim)</text>
-  <text class="label" x="320" y="200" text-anchor="middle">0-10V Input</text>
-  <text class="label" x="465" y="200" text-anchor="middle">24V PWM Output A</text>
-  <text class="label" x="590" y="200" text-anchor="middle">24V PWM Output B</text>
-  <text class="label" x="715" y="200" text-anchor="middle">24V PWM Output C</text>
+  <g transform="translate(470,125)">
+    <rect width="110" height="70" rx="10" fill="#dfe7f3" stroke="#9fb4cf"/>
+    <text class="label" x="55" y="50" text-anchor="middle">24V PWM Output A</text>
+  </g>
+  <g transform="translate(620,125)">
+    <rect width="110" height="70" rx="10" fill="#dfe7f3" stroke="#9fb4cf"/>
+    <text class="label" x="55" y="50" text-anchor="middle">24V PWM Output B</text>
+  </g>
+  <g transform="translate(770,125)">
+    <rect width="110" height="70" rx="10" fill="#dfe7f3" stroke="#9fb4cf"/>
+    <text class="label" x="55" y="50" text-anchor="middle">24V PWM Output C</text>
+  </g>
 
   <!-- ports -->
-  <circle cx="195" cy="70" r="6" class="port"/>
-  <circle cx="320" cy="70" r="6" class="port"/>
-  <circle cx="465" cy="260" r="6" class="port"/>
-  <circle cx="590" cy="260" r="6" class="port"/>
-  <circle cx="715" cy="260" r="6" class="port"/>
+  <circle cx="205" cy="60" r="7" class="port"/>
+  <circle cx="355" cy="60" r="7" class="port"/>
+  <circle cx="525" cy="290" r="7" class="port"/>
+  <circle cx="675" cy="290" r="7" class="port"/>
+  <circle cx="825" cy="290" r="7" class="port"/>
 
   <!-- wires -->
-  <path class="wire" stroke="#ff7a64" d="M195 70 C195 95 195 105 195 125"/>
-  <path class="wire" stroke="#8a7dff" d="M320 70 C320 95 320 105 320 125"/>
-  <path class="wire" stroke="#2f8c9f" d="M465 180 C465 210 465 230 465 260"/>
-  <path class="wire" stroke="#2f8c9f" d="M590 180 C590 210 590 230 590 260"/>
-  <path class="wire" stroke="#2f8c9f" d="M715 180 C715 210 715 230 715 260"/>
+  <path class="wire" stroke="#ff7a64" d="M205 60 C205 95 205 110 205 125"/>
+  <path class="wire" stroke="#8a7dff" d="M355 60 C355 95 355 110 355 125"/>
+  <path class="wire" stroke="#2f8c9f" d="M525 195 C525 230 525 255 525 290"/>
+  <path class="wire" stroke="#2f8c9f" d="M675 195 C675 230 675 255 675 290"/>
+  <path class="wire" stroke="#2f8c9f" d="M825 195 C825 230 825 255 825 290"/>
 
-  <text class="label" x="195" y="45" text-anchor="middle">100-277VAC</text>
-  <text class="note" x="195" y="60" text-anchor="middle">50/60 Hz mains</text>
-  <text class="label" x="320" y="55" text-anchor="middle">0-10V control</text>
-  <text class="label" x="520" y="285" text-anchor="middle">To Flex One HO Exterior (16.4' max per spool)</text>
+  <!-- labels -->
+  <text class="label" x="205" y="35" text-anchor="middle">100-277VAC</text>
+  <text class="note" x="205" y="50" text-anchor="middle">50/60 Hz mains</text>
+  <text class="label" x="355" y="40" text-anchor="middle">0-10V control</text>
+  <text class="label" x="600" y="320" text-anchor="middle">To Flex One HO Exterior (16.4' max per spool)</text>
 </svg>
 
