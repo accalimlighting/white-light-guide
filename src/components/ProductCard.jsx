@@ -154,6 +154,13 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
                 <span>{product.specs.wattage}</span>
               </div>
 
+              {/* Lumens */}
+              {product.specs.lumens && (
+                <span className="px-2 py-0.5 text-xs font-semibold rounded-full bg-acclaim-mist text-acclaim-slate border border-acclaim-cloud">
+                  {product.specs.lumens}
+                </span>
+              )}
+
               {/* CRI if available */}
               {product.specs.cri && product.specs.cri !== 'N/A' && (
                 <span className="text-sm text-acclaim-ocean font-semibold">
