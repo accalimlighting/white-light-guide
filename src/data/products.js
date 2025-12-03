@@ -71,7 +71,7 @@ export const products = [
       bullets: [
         'A 0-10V (source or sink) analog dimming control input plus a constant mains supply.',
         'A TRIAC (forward phase) or ELV (reverse phase) dimmed mains feed.',
-        'Link cables require 2 cores.',
+        'Feed cables require two cores.',
       ],
       driverRuns: [
         { name: 'MLE96-24DC-UD', detail: '1 x 16.4\' (5 m) spool maximum' },
