@@ -78,6 +78,7 @@ export const products = [
       wattage: '5.5W/LF',
       voltage: '24V DC',
       ip: 'IP20',
+      lumens: '566 lm/ft',
       length: '16.4\' (5m) roll',
     },
     ccts: ['2400K', '2700K', '3000K', '3500K', '4000K'],
