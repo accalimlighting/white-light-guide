@@ -4,10 +4,24 @@ const warmChip = 'bg-[#FCE3DB] text-[#8C2C19] border-[#F7C6B7]';
 const neutralChip = 'bg-[#E6EEF6] text-[#1F3550] border-[#C8D5E4]';
 const coolChip = 'bg-[#DCEFF4] text-[#0C3E57] border-[#B4E0EA]';
 
+const cctColorMap = {
+  '1800K': '#FFAA50',
+  '2200K': '#FFC477',
+  '2400K': '#FFD494',
+  '2700K': '#FFE0B2',
+  '3000K': '#FFE8CC',
+  '3500K': '#FFF2E5',
+  '4000K': '#FFFFFF',
+  '4500K': '#F1F6FF',
+  '5000K': '#E3EEFF',
+  '5500K': '#D4E8FF',
+};
+
 const getCCTClass = (cct) => {
   if (!cct) return 'bg-acclaim-mist text-acclaim-slate border-acclaim-cloud';
   if (cct.includes('RGB')) return 'bg-gradient-to-r from-acclaim-accent/40 via-acclaim-teal/30 to-acclaim-accent/40 text-acclaim-slate border-transparent';
   if (cct === 'TBD') return 'bg-acclaim-mist text-acclaim-slate border-acclaim-cloud';
+  if (cctColorMap[cct]) return 'text-acclaim-slate';
   const value = parseInt(cct.replace('K', ''), 10);
   if (!Number.isNaN(value)) {
     if (value <= 3200) return warmChip;
@@ -15,6 +29,15 @@ const getCCTClass = (cct) => {
     return coolChip;
   }
   return 'bg-acclaim-mist text-acclaim-slate border-acclaim-cloud';
+};
+
+const getCCTStyle = (cct) => {
+  const color = cctColorMap[cct];
+  if (!color) return undefined;
+  return {
+    backgroundColor: color,
+    borderColor: color,
+  };
 };
 
 // IP Rating badge colors
@@ -138,6 +161,7 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
                   <span 
                     key={cct} 
                     className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${getCCTClass(cct)}`}
+                    style={getCCTStyle(cct)}
                   >
                     {cct}
                   </span>
@@ -206,7 +230,10 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
                     <tr key={idx} className="hover:bg-acclaim-mist/50">
                       {variant.length && <td className="py-2.5 font-medium text-acclaim-slate">{variant.length}</td>}
                       <td className="py-2.5">
-                        <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${getCCTClass(variant.cct)}`}>
+                        <span
+                          className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${getCCTClass(variant.cct)}`}
+                          style={getCCTStyle(variant.cct)}
+                        >
                           {variant.cct}
                         </span>
                       </td>
