@@ -281,6 +281,47 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
               </div>
             </div>
           )}
+
+          {/* Wiring Overview */}
+          {product.wiring && (
+            <div className="p-6 border-t border-acclaim-cloud/70 space-y-4">
+              <h4 className="text-[11px] font-semibold text-acclaim-steel tracking-[0.3em]">WIRING OVERVIEW</h4>
+              <div className="flex flex-col lg:flex-row gap-6">
+                {product.wiring.diagram && (
+                  <div className="flex-shrink-0 lg:w-1/2">
+                    <img
+                      src={product.wiring.diagram}
+                      alt={`Wiring diagram for ${product.name}`}
+                      className="w-full rounded-2xl border border-acclaim-cloud/70 bg-white"
+                    />
+                  </div>
+                )}
+                <div className="flex-1 space-y-3 text-sm text-acclaim-slate">
+                  {product.wiring.heading && (
+                    <p className="text-acclaim-slate font-semibold">{product.wiring.heading}</p>
+                  )}
+                  {product.wiring.description && <p>{product.wiring.description}</p>}
+                  {product.wiring.bullets && product.wiring.bullets.length > 0 && (
+                    <ul className="list-disc pl-5 space-y-1">
+                      {product.wiring.bullets.map((item, idx) => (
+                        <li key={idx}>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {product.wiring.driverRuns && product.wiring.driverRuns.length > 0 && (
+                    <div className="grid gap-2 sm:grid-cols-2">
+                      {product.wiring.driverRuns.map(({ name, detail }) => (
+                        <div key={name} className="rounded-xl border border-acclaim-cloud/70 bg-white/80 px-3 py-2">
+                          <p className="text-xs text-acclaim-steel uppercase tracking-[0.25em]">{name}</p>
+                          <p className="text-sm font-semibold text-acclaim-slate">{detail}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

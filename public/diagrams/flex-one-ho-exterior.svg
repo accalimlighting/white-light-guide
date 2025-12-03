@@ -1,0 +1,42 @@
+<svg width="640" height="320" viewBox="0 0 640 320" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .label { font-family: 'Space Grotesk', 'Inter', Arial, sans-serif; fill: #0f2941; font-size: 14px; }
+      .note { font-family: 'Space Grotesk', 'Inter', Arial, sans-serif; fill: #6c7f94; font-size: 12px; }
+      .port { fill: #0f2941; }
+      .wire { stroke-width: 3; fill: none; stroke-linecap: round; }
+    </style>
+  </defs>
+  <rect x="110" y="100" width="420" height="110" rx="14" fill="#f3f5f9" stroke="#c7d2e3" stroke-width="2"/>
+  <text class="label" x="320" y="90" text-anchor="middle">24VDC Driver (MLE Series)</text>
+  <rect x="135" y="150" width="60" height="40" rx="5" fill="#dfe7f3" stroke="#9fb4cf"/>
+  <rect x="215" y="150" width="60" height="40" rx="5" fill="#dfe7f3" stroke="#9fb4cf"/>
+  <rect x="295" y="150" width="60" height="40" rx="5" fill="#dfe7f3" stroke="#9fb4cf"/>
+  <rect x="375" y="150" width="60" height="40" rx="5" fill="#dfe7f3" stroke="#9fb4cf"/>
+  <rect x="455" y="150" width="60" height="40" rx="5" fill="#dfe7f3" stroke="#9fb4cf"/>
+
+  <text class="label" x="165" y="210" text-anchor="middle">Mains</text>
+  <text class="label" x="245" y="210" text-anchor="middle">0-10V</text>
+  <text class="label" x="325" y="210" text-anchor="middle">Output A</text>
+  <text class="label" x="405" y="210" text-anchor="middle">Output B</text>
+  <text class="label" x="485" y="210" text-anchor="middle">Output C</text>
+
+  <circle cx="165" cy="80" r="5" class="port"/>
+  <circle cx="245" cy="80" r="5" class="port"/>
+  <circle cx="325" cy="270" r="5" class="port"/>
+  <circle cx="405" cy="270" r="5" class="port"/>
+  <circle cx="485" cy="270" r="5" class="port"/>
+
+  <path class="wire" stroke="#ff7a64" d="M165 80 C165 110 165 130 165 150"/>
+  <path class="wire" stroke="#8a7dff" d="M245 80 C245 110 245 130 245 150"/>
+  <path class="wire" stroke="#2f8c9f" d="M325 190 C325 230 325 250 325 270"/>
+  <path class="wire" stroke="#2f8c9f" d="M405 190 C405 230 405 250 405 270"/>
+  <path class="wire" stroke="#2f8c9f" d="M485 190 C485 230 485 250 485 270"/>
+
+  <text class="label" x="165" y="60" text-anchor="middle">Mains input</text>
+  <text class="label" x="245" y="60" text-anchor="middle">0-10V control</text>
+  <text class="label" x="405" y="295" text-anchor="middle">To Flex One HO Exterior</text>
+
+  <text class="note" x="320" y="245" text-anchor="middle">PWM outputs supply 24VDC to tape runs</text>
+</svg>
+
