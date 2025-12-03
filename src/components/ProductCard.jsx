@@ -17,6 +17,10 @@ const cctColorMap = {
   '5500K': '#D4E8FF',
 };
 
+const cctBorderMap = {
+  '4000K': '#D1D6E0',
+};
+
 const getCCTClass = (cct) => {
   if (!cct) return 'bg-acclaim-mist text-acclaim-slate border-acclaim-cloud';
   if (cct.includes('RGB')) return 'bg-gradient-to-r from-acclaim-accent/40 via-acclaim-teal/30 to-acclaim-accent/40 text-acclaim-slate border-transparent';
@@ -36,9 +40,9 @@ const getCCTStyle = (cct) => {
   if (!color) return undefined;
   return {
     backgroundColor: color,
-    borderColor: color,
-    borderWidth: cct === '4000K' ? '1px' : undefined,
-    borderStyle: cct === '4000K' ? 'solid' : undefined,
+    borderColor: cctBorderMap[cct] || color,
+    borderWidth: cctBorderMap[cct] ? '1px' : undefined,
+    borderStyle: cctBorderMap[cct] ? 'solid' : undefined,
   };
 };
 
