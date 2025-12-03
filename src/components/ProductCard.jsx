@@ -265,27 +265,10 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
             </div>
           </div>
 
-          {/* Accessories */}
-          {product.accessories && Object.keys(product.accessories).length > 0 && (
-            <div className="p-6 border-t border-acclaim-cloud/70">
-              <h4 className="text-[11px] font-semibold text-acclaim-steel tracking-[0.3em] mb-4">ACCESSORIES</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <AccessorySection title="Channels" items={product.accessories.channels} />
-                <AccessorySection title="Lenses" items={product.accessories.lenses} />
-                <AccessorySection title="Connectors" items={product.accessories.connectors} />
-                <AccessorySection title="Cables" items={product.accessories.cables} />
-                <AccessorySection title="Mounting" items={product.accessories.mounting} />
-                <AccessorySection title="Beam Control" items={product.accessories.beamControl} />
-                <AccessorySection title="Drivers & Power" items={product.accessories.drivers} />
-                <AccessorySection title="Control" items={product.accessories.control} />
-              </div>
-            </div>
-          )}
-
           {/* Wiring Overview */}
           {product.wiring && (
             <div className="p-6 border-t border-acclaim-cloud/70 space-y-4">
-              <h4 className="text-[11px] font-semibold text-acclaim-steel tracking-[0.3em]">WIRING OVERVIEW</h4>
+              <h4 className="text-[11px] font-semibold text-acclaim-steel tracking-[0.3em]">TYPICAL WIRING (MLE DRIVER)</h4>
               <div className="flex flex-col lg:flex-row gap-6">
                 {product.wiring.diagram && (
                   <div className="flex-shrink-0 lg:w-1/2">
@@ -319,6 +302,23 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
                     </div>
                   )}
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* Accessories */}
+          {product.accessories && Object.keys(product.accessories).length > 0 && (
+            <div className="p-6 border-t border-acclaim-cloud/70">
+              <h4 className="text-[11px] font-semibold text-acclaim-steel tracking-[0.3em] mb-4">ACCESSORIES</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <AccessorySection title="Channels" items={product.accessories.channels} />
+                <AccessorySection title="Lenses" items={product.accessories.lenses} />
+                <AccessorySection title="Connectors" items={product.accessories.connectors} />
+                <AccessorySection title="Cables" items={product.accessories.cables} />
+                <AccessorySection title="Mounting" items={product.accessories.mounting} />
+                <AccessorySection title="Beam Control" items={product.accessories.beamControl} />
+                <AccessorySection title="Drivers & Power" items={product.accessories.drivers} />
+                <AccessorySection title="Control" items={product.accessories.control} />
               </div>
             </div>
           )}

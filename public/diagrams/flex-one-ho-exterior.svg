@@ -33,9 +33,10 @@
   <path class="wire" stroke="#2f8c9f" d="M405 190 C405 230 405 250 405 270"/>
   <path class="wire" stroke="#2f8c9f" d="M485 190 C485 230 485 250 485 270"/>
 
-  <text class="label" x="165" y="60" text-anchor="middle">Mains input</text>
+  <text class="label" x="165" y="50" text-anchor="middle">100-277VAC</text>
+  <text class="note" x="165" y="65" text-anchor="middle">50/60 Hz mains</text>
   <text class="label" x="245" y="60" text-anchor="middle">0-10V control</text>
-  <text class="label" x="405" y="295" text-anchor="middle">To Flex One HO Exterior</text>
+  <text class="label" x="405" y="300" text-anchor="middle">To Flex One HO Exterior</text>
 
   <text class="note" x="320" y="245" text-anchor="middle">PWM outputs supply 24VDC to tape runs</text>
 </svg>
