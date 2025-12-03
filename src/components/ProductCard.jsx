@@ -209,7 +209,7 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-sm text-acclaim-accent hover:text-acclaim-coral font-semibold"
               >
-                View Spec Sheet
+                View Product Page
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
             </div>
