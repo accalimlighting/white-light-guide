@@ -1,61 +1,200 @@
-<svg width="900" height="340" viewBox="0 0 900 340" xmlns="http://www.w3.org/2000/svg">
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 485.85 272.96">
   <defs>
     <style>
-      .label { font-family: 'Space Grotesk', 'Inter', Arial, sans-serif; fill: #0f2941; font-size: 15px; }
-      .note { font-family: 'Space Grotesk', 'Inter', Arial, sans-serif; fill: #6c7f94; font-size: 12px; }
-      .port { fill: #0f2941; }
-      .wire { stroke-width: 3; fill: none; stroke-linecap: round; }
+      .cls-1 {
+        font-size: 10px;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4 {
+        fill: #231f20;
+      }
+
+      .cls-1, .cls-2, .cls-4 {
+        font-family: SuisseIntl-Medium, 'Suisse Intl';
+        font-weight: 500;
+      }
+
+      .cls-5 {
+        font-size: 8px;
+      }
+
+      .cls-6 {
+        fill: #dfe8f4;
+      }
+
+      .cls-6, .cls-7 {
+        stroke: #d3dceb;
+      }
+
+      .cls-6, .cls-7, .cls-8, .cls-9 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-4, .cls-10 {
+        font-size: 12px;
+      }
+
+      .cls-11 {
+        letter-spacing: 0em;
+      }
+
+      .cls-12 {
+        letter-spacing: 0em;
+      }
+
+      .cls-13 {
+        letter-spacing: 0em;
+      }
+
+      .cls-14 {
+        letter-spacing: -.06em;
+      }
+
+      .cls-15 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-16 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-17 {
+        letter-spacing: -.03em;
+      }
+
+      .cls-18 {
+        letter-spacing: -.03em;
+      }
+
+      .cls-19 {
+        letter-spacing: -.03em;
+      }
+
+      .cls-20 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-21 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-22 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-23 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-24 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-25 {
+        letter-spacing: -.01em;
+      }
+
+      .cls-26 {
+        letter-spacing: -.01em;
+      }
+
+      .cls-27 {
+        letter-spacing: -.01em;
+      }
+
+      .cls-28 {
+        letter-spacing: -.05em;
+      }
+
+      .cls-29 {
+        letter-spacing: -.04em;
+      }
+
+      .cls-30 {
+        letter-spacing: -.03em;
+      }
+
+      .cls-31 {
+        letter-spacing: -.03em;
+      }
+
+      .cls-32 {
+        letter-spacing: -.03em;
+      }
+
+      .cls-33 {
+        letter-spacing: -.04em;
+      }
+
+      .cls-34 {
+        letter-spacing: -.03em;
+      }
+
+      .cls-35 {
+        letter-spacing: 0em;
+      }
+
+      .cls-36 {
+        letter-spacing: 0em;
+      }
+
+      .cls-37 {
+        letter-spacing: 0em;
+      }
+
+      .cls-38 {
+        letter-spacing: 0em;
+      }
+
+      .cls-39 {
+        letter-spacing: 0em;
+      }
+
+      .cls-7 {
+        fill: #f3f5fb;
+      }
+
+      .cls-8 {
+        stroke: #08ae56;
+      }
+
+      .cls-8, .cls-9 {
+        fill: none;
+        stroke-width: 4px;
+      }
+
+      .cls-9 {
+        stroke: #f58876;
+      }
     </style>
   </defs>
-
-  <!-- driver body -->
-  <rect x="110" y="85" width="680" height="150" rx="22" fill="#f4f6fb" stroke="#c7d2e3" stroke-width="2"/>
-  <text class="label" x="450" y="70" text-anchor="middle">3 output 24VDC Driver (MLE288-24DC-UD)</text>
-
-  <!-- inputs -->
-  <g transform="translate(150,125)">
-    <rect width="110" height="70" rx="10" fill="#dfe7f3" stroke="#9fb4cf"/>
-    <text class="label" x="55" y="50" text-anchor="middle">Mains Input</text>
-    <text class="note" x="55" y="65" text-anchor="middle">(dim or non-dim)</text>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <rect class="cls-7" x=".5" y="49.12" width="484.85" height="124.24" rx="12" ry="12"/>
+    <rect class="cls-6" x="22.79" y="89.4" width="67.42" height="43.18" rx="12" ry="12"/>
+    <rect class="cls-6" x="104.99" y="89.4" width="67.42" height="43.18" rx="12" ry="12"/>
+    <rect class="cls-6" x="229.99" y="89.4" width="67.42" height="43.18" rx="12" ry="12"/>
+    <rect class="cls-6" x="307.26" y="89.4" width="67.42" height="43.18" rx="12" ry="12"/>
+    <rect class="cls-6" x="387.56" y="89.4" width="67.42" height="43.18" rx="12" ry="12"/>
+    <line class="cls-9" x1="58.37" y1="88.78" x2="58.37" y2="28.18"/>
+    <line class="cls-9" x1="138.43" y1="88.78" x2="138.43" y2="28.18"/>
+    <text class="cls-4" transform="translate(278.88 16.57)"><tspan x="0" y="0">Sh</tspan><tspan class="cls-36" x="15.26" y="0">o</tspan><tspan x="22.56" y="0">wing MLE288</tspan><tspan class="cls-21" x="101.22" y="0">-</tspan><tspan class="cls-25" x="106.25" y="0">2</tspan><tspan x="113.46" y="0">4DC-UD Dri</tspan><tspan class="cls-27" x="181.86" y="0">v</tspan><tspan x="188.15" y="0">e</tspan><tspan class="cls-21" x="195.44" y="0">r</tspan></text>
+    <text class="cls-1" transform="translate(29.32 8.63)"><tspan x="0" y="0">100</tspan><tspan class="cls-22" x="17.47" y="0">-</tspan><tspan x="21.66" y="0">277</tspan><tspan class="cls-14" x="38.9" y="0">V</tspan><tspan class="cls-15" x="44.99" y="0">A</tspan><tspan x="51.75" y="0">C</tspan></text>
+    <text class="cls-2" transform="translate(22.98 151.12)"><tspan class="cls-10"><tspan x="0" y="0">Mains </tspan><tspan class="cls-38" x="37.62" y="0">I</tspan><tspan class="cls-13" x="41.04" y="0">nput</tspan></tspan><tspan class="cls-5"><tspan class="cls-29" x="2.06" y="9.6">(</tspan><tspan x="4.23" y="9.6">dim o</tspan><tspan class="cls-23" x="25.64" y="9.6">r</tspan><tspan x="28.55" y="9.6" xml:space="preserve"> non-di</tspan><tspan class="cls-32" x="55.73" y="9.6">m</tspan><tspan x="62.95" y="9.6">)</tspan></tspan></text>
+    <text class="cls-4" transform="translate(104.65 151.3)"><tspan x="0" y="0">0</tspan><tspan class="cls-28" x="8.18" y="0">-</tspan><tspan class="cls-12" x="12.9" y="0">1</tspan><tspan class="cls-20" x="17.5" y="0">0</tspan><tspan class="cls-18" x="25.44" y="0">V</tspan><tspan x="33.16" y="0"> </tspan><tspan class="cls-38" x="35.9" y="0">I</tspan><tspan x="39.32" y="0">nput</tspan></text>
+    <text class="cls-4" transform="translate(236.85 68.16)"><tspan class="cls-26" x="0" y="0">2</tspan><tspan class="cls-33" x="7.21" y="0">4</tspan><tspan class="cls-19" x="14.66" y="0">V</tspan><tspan class="cls-12" x="22.38" y="0"> </tspan><tspan class="cls-39" x="25.13" y="0">P</tspan><tspan x="33.05" y="0">WM</tspan><tspan x="0" y="14.4">Output</tspan><tspan class="cls-34" x="40.26" y="14.4"> </tspan><tspan class="cls-30" x="42.66" y="14.4">A</tspan></text>
+    <circle class="cls-3" cx="58.39" cy="25.15" r="6.06"/>
+    <circle class="cls-3" cx="138.46" cy="25.15" r="6.06"/>
+    <text class="cls-1" transform="translate(241.63 220)"><tspan x="0" y="0">Fl</tspan><tspan class="cls-16" x="8.68" y="0">e</tspan><tspan class="cls-35" x="14.52" y="0">x</tspan><tspan class="cls-11" x="19.86" y="0" xml:space="preserve"> One </tspan><tspan x="-5.69" y="12">HO Ex</tspan><tspan class="cls-37" x="24.06" y="12">t</tspan><tspan x="27.62" y="12">erio</tspan><tspan class="cls-22" x="46.34" y="12">r</tspan><tspan x="-.23" y="24">16</tspan><tspan class="cls-31" x="9.94" y="24">.</tspan><tspan x="12.26" y="24">4</tspan><tspan class="cls-17" x="18.86" y="24">’</tspan><tspan x="21.06" y="24"> </tspan><tspan class="cls-24" x="23.35" y="24">(</tspan><tspan x="26.29" y="24">5M)</tspan><tspan x="-2.98" y="36">Ma</tspan><tspan class="cls-35" x="11.94" y="36">x</tspan><tspan x="17.27" y="36" xml:space="preserve"> Spool</tspan></text>
+    <line class="cls-8" x1="264.44" y1="194.09" x2="264.44" y2="133.48"/>
+    <circle class="cls-3" cx="264.44" cy="197.87" r="6.06"/>
+    <text class="cls-4" transform="translate(313.8 68.16)"><tspan class="cls-26" x="0" y="0">2</tspan><tspan class="cls-33" x="7.21" y="0">4</tspan><tspan class="cls-19" x="14.66" y="0">V</tspan><tspan class="cls-12" x="22.38" y="0"> </tspan><tspan class="cls-39" x="25.13" y="0">P</tspan><tspan x="33.05" y="0">WM</tspan><tspan x="0" y="14.4">Output B</tspan></text>
+    <text class="cls-4" transform="translate(394.27 67.5)"><tspan class="cls-26" x="0" y="0">2</tspan><tspan class="cls-33" x="7.21" y="0">4</tspan><tspan class="cls-19" x="14.66" y="0">V</tspan><tspan class="cls-12" x="22.38" y="0"> </tspan><tspan class="cls-39" x="25.13" y="0">P</tspan><tspan x="33.05" y="0">WM</tspan><tspan x="0" y="14.4">Output C</tspan></text>
+    <text class="cls-1" transform="translate(319.01 219.4)"><tspan x="0" y="0">Fl</tspan><tspan class="cls-16" x="8.68" y="0">e</tspan><tspan class="cls-35" x="14.52" y="0">x</tspan><tspan class="cls-11" x="19.86" y="0" xml:space="preserve"> One </tspan><tspan x="-5.69" y="12">HO Ex</tspan><tspan class="cls-37" x="24.06" y="12">t</tspan><tspan x="27.62" y="12">erio</tspan><tspan class="cls-22" x="46.34" y="12">r</tspan><tspan x="-.23" y="24">16</tspan><tspan class="cls-31" x="9.94" y="24">.</tspan><tspan x="12.26" y="24">4</tspan><tspan class="cls-17" x="18.86" y="24">’</tspan><tspan x="21.06" y="24"> </tspan><tspan class="cls-24" x="23.35" y="24">(</tspan><tspan x="26.29" y="24">5M)</tspan><tspan x="-2.98" y="36">Ma</tspan><tspan class="cls-35" x="11.94" y="36">x</tspan><tspan x="17.27" y="36" xml:space="preserve"> Spool</tspan></text>
+    <line class="cls-8" x1="341.82" y1="193.48" x2="341.82" y2="132.88"/>
+    <circle class="cls-3" cx="341.82" cy="197.27" r="6.06"/>
+    <text class="cls-1" transform="translate(399.76 219.64)"><tspan x="0" y="0">Fl</tspan><tspan class="cls-16" x="8.68" y="0">e</tspan><tspan class="cls-35" x="14.52" y="0">x</tspan><tspan class="cls-11" x="19.86" y="0" xml:space="preserve"> One </tspan><tspan x="-5.69" y="12">HO Ex</tspan><tspan class="cls-37" x="24.06" y="12">t</tspan><tspan x="27.62" y="12">erio</tspan><tspan class="cls-22" x="46.34" y="12">r</tspan><tspan x="-.23" y="24">16</tspan><tspan class="cls-31" x="9.94" y="24">.</tspan><tspan x="12.26" y="24">4</tspan><tspan class="cls-17" x="18.86" y="24">’</tspan><tspan x="21.06" y="24"> </tspan><tspan class="cls-24" x="23.35" y="24">(</tspan><tspan x="26.29" y="24">5M)</tspan><tspan x="-2.98" y="36">Ma</tspan><tspan class="cls-35" x="11.94" y="36">x</tspan><tspan x="17.27" y="36" xml:space="preserve"> Spool</tspan></text>
+    <line class="cls-8" x1="422.57" y1="193.73" x2="422.57" y2="133.12"/>
+    <circle class="cls-3" cx="422.57" cy="197.51" r="6.06"/>
   </g>
-
-  <g transform="translate(300,125)">
-    <rect width="110" height="70" rx="10" fill="#dfe7f3" stroke="#9fb4cf"/>
-    <text class="label" x="55" y="50" text-anchor="middle">0-10V Input</text>
-  </g>
-
-  <!-- outputs -->
-  <g transform="translate(470,125)">
-    <rect width="110" height="70" rx="10" fill="#dfe7f3" stroke="#9fb4cf"/>
-    <text class="label" x="55" y="50" text-anchor="middle">24V PWM Output A</text>
-  </g>
-  <g transform="translate(620,125)">
-    <rect width="110" height="70" rx="10" fill="#dfe7f3" stroke="#9fb4cf"/>
-    <text class="label" x="55" y="50" text-anchor="middle">24V PWM Output B</text>
-  </g>
-  <g transform="translate(770,125)">
-    <rect width="110" height="70" rx="10" fill="#dfe7f3" stroke="#9fb4cf"/>
-    <text class="label" x="55" y="50" text-anchor="middle">24V PWM Output C</text>
-  </g>
-
-  <!-- ports -->
-  <circle cx="205" cy="60" r="7" class="port"/>
-  <circle cx="355" cy="60" r="7" class="port"/>
-  <circle cx="525" cy="290" r="7" class="port"/>
-  <circle cx="675" cy="290" r="7" class="port"/>
-  <circle cx="825" cy="290" r="7" class="port"/>
-
-  <!-- wires -->
-  <path class="wire" stroke="#ff7a64" d="M205 60 C205 95 205 110 205 125"/>
-  <path class="wire" stroke="#8a7dff" d="M355 60 C355 95 355 110 355 125"/>
-  <path class="wire" stroke="#2f8c9f" d="M525 195 C525 230 525 255 525 290"/>
-  <path class="wire" stroke="#2f8c9f" d="M675 195 C675 230 675 255 675 290"/>
-  <path class="wire" stroke="#2f8c9f" d="M825 195 C825 230 825 255 825 290"/>
-
-  <!-- labels -->
-  <text class="label" x="205" y="35" text-anchor="middle">100-277VAC</text>
-  <text class="note" x="205" y="50" text-anchor="middle">50/60 Hz mains</text>
-  <text class="label" x="355" y="40" text-anchor="middle">0-10V control</text>
-  <text class="label" x="600" y="320" text-anchor="middle">To Flex One HO Exterior (16.4' max per spool)</text>
 </svg>
-
