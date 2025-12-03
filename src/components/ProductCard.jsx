@@ -269,7 +269,7 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
           {product.wiring && (
             <div className="p-6 border-t border-acclaim-cloud/70 space-y-4">
               <h4 className="text-[11px] font-semibold text-acclaim-steel tracking-[0.3em]">TYPICAL WIRING (MLE DRIVER)</h4>
-              <div className="flex flex-col lg:flex-row gap-6">
+              <div className="flex flex-col lg:flex-row gap-6 pt-2">
                 {product.wiring.diagram && (
                   <div className="flex-shrink-0 lg:w-1/2">
                     <img
