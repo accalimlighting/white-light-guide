@@ -8,36 +8,33 @@
     </style>
   </defs>
   <rect x="110" y="100" width="420" height="110" rx="14" fill="#f3f5f9" stroke="#c7d2e3" stroke-width="2"/>
-  <text class="label" x="320" y="90" text-anchor="middle">24VDC Driver (MLE Series)</text>
-  <rect x="135" y="150" width="60" height="40" rx="5" fill="#dfe7f3" stroke="#9fb4cf"/>
-  <rect x="215" y="150" width="60" height="40" rx="5" fill="#dfe7f3" stroke="#9fb4cf"/>
-  <rect x="295" y="150" width="60" height="40" rx="5" fill="#dfe7f3" stroke="#9fb4cf"/>
-  <rect x="375" y="150" width="60" height="40" rx="5" fill="#dfe7f3" stroke="#9fb4cf"/>
-  <rect x="455" y="150" width="60" height="40" rx="5" fill="#dfe7f3" stroke="#9fb4cf"/>
+  <text class="label" x="320" y="90" text-anchor="middle">3 output 24VDC Driver (MLE288-24DC-UD)</text>
+  <rect x="140" y="140" width="80" height="50" rx="6" fill="#dfe7f3" stroke="#9fb4cf"/>
+  <rect x="250" y="140" width="80" height="50" rx="6" fill="#dfe7f3" stroke="#9fb4cf"/>
+  <rect x="360" y="140" width="80" height="50" rx="6" fill="#dfe7f3" stroke="#9fb4cf"/>
+  <rect x="470" y="140" width="80" height="50" rx="6" fill="#dfe7f3" stroke="#9fb4cf"/>
 
-  <text class="label" x="165" y="210" text-anchor="middle">Mains</text>
-  <text class="label" x="245" y="210" text-anchor="middle">0-10V</text>
-  <text class="label" x="325" y="210" text-anchor="middle">Output A</text>
-  <text class="label" x="405" y="210" text-anchor="middle">Output B</text>
-  <text class="label" x="485" y="210" text-anchor="middle">Output C</text>
+  <text class="label" x="180" y="210" text-anchor="middle">Mains Input</text>
+  <text class="note" x="180" y="225" text-anchor="middle">(dim or non-dim)</text>
+  <text class="label" x="290" y="210" text-anchor="middle">0-10V Input</text>
+  <text class="label" x="400" y="210" text-anchor="middle">24V PWM Output A</text>
+  <text class="label" x="510" y="210" text-anchor="middle">24V PWM Output B</text>
 
-  <circle cx="165" cy="80" r="5" class="port"/>
-  <circle cx="245" cy="80" r="5" class="port"/>
-  <circle cx="325" cy="270" r="5" class="port"/>
-  <circle cx="405" cy="270" r="5" class="port"/>
-  <circle cx="485" cy="270" r="5" class="port"/>
+  <circle cx="180" cy="80" r="6" class="port"/>
+  <circle cx="290" cy="80" r="6" class="port"/>
+  <circle cx="400" cy="270" r="6" class="port"/>
+  <circle cx="510" cy="270" r="6" class="port"/>
+  <circle cx="560" cy="270" r="6" class="port"/>
 
-  <path class="wire" stroke="#ff7a64" d="M165 80 C165 110 165 130 165 150"/>
-  <path class="wire" stroke="#8a7dff" d="M245 80 C245 110 245 130 245 150"/>
-  <path class="wire" stroke="#2f8c9f" d="M325 190 C325 230 325 250 325 270"/>
-  <path class="wire" stroke="#2f8c9f" d="M405 190 C405 230 405 250 405 270"/>
-  <path class="wire" stroke="#2f8c9f" d="M485 190 C485 230 485 250 485 270"/>
+  <path class="wire" stroke="#ff7a64" d="M180 80 C180 110 180 120 180 140"/>
+  <path class="wire" stroke="#8a7dff" d="M290 80 C290 110 290 120 290 140"/>
+  <path class="wire" stroke="#2f8c9f" d="M430 190 C430 230 430 240 430 270"/>
+  <path class="wire" stroke="#2f8c9f" d="M540 190 C540 230 540 240 540 270"/>
+  <path class="wire" stroke="#2f8c9f" d="M590 190 C590 230 590 240 590 270"/>
 
-  <text class="label" x="165" y="50" text-anchor="middle">100-277VAC</text>
-  <text class="note" x="165" y="65" text-anchor="middle">50/60 Hz mains</text>
-  <text class="label" x="245" y="60" text-anchor="middle">0-10V control</text>
-  <text class="label" x="405" y="300" text-anchor="middle">To Flex One HO Exterior</text>
-
-  <text class="note" x="320" y="245" text-anchor="middle">PWM outputs supply 24VDC to tape runs</text>
+  <text class="label" x="180" y="50" text-anchor="middle">100-277VAC</text>
+  <text class="note" x="180" y="65" text-anchor="middle">50/60 Hz mains</text>
+  <text class="label" x="290" y="60" text-anchor="middle">0-10V control</text>
+  <text class="label" x="495" y="300" text-anchor="middle">To Flex One HO Exterior (16.4' max per spool)</text>
 </svg>
 

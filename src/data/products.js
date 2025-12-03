@@ -74,9 +74,9 @@ export const products = [
         'Link cables require 2 cores.',
       ],
       driverRuns: [
-        { name: 'MLE96 (MLE96-24DC-UD)', detail: '1 x 16.4\' (5 m) spool maximum' },
-        { name: 'MLE192 (MLE192-24DC-UD)', detail: '2 x 16.4\' (5 m) spools maximum' },
-        { name: 'MLE288 (MLE288-24DC-UD)', detail: '3 x 16.4\' (5 m) spools maximum' },
+        { name: 'MLE96-24DC-UD', detail: '1 x 16.4\' (5 m) spool maximum' },
+        { name: 'MLE192-24DC-UD', detail: '2 x 16.4\' (5 m) spools maximum' },
+        { name: 'MLE288-24DC-UD', detail: '3 x 16.4\' (5 m) spools maximum' },
       ],
       diagram: '/diagrams/flex-one-ho-exterior.svg',
     },
