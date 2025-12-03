@@ -37,6 +37,8 @@ const getCCTStyle = (cct) => {
   return {
     backgroundColor: color,
     borderColor: color,
+    borderWidth: cct === '4000K' ? '1px' : undefined,
+    borderStyle: cct === '4000K' ? 'solid' : undefined,
   };
 };
 
