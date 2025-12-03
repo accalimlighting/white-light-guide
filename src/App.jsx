@@ -30,6 +30,45 @@ const cctFilters = [
   ...uniqueCCTs.map((cct) => ({ value: cct, label: cct })),
 ];
 
+const buildAccessoryValues = (accessories = {}) =>
+  Object.values(accessories)
+    .filter(Boolean)
+    .flatMap((items) =>
+      items?.flatMap((item) => [item?.name, item?.sku, item?.note, item?.price?.toString(), item?.pricePer?.toString()]) ?? []
+    );
+
+const productSearchIndex = new Map(
+  products.map((product) => {
+    const specValues = Object.values(product.specs || {});
+    const variantValues =
+      product.variants?.flatMap((variant) => [
+        variant.length,
+        variant.cct,
+        variant.sku,
+        variant.output,
+        variant.price?.toString(),
+        variant.pricePer?.toString(),
+      ]) ?? [];
+    const accessoryValues = buildAccessoryValues(product.accessories);
+
+    const textFragments = [
+      product.name,
+      product.subtitle,
+      product.tagline,
+      product.category,
+      ...specValues,
+      ...(product.ccts || []),
+      ...variantValues,
+      ...accessoryValues,
+    ]
+      .filter(Boolean)
+      .join(' ')
+      .toLowerCase();
+
+    return [product.id, textFragments];
+  })
+);
+
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [expandedProducts, setExpandedProducts] = useState(new Set());
@@ -51,10 +90,9 @@ function App() {
     const normalizedWattage = wattage.toLowerCase();
 
     return products.filter((product) => {
+      const searchText = productSearchIndex.get(product.id) || '';
       const matchesSearch =
-        product.name.toLowerCase().includes(normalizedTerm) ||
-        product.tagline.toLowerCase().includes(normalizedTerm) ||
-        (product.subtitle && product.subtitle.toLowerCase().includes(normalizedTerm));
+        !normalizedTerm.length || searchText.includes(normalizedTerm);
 
       const matchesSeries = series === 'all' || product.category === series;
 
