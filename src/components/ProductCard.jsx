@@ -75,7 +75,7 @@ const AccessorySection = ({ title, items }) => {
             <div className="flex-1">
               <span className="text-acclaim-slate">{item.name}</span>
               <div className="flex items-center gap-2 mt-0.5">
-                <span className="font-mono text-xs text-acclaim-slate bg-white/60 px-1.5 py-0.5 rounded border border-acclaim-cloud/70">{item.sku}</span>
+                <span className="font-semibold text-xs text-acclaim-slate bg-white/60 px-1.5 py-0.5 rounded border border-acclaim-cloud/70">{item.sku}</span>
                 {item.note && <span className="text-xs text-acclaim-accent font-medium">{item.note}</span>}
               </div>
             </div>
@@ -251,7 +251,7 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
                         </span>
                       </td>
                       <td className="py-2.5">
-                        <span className="font-mono text-xs text-acclaim-slate bg-acclaim-mist px-1.5 py-0.5 rounded">
+                        <span className="font-semibold text-xs text-acclaim-slate bg-acclaim-mist px-1.5 py-0.5 rounded">
                           {variant.sku}
                         </span>
                       </td>
