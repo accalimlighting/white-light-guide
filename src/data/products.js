@@ -252,6 +252,21 @@ export const products = [
         { name: 'Single Channel DMX & 0-10V Driver', sku: 'ALD001', price: 46.00 },
       ],
     },
+    wiring: {
+      heading: 'Dimmed (0-10V or TRIAC/ELV control)',
+      description: 'These drivers provide 24VDC constant voltage PWM output in response to either a low voltage control input or dimmed mains source.',
+      bullets: [
+        'A 0-10V (source or sink) analog dimming control input plus a constant mains supply.',
+        'A TRIAC (forward phase) or ELV (reverse phase) dimmed mains feed.',
+        'Feed cables require two cores.',
+      ],
+      driverRuns: [
+        { name: 'MLE96-24DC-UD', detail: '2 x 16.4\' (5 m) spools maximum' },
+        { name: 'MLE192-24DC-UD', detail: '4 x 16.4\' (5 m) spools maximum' },
+        { name: 'MLE288-24DC-UD', detail: '6 x 16.4\' (5 m) spools maximum' },
+      ],
+      diagram: '/diagrams/flex-one-so-exterior.svg',
+    },
   },
   {
     id: 'flex-one-so-int',
