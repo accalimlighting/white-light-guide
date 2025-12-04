@@ -1,15 +1,114 @@
-import { useState, useRef } from 'react';
-import { Search, ChevronDown, ChevronUp, Filter, Printer, ExternalLink, X } from 'lucide-react';
+import { useState, useRef, useMemo } from 'react';
+import { Search, Printer, ExternalLink, X } from 'lucide-react';
 import { products, categories, ipRatings } from './data/products';
 import ProductCard from './components/ProductCard';
+
+const uniqueWattages = products.reduce((acc, product) => {
+  const watt = product.specs?.wattage;
+  if (watt && watt !== 'TBD' && !acc.includes(watt)) {
+    acc.push(watt);
+  }
+  return acc;
+}, []);
+
+const uniqueCCTs = products.reduce((acc, product) => {
+  product.ccts?.forEach((cct) => {
+    if (cct && cct !== 'TBD' && !acc.includes(cct)) {
+      acc.push(cct);
+    }
+  });
+  return acc;
+}, []);
+
+const wattageFilters = [
+  { value: 'all', label: 'Watts p/f' },
+  ...uniqueWattages.map((watt) => ({ value: watt, label: watt })),
+];
+
+const cctFilters = [
+  { value: 'all', label: 'CCT' },
+  ...uniqueCCTs.map((cct) => ({ value: cct, label: cct })),
+];
+
+const buildAccessoryValues = (accessories = {}) =>
+  Object.values(accessories)
+    .filter(Boolean)
+    .flatMap((items) =>
+      items?.flatMap((item) => [item?.name, item?.sku, item?.note, item?.price?.toString(), item?.pricePer?.toString()]) ?? []
+    );
+
+const productSearchIndex = new Map(
+  products.map((product) => {
+    const specValues = Object.values(product.specs || {});
+    const variantValues =
+      product.variants?.flatMap((variant) => [
+        variant.length,
+        variant.cct,
+        variant.sku,
+        variant.output,
+        variant.price?.toString(),
+        variant.pricePer?.toString(),
+      ]) ?? [];
+    const accessoryValues = buildAccessoryValues(product.accessories);
+
+    const textFragments = [
+      product.name,
+      product.subtitle,
+      product.tagline,
+      product.category,
+      ...specValues,
+      ...(product.ccts || []),
+      ...variantValues,
+      ...accessoryValues,
+    ]
+      .filter(Boolean)
+      .join(' ')
+      .toLowerCase();
+
+    return [product.id, textFragments];
+  })
+);
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [expandedProducts, setExpandedProducts] = useState(new Set());
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedIP, setSelectedIP] = useState('all');
-  const [showFilters, setShowFilters] = useState(false);
+  const [selectedSeries, setSelectedSeries] = useState('all');
+  const [selectedEnvironment, setSelectedEnvironment] = useState('all');
+  const [selectedWattage, setSelectedWattage] = useState('all');
+  const [selectedCCT, setSelectedCCT] = useState('all');
   const printRef = useRef();
+
+  const applyFilters = ({
+    series = selectedSeries,
+    environment = selectedEnvironment,
+    wattage = selectedWattage,
+    cct = selectedCCT,
+    term = searchTerm,
+  } = {}) => {
+    const normalizedTerm = term.toLowerCase();
+    const normalizedEnvironment = environment.toLowerCase();
+    const normalizedWattage = wattage.toLowerCase();
+
+    return products.filter((product) => {
+      const searchText = productSearchIndex.get(product.id) || '';
+      const matchesSearch =
+        !normalizedTerm.length || searchText.includes(normalizedTerm);
+
+      const matchesSeries = series === 'all' || product.category === series;
+
+      const productEnvironment = (product.specs.ip || '').toLowerCase();
+      const matchesEnvironment =
+        environment === 'all' || productEnvironment.includes(normalizedEnvironment);
+
+      const productWattage = (product.specs.wattage || '').toLowerCase();
+      const matchesWattage =
+        wattage === 'all' || productWattage === normalizedWattage;
+
+      const matchesCCT = cct === 'all' || product.ccts?.includes(cct);
+
+      return matchesSearch && matchesSeries && matchesEnvironment && matchesWattage && matchesCCT;
+    });
+  };
 
   const toggleProduct = (productId) => {
     const newExpanded = new Set(expandedProducts);
@@ -29,141 +128,253 @@ function App() {
     setExpandedProducts(new Set());
   };
 
-  const filteredProducts = products.filter(product => {
-    const matchesSearch = 
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.tagline.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (product.subtitle && product.subtitle.toLowerCase().includes(searchTerm.toLowerCase()));
-    
-    const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
-    
-    const matchesIP = selectedIP === 'all' || 
-      (product.specs.ip && product.specs.ip.toLowerCase().includes(selectedIP.toLowerCase()));
-    
-    return matchesSearch && matchesCategory && matchesIP;
-  });
+  const filteredProducts = applyFilters();
+
+  const seriesOptions = useMemo(() => {
+    const available = new Set(applyFilters({ series: 'all' }).map((product) => product.category));
+    const baseOptions = categories.filter(
+      (cat) => cat.id === 'all' || available.has(cat.id)
+    );
+
+    if (selectedSeries !== 'all' && !baseOptions.some((opt) => opt.id === selectedSeries)) {
+      const current = categories.find((cat) => cat.id === selectedSeries);
+      if (current) baseOptions.push(current);
+    }
+
+    return baseOptions;
+  }, [selectedSeries, selectedEnvironment, selectedWattage, selectedCCT, searchTerm]);
+
+  const environmentOptions = useMemo(() => {
+    const availableProducts = applyFilters({ environment: 'all' });
+    const baseOptions = ipRatings.filter((ip) => {
+      if (ip.id === 'all') return true;
+      return availableProducts.some((product) =>
+        (product.specs.ip || '').toLowerCase().includes(ip.id)
+      );
+    });
+
+    if (selectedEnvironment !== 'all' && !baseOptions.some((opt) => opt.id === selectedEnvironment)) {
+      const current = ipRatings.find((ip) => ip.id === selectedEnvironment);
+      if (current) baseOptions.push(current);
+    }
+
+    return baseOptions;
+  }, [selectedSeries, selectedEnvironment, selectedWattage, selectedCCT, searchTerm]);
+
+  const dynamicWattageFilters = useMemo(() => {
+    const available = new Set(
+      applyFilters({ wattage: 'all' })
+        .map((product) => product.specs?.wattage)
+        .filter((watt) => watt && watt !== 'TBD')
+        .map((watt) => watt.toLowerCase())
+    );
+
+    const options = wattageFilters.filter(
+      (option) => option.value === 'all' || available.has(option.value.toLowerCase())
+    );
+
+    if (selectedWattage !== 'all' && !options.some((opt) => opt.value === selectedWattage)) {
+      options.push({ value: selectedWattage, label: selectedWattage });
+    }
+
+    return options;
+  }, [selectedSeries, selectedEnvironment, selectedWattage, selectedCCT, searchTerm]);
+
+  const dynamicCctFilters = useMemo(() => {
+    const available = new Set(
+      applyFilters({ cct: 'all' })
+        .flatMap((product) => product.ccts || [])
+        .filter((cct) => cct && cct !== 'TBD')
+    );
+
+    const options = cctFilters.filter(
+      (option) => option.value === 'all' || available.has(option.value)
+    );
+
+    if (selectedCCT !== 'all' && !options.some((opt) => opt.value === selectedCCT)) {
+      options.push({ value: selectedCCT, label: selectedCCT });
+    }
+
+    return options;
+  }, [selectedSeries, selectedEnvironment, selectedWattage, selectedCCT, searchTerm]);
 
   const handlePrint = () => {
     window.print();
   };
 
+  const resetFilters = () => {
+    setSelectedSeries('all');
+    setSelectedEnvironment('all');
+    setSelectedWattage('all');
+    setSelectedCCT('all');
+    setSearchTerm('');
+  };
+
+  const filtersActive = 
+    selectedSeries !== 'all' ||
+    selectedEnvironment !== 'all' ||
+    selectedWattage !== 'all' ||
+    selectedCCT !== 'all';
+
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Header */}
-      <header className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white sticky top-0 z-50 shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-6">
-              <div>
-                <h1 className="text-2xl font-bold tracking-tight">White Light Linear</h1>
-                <p className="text-slate-400 text-sm">Quick Reference Guide • DN Pricing • November 2025</p>
-              </div>
+    <div className="min-h-screen bg-acclaim-fog">
+      {/* Hero */}
+      <header className="relative hero-gradient text-white pb-24">
+        <div className="absolute inset-0 opacity-60 bg-[radial-gradient(circle_at_60%_20%,rgba(242,108,95,0.4),transparent_55%)]" />
+        <div className="relative max-w-6xl mx-auto px-4 py-10">
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+            <div className="space-y-4">
+              <img
+                src="/Acclaim_Horizontal_Logo_Dark.svg"
+                alt="Acclaim Lighting"
+                className="w-48 h-auto drop-shadow-[0_4px_20px_rgba(1,21,42,0.35)]"
+              />
+              <h1 className="pt-3 text-3xl md:text-4xl font-semibold tracking-tight">
+                Linear White Light Guide
+              </h1>
+              <p className="text-base md:text-lg text-white/75 max-w-2xl">
+                A quick reference companion for Acclaim&apos;s white light linear products and associated accessories.
+              </p>
             </div>
-            <div className="flex items-center gap-4">
-              <span className="text-xs text-slate-400 hidden md:block">Prepared for ARDD+Winter</span>
-              <div className="text-right">
-                <div className="text-xl font-bold text-blue-400 tracking-wider">ACCLAIM</div>
-                <div className="text-[10px] text-slate-500 tracking-[0.3em]">LIGHTING</div>
-              </div>
+            <div className="bg-white/10 border border-white/15 rounded-2xl px-6 py-4 backdrop-blur max-w-sm">
+              <p className="text-sm text-white/80">Updated December 2025</p>
             </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-10 text-sm">
+            {[
+              { label: 'Guide Focus', value: 'White Light Linear Portfolio' },
+              { label: 'Pricing Format', value: 'USA Distributor Net (DN)' },
+              { label: 'For official quotations', value: 'quotes@acclaimlighting.com', isMail: true },
+            ].map((item) => (
+              <div key={item.label} className="bg-white/10 border border-white/10 rounded-xl px-4 py-3 backdrop-blur">
+                <p className="text-white/60 uppercase text-[11px] tracking-[0.3em]">{item.label}</p>
+                {item.isMail ? (
+                  <a
+                    href={`mailto:${item.value}`}
+                    className="text-base font-medium mt-1 inline-flex items-center gap-1 text-white hover:text-acclaim-teal transition"
+                  >
+                    {item.value}
+                  </a>
+                ) : (
+                  <p className="text-base font-medium mt-1">{item.value}</p>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </header>
 
       {/* Controls Bar */}
-      <div className="bg-white border-b border-slate-200 sticky top-[72px] z-40 shadow-sm no-print">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
+      <section className="relative -mt-12 px-4 no-print z-20">
+        <div className="glass-panel max-w-6xl mx-auto p-6 sticky top-4 space-y-4">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             {/* Search */}
-            <div className="relative flex-1 max-w-md w-full">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+            <div className="relative flex-1 w-full">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-acclaim-steel w-4 h-4" />
               <input
                 type="text"
                 placeholder="Search products, SKUs, specs..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="w-full pl-12 pr-4 py-3 rounded-2xl border border-acclaim-cloud bg-white/70 text-acclaim-slate placeholder:text-acclaim-steel/70 focus:border-acclaim-accent focus:ring-2 focus:ring-acclaim-accent/30 transition-all"
               />
               {searchTerm && (
                 <button
                   onClick={() => setSearchTerm('')}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-acclaim-steel hover:text-acclaim-navy"
+                  aria-label="Clear search"
                 >
                   <X className="w-4 h-4" />
                 </button>
               )}
             </div>
 
-            {/* Filters & Actions */}
-            <div className="flex flex-wrap items-center gap-3">
-              {/* Category Filter */}
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white text-sm"
+            {/* Actions */}
+            <div className="flex flex-wrap gap-2 justify-end">
+              <button
+                onClick={expandAll}
+                className="px-4 py-2 text-sm rounded-xl bg-gradient-to-r from-acclaim-accent to-acclaim-coral text-white font-semibold tracking-wide shadow hover:opacity-95 transition"
               >
-                {categories.map(cat => (
-                  <option key={cat.id} value={cat.id}>{cat.name}</option>
-                ))}
-              </select>
-
-              {/* IP Rating Filter */}
-              <select
-                value={selectedIP}
-                onChange={(e) => setSelectedIP(e.target.value)}
-                className="px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white text-sm"
+                Expand All
+              </button>
+              <button
+                onClick={collapseAll}
+                className="px-4 py-2 text-sm rounded-xl border border-acclaim-cloud text-acclaim-slate bg-white/60 hover:bg-acclaim-fog font-medium"
               >
-                {ipRatings.map(ip => (
-                  <option key={ip.id} value={ip.id}>{ip.name}</option>
-                ))}
-              </select>
-
-              {/* Action Buttons */}
-              <div className="flex gap-2">
-                <button
-                  onClick={expandAll}
-                  className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium"
-                >
-                  Expand All
-                </button>
-                <button
-                  onClick={collapseAll}
-                  className="px-4 py-2 text-sm bg-slate-200 text-slate-700 rounded-lg hover:bg-slate-300 transition font-medium"
-                >
-                  Collapse
-                </button>
-                <button
-                  onClick={handlePrint}
-                  className="px-4 py-2 text-sm bg-slate-800 text-white rounded-lg hover:bg-slate-900 transition font-medium flex items-center gap-2"
-                >
-                  <Printer className="w-4 h-4" />
-                  <span className="hidden sm:inline">Print / PDF</span>
-                </button>
-              </div>
+                Collapse
+              </button>
+              <button
+                onClick={handlePrint}
+                className="px-4 py-2 text-sm rounded-xl bg-acclaim-navy text-white font-medium flex items-center gap-2 shadow-sm hover:-translate-y-0.5 transition"
+              >
+                <Printer className="w-4 h-4" />
+                <span className="hidden sm:inline">Print / PDF</span>
+              </button>
             </div>
           </div>
 
-          {/* Results Count */}
-          <div className="mt-3 text-sm text-slate-500">
-            Showing {filteredProducts.length} of {products.length} products
-            {(selectedCategory !== 'all' || selectedIP !== 'all' || searchTerm) && (
+          {/* Filter Row */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <select
+              value={selectedSeries}
+              onChange={(e) => setSelectedSeries(e.target.value)}
+              className="px-3 py-2.5 rounded-xl border border-acclaim-cloud bg-acclaim-mist text-sm text-acclaim-slate focus:outline-none focus:ring-2 focus:ring-acclaim-accent/30"
+            >
+              {seriesOptions.map((cat) => (
+                <option key={cat.id} value={cat.id}>{cat.name}</option>
+              ))}
+            </select>
+
+            <select
+              value={selectedEnvironment}
+              onChange={(e) => setSelectedEnvironment(e.target.value)}
+              className="px-3 py-2.5 rounded-xl border border-acclaim-cloud bg-acclaim-mist text-sm text-acclaim-slate focus:outline-none focus:ring-2 focus:ring-acclaim-accent/30"
+            >
+              {environmentOptions.map((ip) => (
+                <option key={ip.id} value={ip.id}>{ip.name}</option>
+              ))}
+            </select>
+
+            <select
+              value={selectedWattage}
+              onChange={(e) => setSelectedWattage(e.target.value)}
+              className="px-3 py-2.5 rounded-xl border border-acclaim-cloud bg-acclaim-mist text-sm text-acclaim-slate focus:outline-none focus:ring-2 focus:ring-acclaim-accent/30"
+            >
+              {dynamicWattageFilters.map((option) => (
+                <option key={option.value} value={option.value}>{option.label}</option>
+              ))}
+            </select>
+
+            <select
+              value={selectedCCT}
+              onChange={(e) => setSelectedCCT(e.target.value)}
+              className="px-3 py-2.5 rounded-xl border border-acclaim-cloud bg-acclaim-mist text-sm text-acclaim-slate focus:outline-none focus:ring-2 focus:ring-acclaim-accent/30"
+            >
+              {dynamicCctFilters.map((option) => (
+                <option key={option.value} value={option.value}>{option.label}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="text-sm text-acclaim-steel flex flex-wrap items-center gap-3">
+            <span className="font-medium text-acclaim-slate">
+              Showing {filteredProducts.length} of {products.length} products
+            </span>
+            {(filtersActive || searchTerm) && (
               <button
-                onClick={() => {
-                  setSelectedCategory('all');
-                  setSelectedIP('all');
-                  setSearchTerm('');
-                }}
-                className="ml-2 text-blue-600 hover:text-blue-700 font-medium"
+                onClick={resetFilters}
+                className="text-acclaim-accent font-medium hover:underline"
               >
                 Clear filters
               </button>
             )}
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Product List */}
-      <main className="max-w-7xl mx-auto px-4 py-6" ref={printRef}>
+      <main className="max-w-6xl mx-auto px-4 py-10" ref={printRef}>
         <div className="space-y-4">
           {filteredProducts.map(product => (
             <ProductCard
@@ -176,15 +387,11 @@ function App() {
         </div>
 
         {filteredProducts.length === 0 && (
-          <div className="text-center py-16">
-            <div className="text-slate-400 text-lg mb-2">No products match your criteria</div>
+          <div className="text-center py-20 glass-panel">
+            <div className="text-acclaim-slate text-lg mb-3 font-medium">No products match your criteria</div>
             <button
-              onClick={() => {
-                setSelectedCategory('all');
-                setSelectedIP('all');
-                setSearchTerm('');
-              }}
-              className="text-blue-600 hover:text-blue-700 font-medium"
+              onClick={resetFilters}
+              className="text-acclaim-accent font-semibold hover:underline"
             >
               Clear all filters
             </button>
@@ -193,25 +400,21 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-slate-900 text-slate-400 py-6 mt-12 no-print">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-center md:text-left">
-              <p className="text-sm">All prices shown are DN (Dealer Net) • November 2025</p>
-              <p className="text-xs mt-1">Contact Acclaim Lighting for current availability and lead times</p>
-            </div>
-            <div className="text-sm">
-              <a 
-                href="https://www.acclaimlighting.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-blue-400 hover:text-blue-300 flex items-center gap-1"
-              >
-                acclaimlighting.com
-                <ExternalLink className="w-3 h-3" />
-              </a>
-            </div>
+      <footer className="bg-acclaim-midnight text-acclaim-cloud py-8 mt-20 no-print">
+        <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between gap-4 text-sm">
+          <div>
+            <p>All prices shown are DN (Dealer Net) • November 2025</p>
+            <p className="text-acclaim-steel mt-1">Contact Acclaim Lighting for availability and lead times</p>
           </div>
+          <a 
+            href="https://www.acclaimlighting.com" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-acclaim-teal hover:text-white flex items-center gap-1 font-medium"
+          >
+            acclaimlighting.com
+            <ExternalLink className="w-3 h-3" />
+          </a>
         </div>
       </footer>
     </div>
