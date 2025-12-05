@@ -601,12 +601,6 @@ export const products = [
         { name: 'Flex Tube G2 Flexible Mounting Channel 1m (3.28\')', sku: 'F2FCH1000', price: 34.00, pricePer: 10.37 },
         { name: 'Flex Tube G2 Flexible Mounting Channel 0.5m (1.64\')', sku: 'F2FCH500', price: 23.00, pricePer: 14.02 },
       ],
-      connectors: [
-        { name: 'Feed Cable 10\'', sku: 'F2FC10', price: 45.00 },
-        { name: 'Feed Cable 25\'', sku: 'F2FC25', price: 78.00 },
-        { name: 'Link Cable 1\'', sku: 'F2LC1', price: 32.00 },
-        { name: 'End Cap', sku: 'F2EC', price: 18.00 },
-      ],
       drivers: [
         { name: 'Class 2 96W 24V Dimmable Transformer 100-277V', sku: 'MLE96-24DC-UD', price: 227.00 },
         { name: 'Class 2 192W 24V Dimmable Transformer 100-277V', sku: 'MLE192-24DC-UD', price: 316.00 },
@@ -630,7 +624,6 @@ export const products = [
         { name: 'MLE96-24DC-UD', detail: '1 x 22.96\' (7 m) spool maximum' },
         { name: 'MLE192-24DC-UD', detail: '2 x 22.96\' (7 m) spools maximum' },
         { name: 'MLE288-24DC-UD', detail: '3 x 22.96\' (7 m) spools maximum' },
-        { name: 'AL Driver 400 24V C2', detail: '10 x 22.96\' (7 m) spools maximum' },
       ],
       diagram: '/diagrams/flex-tube-sc-g2-wiring.svg',
     },
