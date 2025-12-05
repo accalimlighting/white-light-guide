@@ -718,20 +718,45 @@ export const products = [
     tagline: '120V Direct Line Voltage Flexible LED',
     image: '/FLEX_120_LOW_PROFILE_OPAL_94.png',
     specSheetUrl: 'https://www.acclaimlighting.com/product/flex-120/',
-    isPlaceholder: true,
     specs: {
       wattage: 'TBD',
       voltage: '120V AC',
       ip: 'TBD',
       cri: 'TBD',
+      lumens: 'TBD',
       length: 'TBD',
-      cutLength: 'TBD',
+      sectionLength: 'TBD',
+    },
+    displayOptions: {
+      showCriBadge: false,
     },
     ccts: ['TBD'],
     variants: [
       { cct: 'TBD', sku: 'TBD', price: 0, pricePer: 0 },
     ],
-    accessories: {},
+    accessories: {
+      channels: [
+        { name: 'TBD Channel Option', sku: 'TBD-CH', price: 0, pricePer: 0 },
+      ],
+      connectors: [
+        { name: 'TBD Connector', sku: 'TBD-CON', price: 0 },
+      ],
+      drivers: [
+        { name: 'TBD Driver', sku: 'TBD-DRV', price: 0 },
+      ],
+    },
+    wiring: {
+      heading: 'Typical wiring (placeholder)',
+      description: 'Final wiring details to be provided once Flex 120 data is available.',
+      bullets: [
+        '120V direct feed',
+        'All details TBD',
+      ],
+      driverRuns: [
+        { name: 'TBD Driver', detail: 'TBD maximum run' },
+      ],
+      diagram: '/diagrams/flex-tube-ho-sc-wiring.svg',
+    },
   },
   {
     id: 'flex-graze-ho-sc',
