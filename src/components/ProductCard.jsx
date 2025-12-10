@@ -162,7 +162,7 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
               )}
 
               {/* CRI if available */}
-              {product.displayOptions?.showCriBadge !== false && product.specs.cri && product.specs.cri !== 'N/A' && (
+              {product.specs.cri && product.specs.cri !== 'N/A' && (
                 <span className="text-sm text-acclaim-ocean font-semibold">
                   CRI {product.specs.cri}
                 </span>
