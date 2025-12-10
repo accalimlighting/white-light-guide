@@ -739,7 +739,30 @@ export const products = [
       { cct: '4000K', sku: 'FAC-101-X40AEU', price: 1266.0, pricePer: 19.30 },
       { cct: '5000K', sku: 'FAC-101-X40AGU', price: 1266.0, pricePer: 19.30 },
     ],
-    accessories: {},
+    accessories: {
+      channels: [
+        { name: 'Low Profile Aluminum Mounting Channel 0.5m', sku: 'FACLPC500', price: 7.0, pricePer: 4.27 },
+        { name: 'Low Profile Aluminum Mounting Channel 1m', sku: 'FACLPC1000', price: 13.0, pricePer: 3.96 },
+        { name: 'Low Profile Aluminum Mounting Channel 2m', sku: 'FACLPC2000', price: 20.0, pricePer: 3.05 },
+        { name: 'Tall Profile Aluminum Mounting Channel 0.5m', sku: 'FACTPC500', price: 7.0, pricePer: 4.27 },
+        { name: 'Tall Profile Aluminum Mounting Channel 1m', sku: 'FACTPC1000', price: 16.0, pricePer: 4.88 },
+        { name: 'Tall Profile Aluminum Mounting Channel 2m', sku: 'FACTPC2000', price: 25.0, pricePer: 3.81 },
+      ],
+      lenses: [
+        { name: 'Clear Lens 0.5m', sku: 'FACCL500', price: 7.0, pricePer: 4.27 },
+        { name: 'Clear Lens 1m', sku: 'FACCL1000', price: 8.0, pricePer: 2.44 },
+        { name: 'Clear Lens 2m', sku: 'FACCL2000', price: 12.0, pricePer: 1.83 },
+        { name: 'Frosted Lens 0.5m', sku: 'FACFL500', price: 7.0, pricePer: 4.27 },
+        { name: 'Frosted Lens 1m', sku: 'FACFL1000', price: 8.0, pricePer: 2.44 },
+        { name: 'Frosted Lens 2m', sku: 'FACFL2000', price: 12.0, pricePer: 1.83 },
+        { name: 'Opal Lens 0.5m', sku: 'FACOL500', price: 7.0, pricePer: 4.27 },
+        { name: 'Opal Lens 1m', sku: 'FACOL1000', price: 8.0, pricePer: 2.44 },
+        { name: 'Opal Lens 2m', sku: 'FACOL2000', price: 12.0, pricePer: 1.83 },
+      ],
+      mounting: [
+        { name: 'Rolling Wheel Install Tool', sku: 'FACIT', price: 0 },
+      ],
+    },
     wiring: {
       heading: 'Typical wiring (120VAC line feed)',
       description: 'Direct 120VAC feed to Flex 120; no external driver required. Use factory connectors and follow polarity.',
