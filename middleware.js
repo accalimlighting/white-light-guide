@@ -7,32 +7,21 @@ export const config = {
 };
 
 export function middleware(request) {
-  try {
-    const pathname = request.nextUrl.pathname;
-    const hasAuthCookie = request.cookies.get('al_guard')?.value === 'ok';
+  const password = process.env.PROTECT_PASSWORD;
 
-    // Allow framework/static assets and auth endpoints to pass
-    const publicPrefixes = [
-      '/_next',          // Next static assets
-      '/api/login',
-      '/api/logout',
-      '/favicon.ico',
-      '/robots.txt',
-      '/manifest.json',
-      '/fonts',
-      '/images',
-      '/public',
-      '/static',
-    ];
+  if (!password) {
+    return new NextResponse('Protection password is not configured.', { status: 500 });
+  }
 
-    if (
-      hasAuthCookie ||
-      publicPrefixes.some(path => pathname === path || pathname.startsWith(`${path}/`) || pathname.startsWith(`${path}.`))
-    ) {
-      return NextResponse.next();
-    }
+  const pathname = request.nextUrl.pathname;
+  const allowedPaths = ['/api/login', '/api/logout', '/favicon.ico', '/robots.txt', '/manifest.json'];
+  const hasAuthCookie = request.cookies.get('al_guard')?.value === 'ok';
 
-    const loginPage = `
+  if (hasAuthCookie || allowedPaths.some(path => pathname.startsWith(path))) {
+    return NextResponse.next();
+  }
+
+  const loginPage = `
     <!DOCTYPE html>
     <html lang="en">
       <head>
@@ -177,20 +166,11 @@ export function middleware(request) {
     </html>
   `;
 
-    return new NextResponse(loginPage, {
-      status: 401,
-      headers: {
-        'content-type': 'text/html; charset=utf-8',
-        'Cache-Control': 'no-store',
-      },
-    });
-  } catch (err) {
-    return new NextResponse('Internal middleware error', {
-      status: 500,
-      headers: {
-        'content-type': 'text/plain; charset=utf-8',
-        'Cache-Control': 'no-store',
-      },
-    });
-  }
+  return new NextResponse(loginPage, {
+    status: 401,
+    headers: {
+      'content-type': 'text/html; charset=utf-8',
+      'Cache-Control': 'no-store',
+    },
+  });
 }
