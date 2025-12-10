@@ -797,7 +797,12 @@ export const products = [
     },
     ccts: ['2400K', '2700K', '3000K', '3500K', '4000K', '5700K'],
     variants: [
-      { length: '4m roll', cct: '2700K-5700K', sku: 'FGB-2#1-X#F#N', price: 1217.0, pricePer: 92.76 },
+      { cct: '2400K', sku: 'FGA-2#1-X016#CN', price: 1217.0, pricePer: 92.76 },
+      { cct: '2700K', sku: 'FGA-2#1-X016#DN', price: 1217.0, pricePer: 92.76 },
+      { cct: '3000K', sku: 'FGA-2#1-X016#EN', price: 1217.0, pricePer: 92.76 },
+      { cct: '3500K', sku: 'FBA-2#1-X016#FN', price: 1217.0, pricePer: 92.76 },
+      { cct: '4000K', sku: 'FBA-2#1-X016#GN', price: 1217.0, pricePer: 92.76 },
+      { cct: '5700K', sku: 'FBA-2#1-X016#JN', price: 1217.0, pricePer: 92.76 },
     ],
     accessories: {
       channels: [
