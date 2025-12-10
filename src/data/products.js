@@ -729,11 +729,15 @@ export const products = [
     },
     displayOptions: {
       showCriBadge: false,
-      lumenChip: '235 lm/ft',
+      lumenChip: '341 lm/ft',
     },
     ccts: ['2700K', '3000K', '3500K', '4000K', '5000K'],
     variants: [
-      { cct: '2700K-5000K', sku: 'FAC-101-###U', price: 33.53, pricePer: 33.53 },
+      { cct: '2700K', sku: 'FAC-101-X40AAU', price: 1266.0, pricePer: 19.30 },
+      { cct: '3000K', sku: 'FAC-101-X40ACU', price: 1266.0, pricePer: 19.30 },
+      { cct: '3500K', sku: 'FAC-101-X40ADU', price: 1266.0, pricePer: 19.30 },
+      { cct: '4000K', sku: 'FAC-101-X40AEU', price: 1266.0, pricePer: 19.30 },
+      { cct: '5000K', sku: 'FAC-101-X40AGU', price: 1266.0, pricePer: 19.30 },
     ],
     accessories: {},
     wiring: {
