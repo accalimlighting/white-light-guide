@@ -8,7 +8,7 @@ export const config = {
 
 export function middleware(request) {
   try {
-    const url = request.nextUrl.clone();
+    const url = request.nextUrl;
     const pathname = url.pathname;
     const hasAuthCookie = request.cookies.get('al_guard')?.value === 'ok';
 
@@ -18,7 +18,6 @@ export function middleware(request) {
       '/api/login',
       '/api/logout',
       '/login',
-      '/_vercel',        // Vercel internals
       '/favicon.ico',
       '/robots.txt',
       '/manifest.json',
@@ -39,9 +38,8 @@ export function middleware(request) {
     }
 
     // Redirect unauthenticated requests to the login page
-    url.pathname = '/login';
-    url.search = '';
-    return NextResponse.redirect(url);
+    const loginUrl = new URL('/login', request.url);
+    return NextResponse.redirect(loginUrl);
   } catch (err) {
     return new NextResponse('Internal middleware error', {
       status: 500,
