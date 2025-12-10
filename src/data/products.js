@@ -760,7 +760,7 @@ export const products = [
         { name: 'Opal Lens 2m', sku: 'FACOL2000', price: 12.0, pricePer: 1.83 },
       ],
       mounting: [
-        { name: 'Rolling Wheel Install Tool', sku: 'FACIT', price: 0 },
+        { name: 'Rolling Wheel Install Tool', sku: 'FTINT', price: 144.0 },
       ],
     },
     wiring: {
