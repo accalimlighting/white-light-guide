@@ -904,18 +904,23 @@ export const products = [
     category: 'adapt',
     tagline: 'Line Voltage Interior Linear',
     image: '/Adapt_Linear-305_White_Lit_71.png',
-    specSheetUrl: 'https://www.acclaimlighting.com/product/adapt-linear/',
+    specSheetUrl: 'https://www.acclaimlighting.com/products/adapt-linear',
     specs: {
-      wattage: '5-10W/LF',
-      voltage: '120-277V AC',
-      ip: 'Dry',
-      cri: '90+',
-      lengths: '1\', 2\', 3\', 4\'',
+      wattage: '5W or 10W/LF',
+      voltage: '100-277VAC',
+      ip: 'IP20',
+      cri: '80+',
+      lumens: '872 lm/ft',
+      lengths: '1\' or 4\'',
     },
-    ccts: ['2400K', '2700K', '3000K', '3500K', '4000K'],
+    displayOptions: {
+      showCriBadge: false,
+      lumenChip: '872 lm/ft',
+    },
+    ccts: ['2200K', '2400K', '2700K', '3000K', '3500K', '4000K'],
     variants: [
-      { length: '1\'', cct: '2400K, 2700K, 3000K, 3500K, 4000K', sku: 'ADLA-ADC*-AOP-ADW', price: 116.00, pricePer: 116.00 },
-      { length: '4\'', cct: '2400K, 2700K, 3000K, 3500K, 4000K', sku: 'ADLD-ADC*-AOP-ADW', price: 315.00, pricePer: 78.75 },
+      { length: '1\'', cct: '2200K, 2400K, 2700K, 3000K, 3500K, 4000K', sku: 'ADLA-ADC#-AOP#-ADW#', price: 116.00, pricePer: 116.00 },
+      { length: '4\'', cct: '2200K, 2400K, 2700K, 3000K, 3500K, 4000K', sku: 'ADLD-ADC#-AOP#-ADW#', price: 315.00, pricePer: 78.75 },
     ],
     accessories: {
       cables: [
