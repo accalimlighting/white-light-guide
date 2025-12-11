@@ -1085,7 +1085,7 @@ export const products = [
       description: 'A maximum of 80 feet (24m) of Linear One fixtures can be connected in a single series run. In damp or wet location installations, ensure that the output connector of the final fixture has an end cap fitted to prevent moisture ingress. The control links use two cores for the 0-10V connections (plus a shield/ground connection).',
       bullets: [],
       driverRuns: [],
-      diagram: '/diagrams/Linear One Ext Wiring.png',
+      diagram: '/Linear One Ext Wiring2.png',
     },
   },
   {
