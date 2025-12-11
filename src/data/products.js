@@ -914,16 +914,8 @@ export const products = [
     },
     ccts: ['2400K', '2700K', '3000K', '3500K', '4000K'],
     variants: [
-      { length: '1\'', cct: '2400K', sku: 'ADLA-ADC24-AOP-ADW', price: 116.00, pricePer: 116.00 },
-      { length: '1\'', cct: '2700K', sku: 'ADLA-ADC27-AOP-ADW', price: 116.00, pricePer: 116.00 },
-      { length: '1\'', cct: '3000K', sku: 'ADLA-ADC30-AOP-ADW', price: 116.00, pricePer: 116.00 },
-      { length: '1\'', cct: '3500K', sku: 'ADLA-ADC35-AOP-ADW', price: 116.00, pricePer: 116.00 },
-      { length: '1\'', cct: '4000K', sku: 'ADLA-ADC40-AOP-ADW', price: 116.00, pricePer: 116.00 },
-      { length: '4\'', cct: '2400K', sku: 'ADLD-ADC24-AOP-ADW', price: 315.00, pricePer: 78.75 },
-      { length: '4\'', cct: '2700K', sku: 'ADLD-ADC27-AOP-ADW', price: 315.00, pricePer: 78.75 },
-      { length: '4\'', cct: '3000K', sku: 'ADLD-ADC30-AOP-ADW', price: 315.00, pricePer: 78.75 },
-      { length: '4\'', cct: '3500K', sku: 'ADLD-ADC35-AOP-ADW', price: 315.00, pricePer: 78.75 },
-      { length: '4\'', cct: '4000K', sku: 'ADLD-ADC40-AOP-ADW', price: 315.00, pricePer: 78.75 },
+      { length: '1\'', cct: '2400K, 2700K, 3000K, 3500K, 4000K', sku: 'ADLA-ADC*-AOP-ADW', price: 116.00, pricePer: 116.00 },
+      { length: '4\'', cct: '2400K, 2700K, 3000K, 3500K, 4000K', sku: 'ADLD-ADC*-AOP-ADW', price: 315.00, pricePer: 78.75 },
     ],
     accessories: {
       cables: [
@@ -964,22 +956,10 @@ export const products = [
     },
     ccts: ['2700K', '3000K', '3500K', '4000K'],
     variants: [
-      { length: '1\'', cct: '2700K', sku: 'LNIA-COL27-OPT', price: 303.00, pricePer: 303.00 },
-      { length: '1\'', cct: '3000K', sku: 'LNIA-COL30-OPT', price: 303.00, pricePer: 303.00 },
-      { length: '1\'', cct: '3500K', sku: 'LNIA-COL35-OPT', price: 303.00, pricePer: 303.00 },
-      { length: '1\'', cct: '4000K', sku: 'LNIA-COL40-OPT', price: 303.00, pricePer: 303.00 },
-      { length: '2\'', cct: '2700K', sku: 'LNIB-COL27-OPT', price: 482.00, pricePer: 241.00 },
-      { length: '2\'', cct: '3000K', sku: 'LNIB-COL30-OPT', price: 482.00, pricePer: 241.00 },
-      { length: '2\'', cct: '3500K', sku: 'LNIB-COL35-OPT', price: 482.00, pricePer: 241.00 },
-      { length: '2\'', cct: '4000K', sku: 'LNIB-COL40-OPT', price: 482.00, pricePer: 241.00 },
-      { length: '3\'', cct: '2700K', sku: 'LNIC-COL27-OPT', price: 663.00, pricePer: 221.00 },
-      { length: '3\'', cct: '3000K', sku: 'LNIC-COL30-OPT', price: 663.00, pricePer: 221.00 },
-      { length: '3\'', cct: '3500K', sku: 'LNIC-COL35-OPT', price: 663.00, pricePer: 221.00 },
-      { length: '3\'', cct: '4000K', sku: 'LNIC-COL40-OPT', price: 663.00, pricePer: 221.00 },
-      { length: '4\'', cct: '2700K', sku: 'LNID-COL27-OPT', price: 837.00, pricePer: 209.25 },
-      { length: '4\'', cct: '3000K', sku: 'LNID-COL30-OPT', price: 837.00, pricePer: 209.25 },
-      { length: '4\'', cct: '3500K', sku: 'LNID-COL35-OPT', price: 837.00, pricePer: 209.25 },
-      { length: '4\'', cct: '4000K', sku: 'LNID-COL40-OPT', price: 837.00, pricePer: 209.25 },
+      { length: '1\'', cct: '2700K, 3000K, 3500K, 4000K', sku: 'LNIA-COL*-OPT', price: 303.00, pricePer: 303.00 },
+      { length: '2\'', cct: '2700K, 3000K, 3500K, 4000K', sku: 'LNIB-COL*-OPT', price: 482.00, pricePer: 241.00 },
+      { length: '3\'', cct: '2700K, 3000K, 3500K, 4000K', sku: 'LNIC-COL*-OPT', price: 663.00, pricePer: 221.00 },
+      { length: '4\'', cct: '2700K, 3000K, 3500K, 4000K', sku: 'LNID-COL*-OPT', price: 837.00, pricePer: 209.25 },
     ],
     accessories: {
       cables: [
@@ -1025,14 +1005,8 @@ export const products = [
     },
     ccts: ['2700K', '3000K', '3500K', '4000K'],
     variants: [
-      { length: '1\'', cct: '2700K', sku: 'LNEA-COL27-OPT', price: 347.00, pricePer: 347.00 },
-      { length: '1\'', cct: '3000K', sku: 'LNEA-COL30-OPT', price: 347.00, pricePer: 347.00 },
-      { length: '1\'', cct: '3500K', sku: 'LNEA-COL35-OPT', price: 347.00, pricePer: 347.00 },
-      { length: '1\'', cct: '4000K', sku: 'LNEA-COL40-OPT', price: 347.00, pricePer: 347.00 },
-      { length: '4\'', cct: '2700K', sku: 'LNED-COL27-OPT', price: 837.00, pricePer: 209.25 },
-      { length: '4\'', cct: '3000K', sku: 'LNED-COL30-OPT', price: 837.00, pricePer: 209.25 },
-      { length: '4\'', cct: '3500K', sku: 'LNED-COL35-OPT', price: 837.00, pricePer: 209.25 },
-      { length: '4\'', cct: '4000K', sku: 'LNED-COL40-OPT', price: 837.00, pricePer: 209.25 },
+      { length: '1\'', cct: '2700K, 3000K, 3500K, 4000K', sku: 'LNEA-COL*-OPT', price: 347.00, pricePer: 347.00 },
+      { length: '4\'', cct: '2700K, 3000K, 3500K, 4000K', sku: 'LNED-COL*-OPT', price: 837.00, pricePer: 209.25 },
     ],
     accessories: {
       cables: [
@@ -1125,14 +1099,8 @@ export const products = [
     },
     ccts: ['2700K', '3000K', '3500K', '4000K'],
     variants: [
-      { length: '1\'', cct: '2700K', sku: 'XTS-271-A00N', price: 247.00, pricePer: 247.00, output: 'SO' },
-      { length: '1\'', cct: '3000K', sku: 'XTS-301-A00N', price: 247.00, pricePer: 247.00, output: 'SO' },
-      { length: '1\'', cct: '3500K', sku: 'XTS-351-A00N', price: 247.00, pricePer: 247.00, output: 'SO' },
-      { length: '1\'', cct: '4000K', sku: 'XTS-401-A00N', price: 247.00, pricePer: 247.00, output: 'SO' },
-      { length: '4\'', cct: '2700K', sku: 'XTS-271-D00N', price: 554.00, pricePer: 138.50, output: 'SO' },
-      { length: '4\'', cct: '3000K', sku: 'XTS-301-D00N', price: 554.00, pricePer: 138.50, output: 'SO' },
-      { length: '4\'', cct: '3500K', sku: 'XTS-351-D00N', price: 554.00, pricePer: 138.50, output: 'SO' },
-      { length: '4\'', cct: '4000K', sku: 'XTS-401-D00N', price: 554.00, pricePer: 138.50, output: 'SO' },
+      { length: '1\'', cct: '2700K, 3000K, 3500K, 4000K', sku: 'XTS-3##-A00N', price: 247.00, pricePer: 247.00, output: 'SO' },
+      { length: '4\'', cct: '2700K, 3000K, 3500K, 4000K', sku: 'XTS-3##-D00N', price: 554.00, pricePer: 138.50, output: 'SO' },
     ],
     accessories: {
       cables: [
@@ -1184,14 +1152,8 @@ export const products = [
     },
     ccts: ['2700K', '3000K', '3500K', '4000K'],
     variants: [
-      { length: '1\'', cct: '2700K', sku: 'XTH-271-A00N', price: 313.00, pricePer: 313.00 },
-      { length: '1\'', cct: '3000K', sku: 'XTH-301-A00N', price: 313.00, pricePer: 313.00 },
-      { length: '1\'', cct: '3500K', sku: 'XTH-351-A00N', price: 313.00, pricePer: 313.00 },
-      { length: '1\'', cct: '4000K', sku: 'XTH-401-A00N', price: 313.00, pricePer: 313.00 },
-      { length: '4\'', cct: '2700K', sku: 'XTH-271-D00N', price: 764.00, pricePer: 191.00 },
-      { length: '4\'', cct: '3000K', sku: 'XTH-301-D00N', price: 764.00, pricePer: 191.00 },
-      { length: '4\'', cct: '3500K', sku: 'XTH-351-D00N', price: 764.00, pricePer: 191.00 },
-      { length: '4\'', cct: '4000K', sku: 'XTH-401-D00N', price: 764.00, pricePer: 191.00 },
+      { length: '1\'', cct: '2700K, 3000K, 3500K, 4000K', sku: 'XTH-3##-A00N', price: 313.00, pricePer: 313.00 },
+      { length: '4\'', cct: '2700K, 3000K, 3500K, 4000K', sku: 'XTH-3##-D00N', price: 764.00, pricePer: 191.00 },
     ],
     accessories: {
       cables: [
