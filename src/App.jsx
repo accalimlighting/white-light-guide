@@ -33,22 +33,36 @@ const cctFilters = [
 const buildAccessoryValues = (accessories = {}) =>
   Object.values(accessories)
     .filter(Boolean)
-    .flatMap((items) =>
-      items?.flatMap((item) => [item?.name, item?.sku, item?.note, item?.price?.toString(), item?.pricePer?.toString()]) ?? []
-    );
+    .reduce((acc, items) => {
+      if (Array.isArray(items)) {
+        items.forEach((item) => {
+          acc.push(
+            item?.name,
+            item?.sku,
+            item?.note,
+            item?.price?.toString(),
+            item?.pricePer?.toString()
+          );
+        });
+      }
+      return acc;
+    }, []);
 
 const productSearchIndex = new Map(
   products.map((product) => {
     const specValues = Object.values(product.specs || {});
     const variantValues =
-      product.variants?.flatMap((variant) => [
-        variant.length,
-        variant.cct,
-        variant.sku,
-        variant.output,
-        variant.price?.toString(),
-        variant.pricePer?.toString(),
-      ]) ?? [];
+      product.variants?.reduce((acc, variant) => {
+        acc.push(
+          variant.length,
+          variant.cct,
+          variant.sku,
+          variant.output,
+          variant.price?.toString(),
+          variant.pricePer?.toString()
+        );
+        return acc;
+      }, []) ?? [];
     const accessoryValues = buildAccessoryValues(product.accessories);
 
     const textFragments = [
@@ -183,8 +197,14 @@ function App() {
   const dynamicCctFilters = useMemo(() => {
     const available = new Set(
       applyFilters({ cct: 'all' })
-        .flatMap((product) => product.ccts || [])
-        .filter((cct) => cct && cct !== 'TBD')
+        .reduce((acc, product) => {
+          if (Array.isArray(product.ccts)) {
+            product.ccts.forEach((cct) => {
+              if (cct && cct !== 'TBD') acc.push(cct);
+            });
+          }
+          return acc;
+        }, [])
     );
 
     const options = cctFilters.filter(
