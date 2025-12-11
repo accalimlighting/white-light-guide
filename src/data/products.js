@@ -64,6 +64,12 @@ export const products = [
       control: [
         { name: 'Single Channel DMX & 0-10V Driver', sku: 'ALD001', price: 46.00 },
       ],
+    wiring: {
+      heading: 'Typical wiring',
+      description: 'Wiring diagram and run data will be added when available.',
+      bullets: [],
+      driverRuns: [],
+    },
     },
     wiring: {
       heading: 'Dimmed (0-10V or TRIAC/ELV control)',
@@ -966,23 +972,24 @@ export const products = [
     category: 'linear',
     tagline: 'Premium Rigid Linear - Interior IP40',
     image: '/Linear_1_Interior_1__Black_Lit_97.png',
-    specSheetUrl: 'https://www.acclaimlighting.com/product/linear-one/',
+    specSheetUrl: 'https://www.acclaimlighting.com/products/linear-one-interior',
     specs: {
-      wattage: '12W/LF',
-      voltage: '24V DC',
+      wattage: '4W, 8W or 12W/LF',
+      voltage: '100-277VAC',
       ip: 'IP40',
-      cri: '80/90 CRI options',
-      lengths: '1\', 2\', 3\', 4\'',
+      cri: '80+ or 90+',
+      lumens: '951 lm/ft',
+      lengths: '1\' or 4\'',
     },
     displayOptions: {
       quickShip: true,
+      showCriBadge: false,
+      lumenChip: '951 lm/ft',
     },
-    ccts: ['2700K', '3000K', '3500K', '4000K'],
+    ccts: ['2100K', '2400K', '2700K', '3000K', '3500K', '4000K'],
     variants: [
-      { length: '1\'', cct: '2700K, 3000K, 3500K, 4000K', sku: 'LNIA-COL*-OPT', price: 303.00, pricePer: 303.00 },
-      { length: '2\'', cct: '2700K, 3000K, 3500K, 4000K', sku: 'LNIB-COL*-OPT', price: 482.00, pricePer: 241.00 },
-      { length: '3\'', cct: '2700K, 3000K, 3500K, 4000K', sku: 'LNIC-COL*-OPT', price: 663.00, pricePer: 221.00 },
-      { length: '4\'', cct: '2700K, 3000K, 3500K, 4000K', sku: 'LNID-COL*-OPT', price: 837.00, pricePer: 209.25 },
+      { length: '1\'', cct: '2100K, 2400K, 2700K, 3000K, 3500K, 4000K', sku: 'LNIA-COL#-OPT#', price: 303.00, pricePer: 303.00 },
+      { length: '4\'', cct: '2100K, 2400K, 2700K, 3000K, 3500K, 4000K', sku: 'LNID-COL#-OPT#', price: 837.00, pricePer: 209.25 },
     ],
     accessories: {
       cables: [
@@ -992,6 +999,7 @@ export const products = [
         { name: 'Link Cable End-to-End', sku: 'LNLC0', price: 51.00 },
         { name: 'Link Cable 1\'', sku: 'LNLC1', price: 55.00 },
         { name: 'Link Cable 5\'', sku: 'LNLC5', price: 77.00 },
+        { name: 'Link Cable 10\'', sku: 'LNLC10', price: 93.00 },
         { name: 'DMX Terminator End Cap', sku: 'LXTEC', price: 22.00 },
       ],
       mounting: [
@@ -1000,14 +1008,15 @@ export const products = [
         { name: 'Extender Bar 3\'', sku: 'LNEB3', price: 63.00 },
       ],
       beamControl: [
-        { name: 'Glare Shield 1\'', sku: 'LNIGS1', price: 12.00 },
-        { name: 'Glare Shield 4\'', sku: 'LNIGS4', price: 30.00, pricePer: 7.50 },
-        { name: 'Louver 1\'', sku: 'LNILV1', price: 35.00 },
-        { name: 'Louver 4\'', sku: 'LNILV4', price: 95.00 },
+        { name: 'Single Sided Glare Shield 1\'', sku: 'LNIGS1', price: 12.00 },
+        { name: 'Single Sided Glare Shield 4\'', sku: 'LNIGS4', price: 30.00, pricePer: 7.50 },
+        { name: 'Interior Louver 1\' (use x4 for 4\')', sku: 'LNILV1', price: 35.00 },
       ],
       control: [
         { name: 'UDM (0-10V/DMX)', sku: 'UDM', price: 760.00 },
         { name: 'UDM-W (Wireless DMX)', sku: 'UDM-W', price: 849.00 },
+        { name: 'DMX to 0-10V Converter', sku: 'ZDM 6', price: 201.00 },
+        { name: 'DALI to DMX Converter', sku: 'DDC 1 AC', price: 201.00 },
       ],
     },
   },
