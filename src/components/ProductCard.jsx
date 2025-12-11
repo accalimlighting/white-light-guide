@@ -51,10 +51,10 @@ const getCCTStyle = (cct) => {
 // IP Rating badge colors
 const getIPBadgeClass = (ip) => {
   if (!ip) return 'bg-acclaim-mist text-acclaim-slate';
-  if (ip.includes('IP68')) return 'bg-acclaim-teal text-white';
-  if (ip.includes('IP66')) return 'bg-acclaim-ocean text-white';
-  if (ip.includes('IP40')) return 'bg-emerald-500 text-white';
-  if (ip.toLowerCase().includes('dry')) return 'bg-acclaim-coral text-white';
+  const normalized = ip.toLowerCase();
+  if (normalized.includes('ip6')) return 'bg-acclaim-teal text-white'; // apply IP68 color to IP68/67/66
+  if (normalized.includes('ip20') || normalized.includes('ip40')) return 'bg-acclaim-coral text-white'; // apply IP20 color to IP20/IP40
+  if (normalized.includes('dry')) return 'bg-acclaim-coral text-white';
   return 'bg-acclaim-slate text-white';
 };
 
