@@ -1,4 +1,5 @@
-import { ChevronDown, ChevronUp, Zap, ExternalLink, AlertTriangle } from 'lucide-react';
+import { useState } from 'react';
+import { ChevronDown, ChevronUp, Zap, ExternalLink, AlertTriangle, X } from 'lucide-react';
 
 const warmChip = 'bg-[#FCE3DB] text-[#8C2C19] border-[#F7C6B7]';
 const neutralChip = 'bg-[#E6EEF6] text-[#1F3550] border-[#C8D5E4]';
@@ -97,6 +98,7 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
     v.pricePer > 0 && v.pricePer < min ? v.pricePer : min, 
     product.variants[0]?.pricePer || 0
   );
+  const [wiringModal, setWiringModal] = useState(null);
 
   return (
     <div className={`glass-panel overflow-hidden transition-all duration-200 relative ${product.isPlaceholder ? 'ring-1 ring-amber-300/60' : ''}`}>
@@ -282,11 +284,17 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
               <div className="flex flex-col lg:flex-row gap-6 pt-2">
                 {product.wiring.diagram && (
                   <div className="flex-shrink-0 lg:w-1/2 p-4">
-                    <img
-                      src={product.wiring.diagram}
-                      alt={`Wiring diagram for ${product.name}`}
-                      className="w-full rounded-2xl border border-acclaim-cloud/70 bg-white"
-                    />
+                    <button
+                      type="button"
+                      onClick={() => setWiringModal({ src: product.wiring.diagram, alt: `Wiring diagram for ${product.name}` })}
+                      className="block w-full focus:outline-none focus:ring-2 focus:ring-acclaim-accent/50 rounded-2xl"
+                    >
+                      <img
+                        src={product.wiring.diagram}
+                        alt={`Wiring diagram for ${product.name}`}
+                        className="w-full rounded-2xl border border-acclaim-cloud/70 bg-white shadow-sm"
+                      />
+                    </button>
                   </div>
                 )}
                 <div className="flex-1 space-y-3 text-sm text-acclaim-slate">
@@ -332,6 +340,32 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
               </div>
             </div>
           )}
+        </div>
+      )}
+
+      {wiringModal && (
+        <div
+          className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => setWiringModal(null)}
+        >
+          <div
+            className="relative max-w-6xl w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setWiringModal(null)}
+              className="absolute -top-3 -right-3 bg-white text-acclaim-slate rounded-full shadow-lg p-2 hover:bg-acclaim-mist focus:outline-none focus:ring-2 focus:ring-white"
+              aria-label="Close wiring diagram"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <img
+              src={wiringModal.src}
+              alt={wiringModal.alt}
+              className="w-full max-h-[80vh] object-contain rounded-2xl border border-acclaim-cloud/80 bg-white"
+            />
+          </div>
         </div>
       )}
     </div>
