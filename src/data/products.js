@@ -826,6 +826,9 @@ export const products = [
         { name: 'AL Driver 800 24V C2 (0-10V, DMX, DALI)', sku: 'ALD824-C2', price: 1817.0 },
         { name: 'AL Driver 400 24V C2 (0-10V, DMX, DALI)', sku: 'ALD424-C2', price: 1074.0 },
         { name: 'AL Driver 200 24V C2 (0-10V, DMX, DALI)', sku: 'ALD224-C2', price: 637.0 },
+        { name: 'Class 2 96W 24V Dimmable Transformer 100-277V', sku: 'MLE96-24DC-UD', price: 227.0 },
+        { name: 'Class 2 192W 24V Dimmable Transformer 100-277V', sku: 'MLE192-24DC-UD', price: 316.0 },
+        { name: 'Class 2 288W 24V Dimmable Transformer 100-277V', sku: 'MLE288-24DC-UD', price: 412.0 },
       ],
     },
     wiring: {
