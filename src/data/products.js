@@ -579,6 +579,7 @@ export const products = [
     },
     displayOptions: {
       showCriBadge: false,
+      quickShip: true,
     },
     ccts: ['2200K', '2400K', '2700K', '3000K', '3500K', '4000K', '5700K'],
     variants: [
@@ -655,6 +656,7 @@ export const products = [
     },
     displayOptions: {
       showCriBadge: false,
+      quickShip: true,
     },
     ccts: ['2200K', '2400K', '2700K', '3000K', '3500K', '4000K', '5700K'],
     variants: [
@@ -867,6 +869,7 @@ export const products = [
     displayOptions: {
       showCriBadge: false,
       lumenChip: '453 lm/ft',
+      quickShip: true,
     },
     ccts: ['2400K', '2700K', '3000K', '3500K'],
     variants: [
@@ -916,6 +919,7 @@ export const products = [
     displayOptions: {
       showCriBadge: false,
       lumenChip: '872 lm/ft',
+      quickShip: true,
     },
     ccts: ['2200K', '2400K', '2700K', '3000K', '3500K', '4000K'],
     variants: [
@@ -970,6 +974,9 @@ export const products = [
       cri: '80/90 CRI options',
       lengths: '1\', 2\', 3\', 4\'',
     },
+    displayOptions: {
+      quickShip: true,
+    },
     ccts: ['2700K', '3000K', '3500K', '4000K'],
     variants: [
       { length: '1\'', cct: '2700K, 3000K, 3500K, 4000K', sku: 'LNIA-COL*-OPT', price: 303.00, pricePer: 303.00 },
@@ -1019,6 +1026,9 @@ export const products = [
       cri: '80/90 CRI options',
       lengths: '1\', 2\', 3\', 4\'',
     },
+    displayOptions: {
+      quickShip: true,
+    },
     ccts: ['2700K', '3000K', '3500K', '4000K'],
     variants: [
       { length: '1\'', cct: '2700K, 3000K, 3500K, 4000K', sku: 'LNEA-COL*-OPT', price: 347.00, pricePer: 347.00 },
@@ -1058,6 +1068,9 @@ export const products = [
       ip: 'IP66',
       cri: 'Dynamic Color',
       lengths: '1\', 2\', 3\', 4\'',
+    },
+    displayOptions: {
+      quickShip: true,
     },
     ccts: ['Dynamic RGBW'],
     variants: [

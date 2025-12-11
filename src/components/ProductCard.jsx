@@ -189,6 +189,13 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
               {/* Price Per Foot */}
               {lowestPrice > 0 && (
                 <div className="ml-auto flex items-center gap-1">
+                  {product.displayOptions?.quickShip && (
+                    <img
+                      src="/QuickShipLogo.svg"
+                      alt="Quick Ship"
+                      className="h-5 w-auto"
+                    />
+                  )}
                   <span className="text-sm text-acclaim-steel">from</span>
                   <span className="text-lg font-semibold text-acclaim-teal">${lowestPrice.toFixed(2)}/ft</span>
                 </div>
