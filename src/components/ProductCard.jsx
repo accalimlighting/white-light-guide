@@ -243,12 +243,20 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
                     <tr key={idx} className="hover:bg-acclaim-mist/50">
                       {variant.length && <td className="py-2.5 font-medium text-acclaim-slate">{variant.length}</td>}
                       <td className="py-2.5">
-                        <span
-                          className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${getCCTClass(variant.cct)}`}
-                          style={getCCTStyle(variant.cct)}
-                        >
-                          {variant.cct}
-                        </span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {(variant.cct?.includes(',')
+                            ? variant.cct.split(',').map(c => c.trim()).filter(Boolean)
+                            : [variant.cct]
+                          ).map((cctValue, idx) => (
+                            <span
+                              key={`${variant.sku || idx}-${cctValue}`}
+                              className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${getCCTClass(cctValue)}`}
+                              style={getCCTStyle(cctValue)}
+                            >
+                              {cctValue}
+                            </span>
+                          ))}
+                        </div>
                       </td>
                       <td className="py-2.5">
                         <span className="font-semibold text-xs text-acclaim-slate bg-acclaim-mist px-1.5 py-0.5 rounded">
