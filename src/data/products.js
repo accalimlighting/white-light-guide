@@ -870,8 +870,14 @@ export const products = [
     },
     ccts: ['2400K', '2700K', '3000K', '3500K'],
     variants: [
-      { length: '1\' Unit', cct: '2400-3500K Selectable', sku: 'APC1*-APC*', price: 56.00, pricePer: 56.00 },
-      { length: '4\' Unit', cct: '2400-3500K Selectable', sku: 'APC4*-APC*', price: 199.00, pricePer: 49.75 },
+      { length: '1\'', cct: '2400K', sku: 'APC1A-APC24', price: 56.00, pricePer: 56.00 },
+      { length: '1\'', cct: '2700K', sku: 'APC1A-APC27', price: 56.00, pricePer: 56.00 },
+      { length: '1\'', cct: '3000K', sku: 'APC1A-APC30', price: 56.00, pricePer: 56.00 },
+      { length: '1\'', cct: '3500K', sku: 'APC1A-APC35', price: 56.00, pricePer: 56.00 },
+      { length: '4\'', cct: '2400K', sku: 'APC4A-APC24', price: 199.00, pricePer: 49.75 },
+      { length: '4\'', cct: '2700K', sku: 'APC4A-APC27', price: 199.00, pricePer: 49.75 },
+      { length: '4\'', cct: '3000K', sku: 'APC4A-APC30', price: 199.00, pricePer: 49.75 },
+      { length: '4\'', cct: '3500K', sku: 'APC4A-APC35', price: 199.00, pricePer: 49.75 },
     ],
     accessories: {
       cables: [
