@@ -930,6 +930,7 @@ export const products = [
         { name: 'Link Cable 1\'', sku: 'ADLLC1', price: 17.00 },
         { name: 'Link Cable 3\'', sku: 'ADLLC3', price: 22.00 },
         { name: 'Link Cable 5\'', sku: 'ADLLC5', price: 28.00 },
+        { name: 'Link Cable 10\'', sku: 'ADLLC10', price: 31.00 },
       ],
       mounting: [
         { name: 'Louver 1\'', sku: 'ADLLV1', price: 13.00 },
@@ -940,7 +941,17 @@ export const products = [
       ],
       control: [
         { name: 'UDM (0-10V/DMX)', sku: 'UDM', price: 760.00 },
+        { name: 'UDM-W (Wireless DMX)', sku: 'UDM-W', price: 849.00 },
+        { name: 'DMX to 0-10V Converter', sku: 'ZDM 6', price: 201.00 },
+        { name: 'DALI to DMX Converter', sku: 'DDC 1 AC', price: 201.00 },
       ],
+    },
+    wiring: {
+      heading: 'Typical wiring',
+      description: 'Adapt Linear fixtures use proprietary 6-way connectors for their inputs and outputs, which combine mains power and 0-10V control signals. The connector placements at each end of every fixture are such that end to end fixtures can be directly connected without need for extra link cables. The power and control connections of the required feed-in cable (available as a separate item in 10’ and 50’ lengths) are arranged as follows: • Power cores (x3): 18 AWG / 0.82mm2 • Control cores (x2): 28 AWG / 0.08mm2',
+      bullets: [],
+      driverRuns: [],
+      diagram: '/Adapt Linear wiring.png',
     },
   },
   // LINEAR ONE
