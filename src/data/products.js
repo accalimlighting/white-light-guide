@@ -859,7 +859,7 @@ export const products = [
     specs: {
       wattage: '5W/LF',
       voltage: '120VAC, 240VAC, 277VAC',
-      ip: 'IP20, Dry Location',
+      ip: 'IP20',
       cri: '90+',
       lengths: '1\' or 4\'',
     },
@@ -892,6 +892,7 @@ export const products = [
       description: 'Wiring diagram and run data will be added when available.',
       bullets: [],
       driverRuns: [],
+      diagram: '/diagrams/adapt-cove-wiring.svg',
     },
   },
   {
