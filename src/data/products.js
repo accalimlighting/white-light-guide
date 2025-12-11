@@ -800,9 +800,9 @@ export const products = [
       { cct: '2400K', sku: 'FGA-2#1-X016#CN', price: 1217.0, pricePer: 92.76 },
       { cct: '2700K', sku: 'FGA-2#1-X016#DN', price: 1217.0, pricePer: 92.76 },
       { cct: '3000K', sku: 'FGA-2#1-X016#EN', price: 1217.0, pricePer: 92.76 },
-      { cct: '3500K', sku: 'FBA-2#1-X016#FN', price: 1217.0, pricePer: 92.76 },
-      { cct: '4000K', sku: 'FBA-2#1-X016#GN', price: 1217.0, pricePer: 92.76 },
-      { cct: '5700K', sku: 'FBA-2#1-X016#JN', price: 1217.0, pricePer: 92.76 },
+      { cct: '3500K', sku: 'FGA-2#1-X016#FN', price: 1217.0, pricePer: 92.76 },
+      { cct: '4000K', sku: 'FGA-2#1-X016#GN', price: 1217.0, pricePer: 92.76 },
+      { cct: '5700K', sku: 'FGA-2#1-X016#JN', price: 1217.0, pricePer: 92.76 },
     ],
     accessories: {
       channels: [
@@ -827,6 +827,21 @@ export const products = [
         { name: 'AL Driver 400 24V C2 (0-10V, DMX, DALI)', sku: 'ALD424-C2', price: 1074.0 },
         { name: 'AL Driver 200 24V C2 (0-10V, DMX, DALI)', sku: 'ALD224-C2', price: 637.0 },
       ],
+    },
+    wiring: {
+      heading: 'Typical wiring using MLE Class 2 drivers',
+      description: 'Pair Flex Graze HO SC runs with the appropriate dimmable transformer for dependable 24VDC control.',
+      bullets: [
+        '24VDC constant voltage PWM dimming',
+        'Run charts assume full 13.1\' (4 m) runs',
+      ],
+      driverRuns: [
+        { name: 'MLE96-24DC-UD', detail: '1 x 13.1\' (4 m) run maximum' },
+        { name: 'MLE192-24DC-UD', detail: '2 x 13.1\' (4 m) runs maximum' },
+        { name: 'MLE288-24DC-UD', detail: '3 x 13.1\' (4 m) runs maximum' },
+        { name: 'AL Driver 400 24V C2', detail: '10 x 13.1\' (4 m) runs maximum' },
+      ],
+      diagram: '/diagrams/flex-graze-ho-sc-wiring.svg',
     },
   },
   // ADAPT PRODUCTS
