@@ -861,9 +861,11 @@ export const products = [
       voltage: '120VAC, 240VAC, 277VAC',
       ip: 'IP20',
       cri: '90+',
+      lumens: '453 lm/ft',
       lengths: '1\' or 4\'',
     },
     displayOptions: {
+      showCriBadge: false,
       lumenChip: '453 lm/ft',
     },
     ccts: ['2400K', '2700K', '3000K', '3500K'],
@@ -888,8 +890,8 @@ export const products = [
       ],
     },
     wiring: {
-      heading: 'Typical wiring (to be provided)',
-      description: 'Wiring diagram and run data will be added when available.',
+      heading: 'Typical wiring',
+      description: 'Adapt Cove fixtures use proprietary 6-way connectors for their inputs and outputs, which combine mains power and 0-10V (sink) control signals. The connector placements at each end of every fixture are such that end to end fixtures can be directly connected without need for extra link cables. The power and control connections of the required feed-in cable (available as a separate item in 1’, 5’ and 10’ lengths) are arranged as follows: • Power cores (x3): 18 AWG / 0.82mm2 • Control cores (x2): 28 AWG / 0.08mm2',
       bullets: [],
       driverRuns: [],
       diagram: '/diagrams/adapt-cove-wiring.svg',
