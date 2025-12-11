@@ -66,9 +66,10 @@ export const products = [
       ],
     wiring: {
       heading: 'Typical wiring',
-      description: 'Wiring diagram and run data will be added when available.',
+      description: 'Maximum number of Linear One fixtures A maximum of 80 feet (24m) of Linear One fixtures can be connected in a single series run. Control The control links use two cores for the 0-10V connections (plus a shield/ground connection).',
       bullets: [],
       driverRuns: [],
+      diagram: '/diagrams/Linear One Int Wiring.png',
     },
     },
     wiring: {

@@ -7,6 +7,7 @@ const coolChip = 'bg-[#DCEFF4] text-[#0C3E57] border-[#B4E0EA]';
 
 const cctColorMap = {
   '1800K': '#FFAA50',
+  '2100K': '#FF9B3D',
   '2200K': '#FFC477',
   '2400K': '#FFD494',
   '2700K': '#FFE0B2',
