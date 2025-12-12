@@ -174,7 +174,10 @@ function App() {
     setExpandedProducts(new Set());
   };
 
-  const filteredProducts = applyFilters();
+  const filteredProducts = useMemo(() => {
+    const results = applyFilters();
+    return [...results].sort((a, b) => a.name.localeCompare(b.name));
+  }, [selectedSeries, selectedEnvironment, selectedWattage, selectedCCT, searchTerm]);
 
   const seriesOptions = useMemo(() => {
     const available = new Set(applyFilters({ series: 'all' }).map((product) => product.category));
