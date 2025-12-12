@@ -191,9 +191,9 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
                 )}
               </div>
 
-              {/* Price Per Foot */}
-              {!hidePricing && lowestPrice > 0 && (
-                <div className="ml-auto flex items-center gap-1">
+              {/* Quick Ship + Price Per Foot */}
+              {(product.displayOptions?.quickShip || (!hidePricing && lowestPrice > 0)) && (
+                <div className="ml-auto flex items-center gap-2">
                   {product.displayOptions?.quickShip && (
                     <img
                       src="/QuickShipLogo.svg"
@@ -201,8 +201,12 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
                       className="h-5 w-auto"
                     />
                   )}
-                  <span className="text-sm text-acclaim-steel">from</span>
-                  <span className="text-lg font-semibold text-acclaim-teal">${lowestPrice.toFixed(2)}/ft</span>
+                  {!hidePricing && lowestPrice > 0 && (
+                    <>
+                      <span className="text-sm text-acclaim-steel">from</span>
+                      <span className="text-lg font-semibold text-acclaim-teal">${lowestPrice.toFixed(2)}/ft</span>
+                    </>
+                  )}
                 </div>
               )}
             </div>
