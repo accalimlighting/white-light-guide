@@ -179,7 +179,8 @@ function App() {
         environment === 'all' || productEnvironment.includes(normalizedEnvironment);
 
       const lumensValue = (() => {
-        const match = `${product.specs.lumens || ''}`.match(/([\d,.]+)/);
+        const lumenText = product.displayOptions?.lumenChip || product.specs.lumens || '';
+        const match = `${lumenText}`.match(/([\d,.]+)/);
         return match ? parseFloat(match[1].replace(/,/g, '')) : Number.NaN;
       })();
       const matchesLumens = (() => {
