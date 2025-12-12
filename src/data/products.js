@@ -1307,6 +1307,67 @@ export const products = [
       diagram: '/diagrams/LinearXTRH1wiring.png',
     },
   },
+  {
+    id: 'terra-linear',
+    name: 'Terra Linear',
+    subtitle: '',
+    category: 'linear-xtr',
+    tagline: 'In-Ground Linear, XTR Powered',
+    image: "/Terra Linear 1' W-mount Aluminum Lit.87.png",
+    specSheetUrl: 'https://www.acclaimlighting.com/products/terra-linear',
+    specs: {
+      wattage: '2.5W, 5W, 12W, or 20W/LF',
+      voltage: '100-277VAC',
+      ip: 'IP68',
+      cri: '80+',
+      lumens: '1,400 lm/ft',
+      lengths: '1\' or 4\'',
+    },
+    displayOptions: {
+      quickShip: false,
+      showCriBadge: false,
+      lumenChip: '1,400 lm/ft',
+    },
+    ccts: ['2400K', '2700K', '3000K', '3500K', '4000K'],
+    variants: [
+      { length: '1\'', cct: '2400K, 2700K, 3000K, 3500K, 4000K', sku: 'TL#-2##-A##N', price: 481.00, pricePer: 481.00 },
+      { length: '4\'', cct: '2400K, 2700K, 3000K, 3500K, 4000K', sku: 'TL#-2##-D##N', price: 874.00, pricePer: 218.50 },
+    ],
+    accessories: {
+      cables: [
+        { name: 'Feed Cable 10\' + End Cap', sku: 'TLAFCL10', price: 88.00, pricePer: 8.80 },
+        { name: 'Feed Cable 50\' + End Cap', sku: 'TLAFCL50', price: 437.00, pricePer: 8.74 },
+        { name: 'Link Cable 1\'', sku: 'TLALC1', price: 41.00 },
+        { name: 'Link Cable 5\'', sku: 'TLALC5', price: 59.00 },
+        { name: 'Link Cable 10\'', sku: 'TLALC10', price: 81.00 },
+        { name: 'XTR Driver to Terra Linear Adapter Cable', sku: 'TLAXTRC1', price: 37.00 },
+      ],
+      mounting: [
+        { name: 'In-Ground Sleeve 1\'', sku: 'TLAIGS4', price: 206.00, pricePer: 51.50, note: 'Required' },
+        { name: 'In-Ground Sleeve 4\'', sku: 'TLAIGS1', price: 109.00, pricePer: 27.25, note: 'Required' },
+      ],
+      drivers: [
+        { name: 'XTR Driver 4000', sku: 'XTRD4000', price: 2147.00, note: 'Extended runs' },
+        { name: 'XTR Driver 8000', sku: 'XTRD8000', price: 3536.00, note: 'Extended runs' },
+      ],
+      control: [
+        { name: 'DMX + RDM Addressing and Testing Tool', sku: 'DMXCAT-E', price: 790.00 },
+        { name: 'Universal Dimming Module, 0-10V (Sink) or DMX Input', sku: 'UDM', price: 760.00 },
+        { name: 'Universal Dimming Module + Aria Wireless DMX', sku: 'UDM-W', price: 849.00 },
+        { name: 'Aria Wireless DMX Transceiver 100-277VAC', sku: 'ARIA WDS', price: 687.00 },
+        { name: 'Aria Wireless DMX Range Extender 100-277VAC', sku: 'ARIA RE', price: 687.00 },
+        { name: 'DMX to 0-10V Converter', sku: 'ZDM 6', price: 201.00 },
+        { name: 'DALI to DMX Converter', sku: 'DDC 1 AC', price: 201.00 },
+      ],
+    },
+    wiring: {
+      heading: 'Typical wiring',
+      description: 'Terra Linear fixtures can be fed directly from a suitably protected mains supply (100 to 277VAC 50/60Hz) to provide standard run lengths up to 400’ (122m). Alternatively, an Acclaim Lighting XTR Driver can create an increased supply voltage to allow continuous runs up to 700’ (213m). Note: Terra Linear fixtures can use either power method without any reconfiguration; voltage levels are automatically detected.',
+      bullets: [],
+      driverRuns: [],
+      diagram: '/diagrams/Terra Linear Wiring.png',
+    },
+  },
 ];
 
 export const categories = [
