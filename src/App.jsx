@@ -1,6 +1,7 @@
 import { useState, useRef, useMemo } from 'react';
 import { Search, Printer, ExternalLink, X } from 'lucide-react';
 import { products, categories, ipRatings } from './data/products';
+import lastUpdated from './lastUpdated';
 import ProductCard from './components/ProductCard';
 
 const uniqueWattages = products.reduce((acc, product) => {
@@ -421,7 +422,7 @@ function App() {
         <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between gap-4 text-sm">
           <div>
             <p>All prices shown are DN (Dealer Net)</p>
-            <p className="text-acclaim-steel mt-1">Last updated: December 10, 2025</p>
+            <p className="text-acclaim-steel mt-1">Last updated: {lastUpdated}</p>
             <p className="text-acclaim-steel mt-1">Contact Acclaim Lighting for availability and lead times</p>
           </div>
           <a 
