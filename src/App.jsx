@@ -228,7 +228,7 @@ function App() {
       }
       return a.name.localeCompare(b.name);
     });
-  }, [selectedSeries, selectedEnvironment, selectedWattage, selectedCCT, searchTerm, sortMode]);
+  }, [selectedType, selectedSeries, selectedEnvironment, selectedLumens, selectedWattage, selectedCCT, searchTerm, sortMode]);
 
   const seriesOptions = useMemo(() => {
     const available = new Set(applyFilters({ series: 'all' }).map((product) => product.category));
@@ -285,7 +285,7 @@ function App() {
     }
 
     return sorted;
-  }, [selectedSeries, selectedEnvironment, selectedWattage, selectedCCT, searchTerm]);
+  }, [selectedType, selectedSeries, selectedEnvironment, selectedLumens, selectedWattage, selectedCCT, searchTerm]);
 
   const dynamicCctFilters = useMemo(() => {
     const available = new Set(
@@ -317,7 +317,7 @@ function App() {
     }
 
     return sorted;
-  }, [selectedSeries, selectedEnvironment, selectedWattage, selectedCCT, searchTerm]);
+  }, [selectedType, selectedSeries, selectedEnvironment, selectedLumens, selectedWattage, selectedCCT, searchTerm]);
 
   const handlePrint = () => {
     window.print();
