@@ -272,6 +272,11 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
                         <span className="font-semibold text-xs text-acclaim-slate bg-acclaim-mist px-1.5 py-0.5 rounded">
                           {variant.sku}
                         </span>
+                        {variant.note && (
+                          <span className="mt-1 inline-flex items-center rounded-full bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 text-[11px] font-semibold">
+                            {variant.note}
+                          </span>
+                        )}
                       </td>
                       {variant.output && <td className="py-2.5 text-acclaim-steel">{variant.output}</td>}
                       <td className="py-2.5 text-right font-semibold text-acclaim-teal">{formatPrice(variant.price)}</td>
