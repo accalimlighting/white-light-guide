@@ -1178,7 +1178,7 @@ export const products = [
       lengths: '1\' or 4\'',
     },
     displayOptions: {
-      quickShip: true,
+      quickShip: false,
       showCriBadge: false,
       lumenChip: '864 lm/ft',
     },
@@ -1251,7 +1251,7 @@ export const products = [
       lengths: '1\' or 4\'',
     },
     displayOptions: {
-      quickShip: true,
+      quickShip: false,
       showCriBadge: false,
       lumenChip: '1,606 lm/ft',
     },

@@ -256,9 +256,6 @@ function App() {
                 A quick reference companion for Acclaim&apos;s white light linear products and associated accessories.
               </p>
             </div>
-            <div className="bg-white/10 border border-white/15 rounded-2xl px-6 py-4 backdrop-blur max-w-sm">
-              <p className="text-sm text-white/80">Updated December 2025</p>
-            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-10 text-sm">
