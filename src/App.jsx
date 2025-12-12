@@ -4,6 +4,8 @@ import { products, categories, ipRatings } from './data/products';
 import lastUpdated from './lastUpdated';
 import ProductCard from './components/ProductCard';
 
+const hidePricing = import.meta.env.VITE_HIDE_PRICING === 'true';
+
 const getLowestPricePerFoot = (product) => {
   if (!product?.variants?.length) return Number.POSITIVE_INFINITY;
   return product.variants.reduce((min, v) => {
@@ -186,7 +188,7 @@ function App() {
   const filteredProducts = useMemo(() => {
     const results = applyFilters();
     return [...results].sort((a, b) => {
-      if (sortMode === 'price') {
+      if (!hidePricing && sortMode === 'price') {
         return getLowestPricePerFoot(a) - getLowestPricePerFoot(b);
       }
       return a.name.localeCompare(b.name);
@@ -452,35 +454,37 @@ function App() {
                 </button>
               )}
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-acclaim-steel">Sort:</span>
-              <div className="flex rounded-xl overflow-hidden border border-acclaim-cloud bg-white/70">
-                <button
-                  type="button"
-                  onClick={() => setSortMode('alpha')}
-                  className={`px-3 py-1 text-xs font-semibold ${
-                    sortMode === 'alpha'
-                      ? 'bg-acclaim-teal text-white'
-                      : 'text-acclaim-slate hover:bg-acclaim-mist/70'
-                  }`}
-                  aria-pressed={sortMode === 'alpha'}
-                >
-                  Alphabetical
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSortMode('price')}
-                  className={`px-3 py-1 text-xs font-semibold border-l border-acclaim-cloud ${
-                    sortMode === 'price'
-                      ? 'bg-acclaim-teal text-white'
-                      : 'text-acclaim-slate hover:bg-acclaim-mist/70'
-                  }`}
-                  aria-pressed={sortMode === 'price'}
-                >
-                  Price / ft
-                </button>
+            {!hidePricing && (
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-acclaim-steel">Sort:</span>
+                <div className="flex rounded-xl overflow-hidden border border-acclaim-cloud bg-white/70">
+                  <button
+                    type="button"
+                    onClick={() => setSortMode('alpha')}
+                    className={`px-3 py-1 text-xs font-semibold ${
+                      sortMode === 'alpha'
+                        ? 'bg-acclaim-teal text-white'
+                        : 'text-acclaim-slate hover:bg-acclaim-mist/70'
+                    }`}
+                    aria-pressed={sortMode === 'alpha'}
+                  >
+                    Alphabetical
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSortMode('price')}
+                    className={`px-3 py-1 text-xs font-semibold border-l border-acclaim-cloud ${
+                      sortMode === 'price'
+                        ? 'bg-acclaim-teal text-white'
+                        : 'text-acclaim-slate hover:bg-acclaim-mist/70'
+                    }`}
+                    aria-pressed={sortMode === 'price'}
+                  >
+                    Price / ft
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </section>

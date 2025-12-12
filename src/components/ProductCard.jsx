@@ -81,18 +81,22 @@ const AccessorySection = ({ title, items }) => {
                 {item.note && <span className="text-xs text-acclaim-accent font-medium">{item.note}</span>}
               </div>
             </div>
-            <div className="text-right ml-3">
-              <span className="font-semibold text-acclaim-teal">{formatPrice(item.price)}</span>
-              {item.pricePer && (
-                <span className="block text-xs text-acclaim-steel">{formatPrice(item.pricePer)}/ft</span>
-              )}
-            </div>
+            {!hidePricing && (
+              <div className="text-right ml-3">
+                <span className="font-semibold text-acclaim-teal">{formatPrice(item.price)}</span>
+                {item.pricePer && (
+                  <span className="block text-xs text-acclaim-steel">{formatPrice(item.pricePer)}/ft</span>
+                )}
+              </div>
+            )}
           </div>
         ))}
       </div>
     </div>
   );
 };
+
+const hidePricing = import.meta.env.VITE_HIDE_PRICING === 'true';
 
 export default function ProductCard({ product, isExpanded, onToggle }) {
   const lowestPrice = product.variants.reduce((min, v) => 
@@ -188,7 +192,7 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
               </div>
 
               {/* Price Per Foot */}
-              {lowestPrice > 0 && (
+              {!hidePricing && lowestPrice > 0 && (
                 <div className="ml-auto flex items-center gap-1">
                   {product.displayOptions?.quickShip && (
                     <img
@@ -244,8 +248,8 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
                     <th className="pb-2">CCT</th>
                     <th className="pb-2">SKU</th>
                     {product.variants[0]?.output && <th className="pb-2">Output</th>}
-                    <th className="pb-2 text-right">DN Price</th>
-                    <th className="pb-2 text-right">$/ft</th>
+                    {!hidePricing && <th className="pb-2 text-right">DN Price</th>}
+                    {!hidePricing && <th className="pb-2 text-right">$/ft</th>}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-acclaim-cloud/60">
@@ -279,8 +283,12 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
                         )}
                       </td>
                       {variant.output && <td className="py-2.5 text-acclaim-steel">{variant.output}</td>}
-                      <td className="py-2.5 text-right font-semibold text-acclaim-teal">{formatPrice(variant.price)}</td>
-                      <td className="py-2.5 text-right font-bold text-acclaim-accent">{formatPrice(variant.pricePer)}/ft</td>
+                      {!hidePricing && (
+                        <>
+                          <td className="py-2.5 text-right font-semibold text-acclaim-teal">{formatPrice(variant.price)}</td>
+                          <td className="py-2.5 text-right font-bold text-acclaim-accent">{formatPrice(variant.pricePer)}/ft</td>
+                        </>
+                      )}
                     </tr>
                   ))}
                 </tbody>
