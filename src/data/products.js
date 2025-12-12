@@ -1112,8 +1112,8 @@ export const products = [
     ccts: ['2100K', '2400K', '2700K', '3000K', '3500K', '4000K'],
     variants: [
       { length: '1\'', cct: '2100K, 2400K, 2700K, 3000K, 3500K, 4000K', sku: 'NLB#A-NLL#-NLO#', price: 596.00, pricePer: 596.00 },
-      { length: '2\'', cct: '2100K, 2400K, 2700K, 3000K, 3500K, 4000K', sku: 'NLB#B-NLL#-NLO#', price: 935.00, pricePer: 467.50, note: 'Special order' },
-      { length: '3\'', cct: '2100K, 2400K, 2700K, 3000K, 3500K, 4000K', sku: 'NLB#C-NLL#-NLO#', price: 1279.00, pricePer: 426.33, note: 'Special order' },
+      { length: '2\'', cct: '2100K, 2400K, 2700K, 3000K, 3500K, 4000K', sku: 'NLB#B-NLL#-NLO#', price: 935.00, pricePer: 467.50, note: 'Special order, not quick ship' },
+      { length: '3\'', cct: '2100K, 2400K, 2700K, 3000K, 3500K, 4000K', sku: 'NLB#C-NLL#-NLO#', price: 1279.00, pricePer: 426.33, note: 'Special order, not quick ship' },
       { length: '4\'', cct: '2100K, 2400K, 2700K, 3000K, 3500K, 4000K', sku: 'NLB#D-NLL#-NLO#', price: 1588.00, pricePer: 397.00 },
     ],
     accessories: {
@@ -1231,7 +1231,7 @@ export const products = [
       description: 'Power and control are combined within the IP66-rated feed and link cables using a proprietary design. Connector placements are such that abutted units can be directly connected without need for extra cables.',
       bullets: [],
       driverRuns: [],
-      diagram: '/diagrams/Linear XTR wiring.png',
+      diagram: '/diagrams/Linear XTR wiring2.png',
     },
   },
   {
