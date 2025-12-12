@@ -366,7 +366,7 @@ function App() {
                 onClick={collapseAll}
                 className="px-4 py-2 text-sm rounded-xl border border-acclaim-cloud text-acclaim-slate bg-white/60 hover:bg-acclaim-fog font-medium"
               >
-                Collapse
+                Collapse All
               </button>
               <button
                 onClick={handlePrint}
