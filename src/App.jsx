@@ -5,6 +5,20 @@ import lastUpdated from './lastUpdated';
 import ProductCard from './components/ProductCard';
 
 const hidePricing = import.meta.env.VITE_HIDE_PRICING === 'true';
+const typeOptions = [
+  { id: 'all', name: 'Type' },
+  { id: 'flex', name: 'Flex' },
+  { id: 'fixtures', name: 'Fixtures' },
+];
+
+const lumensOptions = [
+  { id: 'all', name: 'Lumens' },
+  { id: '<300', name: '<300' },
+  { id: '300-500', name: '300-500' },
+  { id: '500-700', name: '500-700' },
+  { id: '700-900', name: '700-900' },
+  { id: '>900', name: '>900' },
+];
 
 const getLowestPricePerFoot = (product) => {
   if (!product?.variants?.length) return Number.POSITIVE_INFINITY;
@@ -128,16 +142,20 @@ const productSearchIndex = new Map(
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [expandedProducts, setExpandedProducts] = useState(new Set());
+  const [selectedType, setSelectedType] = useState('all');
   const [selectedSeries, setSelectedSeries] = useState('all');
   const [selectedEnvironment, setSelectedEnvironment] = useState('all');
+  const [selectedLumens, setSelectedLumens] = useState('all');
   const [selectedWattage, setSelectedWattage] = useState('all');
   const [selectedCCT, setSelectedCCT] = useState('all');
   const [sortMode, setSortMode] = useState('alpha'); // 'alpha' | 'price'
   const printRef = useRef();
 
   const applyFilters = ({
+    type = selectedType,
     series = selectedSeries,
     environment = selectedEnvironment,
+    lumensRange = selectedLumens,
     wattage = selectedWattage,
     cct = selectedCCT,
     term = searchTerm,
@@ -151,11 +169,28 @@ function App() {
       const matchesSearch =
         !normalizedTerm.length || searchText.includes(normalizedTerm);
 
+      const productType = product.category === 'flex' ? 'flex' : 'fixtures';
+      const matchesType = type === 'all' || productType === type;
+
       const matchesSeries = series === 'all' || product.category === series;
 
       const productEnvironment = (product.specs.ip || '').toLowerCase();
       const matchesEnvironment =
         environment === 'all' || productEnvironment.includes(normalizedEnvironment);
+
+      const lumensValue = (() => {
+        const match = `${product.specs.lumens || ''}`.match(/([\d,.]+)/);
+        return match ? parseFloat(match[1].replace(/,/g, '')) : Number.NaN;
+      })();
+      const matchesLumens = (() => {
+        if (lumensRange === 'all' || Number.isNaN(lumensValue)) return true;
+        if (lumensRange === '<300') return lumensValue < 300;
+        if (lumensRange === '300-500') return lumensValue >= 300 && lumensValue <= 500;
+        if (lumensRange === '500-700') return lumensValue > 500 && lumensValue <= 700;
+        if (lumensRange === '700-900') return lumensValue > 700 && lumensValue <= 900;
+        if (lumensRange === '>900') return lumensValue > 900;
+        return true;
+      })();
 
       const productWattage = (product.specs.wattage || '').toLowerCase();
       const matchesWattage =
@@ -163,7 +198,7 @@ function App() {
 
       const matchesCCT = cct === 'all' || product.ccts?.includes(cct);
 
-      return matchesSearch && matchesSeries && matchesEnvironment && matchesWattage && matchesCCT;
+      return matchesSearch && matchesType && matchesSeries && matchesEnvironment && matchesLumens && matchesWattage && matchesCCT;
     });
   };
 
@@ -289,16 +324,20 @@ function App() {
   };
 
   const resetFilters = () => {
+    setSelectedType('all');
     setSelectedSeries('all');
     setSelectedEnvironment('all');
+    setSelectedLumens('all');
     setSelectedWattage('all');
     setSelectedCCT('all');
     setSearchTerm('');
   };
 
   const filtersActive = 
+    selectedType !== 'all' ||
     selectedSeries !== 'all' ||
     selectedEnvironment !== 'all' ||
+    selectedLumens !== 'all' ||
     selectedWattage !== 'all' ||
     selectedCCT !== 'all';
 
@@ -400,7 +439,17 @@ function App() {
           </div>
 
           {/* Filter Row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
+            <select
+              value={selectedType}
+              onChange={(e) => setSelectedType(e.target.value)}
+              className="px-3 py-2.5 rounded-xl border border-acclaim-cloud bg-acclaim-mist text-sm text-acclaim-slate focus:outline-none focus:ring-2 focus:ring-acclaim-accent/30"
+            >
+              {typeOptions.map((cat) => (
+                <option key={cat.id} value={cat.id}>{cat.name}</option>
+              ))}
+            </select>
+
             <select
               value={selectedSeries}
               onChange={(e) => setSelectedSeries(e.target.value)}
@@ -418,6 +467,16 @@ function App() {
             >
               {environmentOptions.map((ip) => (
                 <option key={ip.id} value={ip.id}>{ip.name}</option>
+              ))}
+            </select>
+
+            <select
+              value={selectedLumens}
+              onChange={(e) => setSelectedLumens(e.target.value)}
+              className="px-3 py-2.5 rounded-xl border border-acclaim-cloud bg-acclaim-mist text-sm text-acclaim-slate focus:outline-none focus:ring-2 focus:ring-acclaim-accent/30"
+            >
+              {lumensOptions.map((opt) => (
+                <option key={opt.id} value={opt.id}>{opt.name}</option>
               ))}
             </select>
 
