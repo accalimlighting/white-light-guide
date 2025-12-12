@@ -422,6 +422,7 @@ function App() {
         <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between gap-4 text-sm">
           <div>
             <p className="text-acclaim-steel mt-1">Last updated: {lastUpdated}</p>
+            <p className="text-acclaim-steel mt-1">Pricing subject to change without notice</p>
             <p className="text-acclaim-steel mt-1">Contact Acclaim Lighting for availability and lead times</p>
           </div>
           <a 
