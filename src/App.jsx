@@ -420,7 +420,8 @@ function App() {
       <footer className="bg-acclaim-midnight text-acclaim-cloud py-8 mt-20 no-print">
         <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between gap-4 text-sm">
           <div>
-            <p>All prices shown are DN (Dealer Net) • November 2025</p>
+            <p>All prices shown are DN (Dealer Net)</p>
+            <p className="text-acclaim-steel mt-1">Last updated: December 10, 2025</p>
             <p className="text-acclaim-steel mt-1">Contact Acclaim Lighting for availability and lead times</p>
           </div>
           <a 
