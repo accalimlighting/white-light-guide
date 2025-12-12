@@ -4,6 +4,14 @@ import { products, categories, ipRatings } from './data/products';
 import lastUpdated from './lastUpdated';
 import ProductCard from './components/ProductCard';
 
+const getLowestPricePerFoot = (product) => {
+  if (!product?.variants?.length) return Number.POSITIVE_INFINITY;
+  return product.variants.reduce((min, v) => {
+    const price = Number.isFinite(v.pricePer) ? v.pricePer : Number.POSITIVE_INFINITY;
+    return price > 0 && price < min ? price : min;
+  }, Number.POSITIVE_INFINITY);
+};
+
 const sortByNumberThenAlpha = (values = []) => {
   const parseFirstNumber = (val) => {
     const match = `${val}`.match(/[\d.]+/);
@@ -122,6 +130,7 @@ function App() {
   const [selectedEnvironment, setSelectedEnvironment] = useState('all');
   const [selectedWattage, setSelectedWattage] = useState('all');
   const [selectedCCT, setSelectedCCT] = useState('all');
+  const [sortMode, setSortMode] = useState('alpha'); // 'alpha' | 'price'
   const printRef = useRef();
 
   const applyFilters = ({
@@ -176,8 +185,13 @@ function App() {
 
   const filteredProducts = useMemo(() => {
     const results = applyFilters();
-    return [...results].sort((a, b) => a.name.localeCompare(b.name));
-  }, [selectedSeries, selectedEnvironment, selectedWattage, selectedCCT, searchTerm]);
+    return [...results].sort((a, b) => {
+      if (sortMode === 'price') {
+        return getLowestPricePerFoot(a) - getLowestPricePerFoot(b);
+      }
+      return a.name.localeCompare(b.name);
+    });
+  }, [selectedSeries, selectedEnvironment, selectedWattage, selectedCCT, searchTerm, sortMode]);
 
   const seriesOptions = useMemo(() => {
     const available = new Set(applyFilters({ series: 'all' }).map((product) => product.category));
@@ -359,6 +373,35 @@ function App() {
 
             {/* Actions */}
             <div className="flex flex-wrap gap-2 justify-end">
+              <div className="flex items-center gap-2 mr-2">
+                <span className="text-xs text-acclaim-steel">Sort:</span>
+                <div className="flex rounded-xl overflow-hidden border border-acclaim-cloud bg-white/70">
+                  <button
+                    type="button"
+                    onClick={() => setSortMode('alpha')}
+                    className={`px-3 py-1 text-xs font-semibold ${
+                      sortMode === 'alpha'
+                        ? 'bg-acclaim-teal text-white'
+                        : 'text-acclaim-slate hover:bg-acclaim-mist/70'
+                    }`}
+                    aria-pressed={sortMode === 'alpha'}
+                  >
+                    Alphabetical
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSortMode('price')}
+                    className={`px-3 py-1 text-xs font-semibold border-l border-acclaim-cloud ${
+                      sortMode === 'price'
+                        ? 'bg-acclaim-teal text-white'
+                        : 'text-acclaim-slate hover:bg-acclaim-mist/70'
+                    }`}
+                    aria-pressed={sortMode === 'price'}
+                  >
+                    Price / ft
+                  </button>
+                </div>
+              </div>
               <button
                 onClick={expandAll}
                 className="px-4 py-2 text-sm rounded-xl bg-gradient-to-r from-acclaim-accent to-acclaim-coral text-white font-semibold tracking-wide shadow hover:opacity-95 transition"
