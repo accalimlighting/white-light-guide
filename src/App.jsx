@@ -4,22 +4,53 @@ import { products, categories, ipRatings } from './data/products';
 import lastUpdated from './lastUpdated';
 import ProductCard from './components/ProductCard';
 
-const uniqueWattages = products.reduce((acc, product) => {
-  const watt = product.specs?.wattage;
-  if (watt && watt !== 'TBD' && !acc.includes(watt)) {
-    acc.push(watt);
-  }
-  return acc;
-}, []);
-
-const uniqueCCTs = products.reduce((acc, product) => {
-  product.ccts?.forEach((cct) => {
-    if (cct && cct !== 'TBD' && !acc.includes(cct)) {
-      acc.push(cct);
-    }
+const sortByNumberThenAlpha = (values = []) => {
+  const parseFirstNumber = (val) => {
+    const match = `${val}`.match(/[\d.]+/);
+    return match ? parseFloat(match[0]) : Number.NaN;
+  };
+  return [...values].sort((a, b) => {
+    const na = parseFirstNumber(a);
+    const nb = parseFirstNumber(b);
+    const aIsNum = !Number.isNaN(na);
+    const bIsNum = !Number.isNaN(nb);
+    if (aIsNum && bIsNum && na !== nb) return na - nb;
+    return `${a}`.localeCompare(`${b}`, undefined, { sensitivity: 'base' });
   });
-  return acc;
-}, []);
+};
+
+const sortCCTs = (values = []) => {
+  const parseCct = (val) => {
+    const match = `${val}`.match(/([\d.]+)\s*K?/i);
+    return match ? parseFloat(match[1]) : Number.NaN;
+  };
+  return [...values].sort((a, b) => {
+    const na = parseCct(a);
+    const nb = parseCct(b);
+    const aIsNum = !Number.isNaN(na);
+    const bIsNum = !Number.isNaN(nb);
+    if (aIsNum && bIsNum && na !== nb) return na - nb;
+    return `${a}`.localeCompare(`${b}`, undefined, { sensitivity: 'base' });
+  });
+};
+
+const uniqueWattages = sortByNumberThenAlpha(
+  Array.from(
+    new Set(
+      products
+        .map((product) => product.specs?.wattage)
+        .filter((watt) => watt && watt !== 'TBD')
+    )
+  )
+);
+
+const uniqueCCTs = sortCCTs(
+  Array.from(
+    new Set(
+      products.flatMap((product) => (product.ccts || []).filter((cct) => cct && cct !== 'TBD'))
+    )
+  )
+);
 
 const wattageFilters = [
   { value: 'all', label: 'Watts p/f' },
@@ -184,15 +215,22 @@ function App() {
         .map((watt) => watt.toLowerCase())
     );
 
-    const options = wattageFilters.filter(
+    const filtered = wattageFilters.filter(
       (option) => option.value === 'all' || available.has(option.value.toLowerCase())
     );
 
-    if (selectedWattage !== 'all' && !options.some((opt) => opt.value === selectedWattage)) {
-      options.push({ value: selectedWattage, label: selectedWattage });
+    const sorted = [
+      filtered.find((o) => o.value === 'all'),
+      ...sortByNumberThenAlpha(filtered.filter((o) => o.value !== 'all').map((o) => o.value)).map(
+        (value) => ({ value, label: value })
+      ),
+    ].filter(Boolean);
+
+    if (selectedWattage !== 'all' && !sorted.some((opt) => opt.value === selectedWattage)) {
+      sorted.push({ value: selectedWattage, label: selectedWattage });
     }
 
-    return options;
+    return sorted;
   }, [selectedSeries, selectedEnvironment, selectedWattage, selectedCCT, searchTerm]);
 
   const dynamicCctFilters = useMemo(() => {
@@ -208,15 +246,23 @@ function App() {
         }, [])
     );
 
-    const options = cctFilters.filter(
+    const filtered = cctFilters.filter(
       (option) => option.value === 'all' || available.has(option.value)
     );
 
-    if (selectedCCT !== 'all' && !options.some((opt) => opt.value === selectedCCT)) {
-      options.push({ value: selectedCCT, label: selectedCCT });
+    const sorted = [
+      filtered.find((o) => o.value === 'all'),
+      ...sortCCTs(filtered.filter((o) => o.value !== 'all').map((o) => o.value)).map((value) => ({
+        value,
+        label: value,
+      })),
+    ].filter(Boolean);
+
+    if (selectedCCT !== 'all' && !sorted.some((opt) => opt.value === selectedCCT)) {
+      sorted.push({ value: selectedCCT, label: selectedCCT });
     }
 
-    return options;
+    return sorted;
   }, [selectedSeries, selectedEnvironment, selectedWattage, selectedCCT, searchTerm]);
 
   const handlePrint = () => {
