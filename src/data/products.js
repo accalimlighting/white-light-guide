@@ -1311,7 +1311,7 @@ export const products = [
     id: 'terra-linear',
     name: 'Terra Linear',
     subtitle: '',
-    category: 'linear-xtr',
+    category: 'terra',
     tagline: 'In-Ground Linear, XTR Powered',
     image: "/Terra Linear 1' W-mount Aluminum Lit.87.png",
     specSheetUrl: 'https://www.acclaimlighting.com/products/terra-linear',
@@ -1377,6 +1377,7 @@ export const categories = [
   { id: 'nova', name: 'Nova' },
   { id: 'linear-xtr', name: 'Linear XTR' },
   { id: 'linear-one', name: 'Linear One' },
+  { id: 'terra', name: 'Terra' },
 ];
 
 export const ipRatings = [
