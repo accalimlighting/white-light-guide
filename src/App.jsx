@@ -169,7 +169,7 @@ function App() {
       const matchesSearch =
         !normalizedTerm.length || searchText.includes(normalizedTerm);
 
-      const productType = product.category === 'flex' ? 'flex' : 'fixtures';
+      const productType = product.name?.toLowerCase().startsWith('flex') ? 'flex' : 'fixtures';
       const matchesType = type === 'all' || productType === type;
 
       const matchesSeries = series === 'all' || product.category === series;
