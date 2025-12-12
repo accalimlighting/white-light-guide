@@ -1,6 +1,6 @@
 import { useState, useRef, useMemo } from 'react';
 import { Search, Printer, ExternalLink, X } from 'lucide-react';
-import { products, categories, ipRatings } from './data/products';
+import { products, categories, ipRatings } from './data/products.generated';
 import lastUpdated from './lastUpdated';
 import ProductCard from './components/ProductCard';
 
