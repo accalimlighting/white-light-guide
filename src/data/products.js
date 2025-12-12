@@ -1093,7 +1093,7 @@ export const products = [
     name: 'Nova Linear',
     subtitle: '',
     category: 'nova',
-    tagline: 'High Output Dynamic Color Linear',
+    tagline: 'Floodlight Output in a Linear Profile',
     image: '/Nova_Linear_1ft_Black_White_light_262.png',
     specSheetUrl: 'https://www.acclaimlighting.com/products/nova-linear',
     specs: {
