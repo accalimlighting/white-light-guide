@@ -373,35 +373,6 @@ function App() {
 
             {/* Actions */}
             <div className="flex flex-wrap gap-2 justify-end">
-              <div className="flex items-center gap-2 mr-2">
-                <span className="text-xs text-acclaim-steel">Sort:</span>
-                <div className="flex rounded-xl overflow-hidden border border-acclaim-cloud bg-white/70">
-                  <button
-                    type="button"
-                    onClick={() => setSortMode('alpha')}
-                    className={`px-3 py-1 text-xs font-semibold ${
-                      sortMode === 'alpha'
-                        ? 'bg-acclaim-teal text-white'
-                        : 'text-acclaim-slate hover:bg-acclaim-mist/70'
-                    }`}
-                    aria-pressed={sortMode === 'alpha'}
-                  >
-                    Alphabetical
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setSortMode('price')}
-                    className={`px-3 py-1 text-xs font-semibold border-l border-acclaim-cloud ${
-                      sortMode === 'price'
-                        ? 'bg-acclaim-teal text-white'
-                        : 'text-acclaim-slate hover:bg-acclaim-mist/70'
-                    }`}
-                    aria-pressed={sortMode === 'price'}
-                  >
-                    Price / ft
-                  </button>
-                </div>
-              </div>
               <button
                 onClick={expandAll}
                 className="px-4 py-2 text-sm rounded-xl bg-gradient-to-r from-acclaim-accent to-acclaim-coral text-white font-semibold tracking-wide shadow hover:opacity-95 transition"
@@ -467,18 +438,49 @@ function App() {
             </select>
           </div>
 
-          <div className="text-sm text-acclaim-steel flex flex-wrap items-center gap-3">
-            <span className="font-medium text-acclaim-slate">
-              Showing {filteredProducts.length} of {products.length} products
-            </span>
-            {(filtersActive || searchTerm) && (
-              <button
-                onClick={resetFilters}
-                className="text-acclaim-accent font-medium hover:underline"
-              >
-                Clear filters
-              </button>
-            )}
+          <div className="text-sm text-acclaim-steel flex flex-wrap items-center gap-3 justify-between">
+            <div className="flex items-center gap-3">
+              <span className="font-medium text-acclaim-slate">
+                Showing {filteredProducts.length} of {products.length} products
+              </span>
+              {(filtersActive || searchTerm) && (
+                <button
+                  onClick={resetFilters}
+                  className="text-acclaim-accent font-medium hover:underline"
+                >
+                  Clear filters
+                </button>
+              )}
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-acclaim-steel">Sort:</span>
+              <div className="flex rounded-xl overflow-hidden border border-acclaim-cloud bg-white/70">
+                <button
+                  type="button"
+                  onClick={() => setSortMode('alpha')}
+                  className={`px-3 py-1 text-xs font-semibold ${
+                    sortMode === 'alpha'
+                      ? 'bg-acclaim-teal text-white'
+                      : 'text-acclaim-slate hover:bg-acclaim-mist/70'
+                  }`}
+                  aria-pressed={sortMode === 'alpha'}
+                >
+                  Alphabetical
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSortMode('price')}
+                  className={`px-3 py-1 text-xs font-semibold border-l border-acclaim-cloud ${
+                    sortMode === 'price'
+                      ? 'bg-acclaim-teal text-white'
+                      : 'text-acclaim-slate hover:bg-acclaim-mist/70'
+                  }`}
+                  aria-pressed={sortMode === 'price'}
+                >
+                  Price / ft
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
