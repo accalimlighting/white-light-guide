@@ -1322,7 +1322,7 @@ export const ipRatings = [
   { id: 'all', name: 'Environment' },
   { id: 'ip68', name: 'IP68 (Submersible)' },
   { id: 'ip66', name: 'IP66 (Exterior)' },
-  { id: 'ip20', name: 'IP20 (Interior)' },
   { id: 'ip40', name: 'IP40 (Interior)' },
+  { id: 'ip20', name: 'IP20 (Interior)' },
   { id: 'dry', name: 'Dry Location' },
 ];
