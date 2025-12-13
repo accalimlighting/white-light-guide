@@ -1097,7 +1097,7 @@ export const products = [
     image: '/Nova_Linear_1ft_Black_White_light_262.png',
     specSheetUrl: 'https://www.acclaimlighting.com/products/nova-linear',
     specs: {
-      wattage: '50W',
+      wattage: '50W/LF',
       voltage: '100-277VAC',
       ip: 'IP66',
       cri: '80+',
