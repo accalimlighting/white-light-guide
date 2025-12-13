@@ -17,7 +17,8 @@ const lumensOptions = [
   { id: '300-500', name: '300-500' },
   { id: '500-700', name: '500-700' },
   { id: '700-900', name: '700-900' },
-  { id: '>900', name: '>900' },
+  { id: '900-2000', name: '900-2,000' },
+  { id: '2000-4200', name: '2,000-4,200' },
 ];
 
 const getLowestPricePerFoot = (product) => {
@@ -189,7 +190,8 @@ function App() {
         if (lumensRange === '300-500') return lumensValue >= 300 && lumensValue <= 500;
         if (lumensRange === '500-700') return lumensValue > 500 && lumensValue <= 700;
         if (lumensRange === '700-900') return lumensValue > 700 && lumensValue <= 900;
-        if (lumensRange === '>900') return lumensValue > 900;
+        if (lumensRange === '900-2000') return lumensValue > 900 && lumensValue <= 2000;
+        if (lumensRange === '2000-4200') return lumensValue > 2000 && lumensValue <= 4200;
         return true;
       })();
 
