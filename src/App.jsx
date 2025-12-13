@@ -5,6 +5,8 @@ import lastUpdated from './lastUpdated';
 import ProductCard from './components/ProductCard';
 
 const hidePricing = import.meta.env.VITE_HIDE_PRICING === 'true';
+const logoSrc = import.meta.env.VITE_LOGO_SRC || '/Acclaim_Horizontal_Logo_Dark.svg';
+const quoteEmail = import.meta.env.VITE_QUOTE_EMAIL || 'quotes@acclaimlighting.com';
 const typeOptions = [
   { id: 'all', name: 'Type' },
   { id: 'flex', name: 'Flex' },
@@ -353,9 +355,14 @@ function App() {
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <div className="space-y-4">
               <img
-                src="/Acclaim_Horizontal_Logo_Dark.svg"
+                src={logoSrc}
                 alt="Acclaim Lighting"
                 className="w-48 h-auto drop-shadow-[0_4px_20px_rgba(1,21,42,0.35)]"
+                onError={(e) => {
+                  if (logoSrc !== '/Acclaim_Horizontal_Logo_Dark.svg') {
+                    e.currentTarget.src = '/Acclaim_Horizontal_Logo_Dark.svg';
+                  }
+                }}
               />
               <h1 className="pt-3 text-3xl md:text-4xl font-semibold tracking-tight">
                 Linear White Light Guide
@@ -370,7 +377,7 @@ function App() {
             {[
               { label: 'Guide Focus', value: 'White Light Linear Portfolio' },
               !hidePricing && { label: 'Pricing Format', value: 'USA Distributor Net (DN)' },
-              { label: 'For official quotations', value: 'quotes@acclaimlighting.com', isMail: true },
+              { label: 'For official quotations', value: quoteEmail, isMail: true },
             ]
               .filter(Boolean)
               .map((item) => (
