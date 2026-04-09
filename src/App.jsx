@@ -7,20 +7,13 @@ import ProductCard from './components/ProductCard';
 const hidePricing = import.meta.env.VITE_HIDE_PRICING === 'true';
 const logoSrc = import.meta.env.VITE_LOGO_SRC || '/Acclaim_Horizontal_Logo_Dark.svg';
 const quoteEmail = import.meta.env.VITE_QUOTE_EMAIL || 'quotes@acclaimlighting.com';
-const typeOptions = [
-  { id: 'all', name: 'Type' },
-  { id: 'flex', name: 'Flex' },
-  { id: 'fixtures', name: 'Fixtures' },
-];
-
 const lumensOptions = [
   { id: 'all', name: 'Lumens' },
-  { id: '<300', name: '<300' },
-  { id: '300-500', name: '300-500' },
-  { id: '500-700', name: '500-700' },
-  { id: '700-900', name: '700-900' },
-  { id: '900-2000', name: '900-2,000' },
-  { id: '2000-4300', name: '2,000-4,300' },
+  { id: '<1000', name: '<1,000' },
+  { id: '1000-5000', name: '1,000-5,000' },
+  { id: '5000-10000', name: '5,000-10,000' },
+  { id: '10000-20000', name: '10,000-20,000' },
+  { id: '20000+', name: '20,000+' },
 ];
 
 const getLowestPricePerFoot = (product) => {
@@ -61,12 +54,12 @@ const sortCCTs = (values = []) => {
   });
 };
 
-const uniqueWattages = sortByNumberThenAlpha(
+const uniquePowers = sortByNumberThenAlpha(
   Array.from(
     new Set(
       products
-        .map((product) => product.specs?.wattage)
-        .filter((watt) => watt && watt !== 'TBD')
+        .map((product) => product.specs?.power)
+        .filter((p) => p && p !== 'TBD')
     )
   )
 );
@@ -79,9 +72,9 @@ const uniqueCCTs = sortCCTs(
   )
 );
 
-const wattageFilters = [
-  { value: 'all', label: 'Watts p/f' },
-  ...uniqueWattages.map((watt) => ({ value: watt, label: watt })),
+const powerFilters = [
+  { value: 'all', label: 'Power' },
+  ...uniquePowers.map((p) => ({ value: p, label: p })),
 ];
 
 const cctFilters = [
@@ -144,36 +137,30 @@ const productSearchIndex = new Map(
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [expandedProducts, setExpandedProducts] = useState(new Set());
-  const [selectedType, setSelectedType] = useState('all');
   const [selectedSeries, setSelectedSeries] = useState('all');
   const [selectedEnvironment, setSelectedEnvironment] = useState('all');
   const [selectedLumens, setSelectedLumens] = useState('all');
-  const [selectedWattage, setSelectedWattage] = useState('all');
+  const [selectedPower, setSelectedPower] = useState('all');
   const [selectedCCT, setSelectedCCT] = useState('all');
   const [sortMode, setSortMode] = useState('alpha'); // 'alpha' | 'price'
   const printRef = useRef();
 
   const applyFilters = ({
-    type = selectedType,
     series = selectedSeries,
     environment = selectedEnvironment,
     lumensRange = selectedLumens,
-    wattage = selectedWattage,
+    power = selectedPower,
     cct = selectedCCT,
     term = searchTerm,
   } = {}) => {
     const normalizedTerm = term.toLowerCase();
     const normalizedEnvironment = environment.toLowerCase();
-    const normalizedWattage = wattage.toLowerCase();
+    const normalizedPower = power.toLowerCase();
 
     return products.filter((product) => {
       const searchText = productSearchIndex.get(product.id) || '';
       const matchesSearch =
         !normalizedTerm.length || searchText.includes(normalizedTerm);
-
-      const productType = product.name?.toLowerCase().startsWith('flex') ? 'flex' : 'fixtures';
-      const matchesType = type === 'all' || productType === type;
 
       const matchesSeries = series === 'all' || product.category === series;
 
@@ -182,48 +169,30 @@ function App() {
         environment === 'all' || productEnvironment.includes(normalizedEnvironment);
 
       const lumensValue = (() => {
-        const lumenText = product.displayOptions?.lumenChip || product.specs.lumens || '';
+        const lumenText = product.specs.lumens || '';
         const match = `${lumenText}`.match(/([\d,.]+)/);
         return match ? parseFloat(match[1].replace(/,/g, '')) : Number.NaN;
       })();
       const matchesLumens = (() => {
         if (lumensRange === 'all' || Number.isNaN(lumensValue)) return true;
-        if (lumensRange === '<300') return lumensValue < 300;
-        if (lumensRange === '300-500') return lumensValue >= 300 && lumensValue <= 500;
-        if (lumensRange === '500-700') return lumensValue > 500 && lumensValue <= 700;
-        if (lumensRange === '700-900') return lumensValue > 700 && lumensValue <= 900;
-        if (lumensRange === '900-2000') return lumensValue > 900 && lumensValue <= 2000;
-        if (lumensRange === '2000-4300') return lumensValue > 2000 && lumensValue <= 4300;
+        if (lumensRange === '<1000') return lumensValue < 1000;
+        if (lumensRange === '1000-5000') return lumensValue >= 1000 && lumensValue <= 5000;
+        if (lumensRange === '5000-10000') return lumensValue > 5000 && lumensValue <= 10000;
+        if (lumensRange === '10000-20000') return lumensValue > 10000 && lumensValue <= 20000;
+        if (lumensRange === '20000+') return lumensValue > 20000;
         return true;
       })();
 
-      const productWattage = (product.specs.wattage || '').toLowerCase();
-      const matchesWattage =
-        wattage === 'all' || productWattage === normalizedWattage;
+      const productPower = (product.specs.power || '').toLowerCase();
+      const matchesPower =
+        power === 'all' || productPower === normalizedPower;
 
       const matchesCCT = cct === 'all' || product.ccts?.includes(cct);
 
-      return matchesSearch && matchesType && matchesSeries && matchesEnvironment && matchesLumens && matchesWattage && matchesCCT;
+      return matchesSearch && matchesSeries && matchesEnvironment && matchesLumens && matchesPower && matchesCCT;
     });
   };
 
-  const toggleProduct = (productId) => {
-    const newExpanded = new Set(expandedProducts);
-    if (newExpanded.has(productId)) {
-      newExpanded.delete(productId);
-    } else {
-      newExpanded.add(productId);
-    }
-    setExpandedProducts(newExpanded);
-  };
-
-  const expandAll = () => {
-    setExpandedProducts(new Set(products.map(p => p.id)));
-  };
-
-  const collapseAll = () => {
-    setExpandedProducts(new Set());
-  };
 
   const filteredProducts = useMemo(() => {
     const results = applyFilters();
@@ -233,7 +202,7 @@ function App() {
       }
       return a.name.localeCompare(b.name);
     });
-  }, [selectedType, selectedSeries, selectedEnvironment, selectedLumens, selectedWattage, selectedCCT, searchTerm, sortMode]);
+  }, [selectedSeries, selectedEnvironment, selectedLumens, selectedPower, selectedCCT, searchTerm, sortMode]);
 
   const seriesOptions = useMemo(() => {
     const available = new Set(applyFilters({ series: 'all' }).map((product) => product.category));
@@ -247,7 +216,7 @@ function App() {
     }
 
     return baseOptions;
-  }, [selectedSeries, selectedEnvironment, selectedWattage, selectedCCT, searchTerm]);
+  }, [selectedSeries, selectedEnvironment, selectedPower, selectedCCT, searchTerm]);
 
   const environmentOptions = useMemo(() => {
     const availableProducts = applyFilters({ environment: 'all' });
@@ -264,17 +233,17 @@ function App() {
     }
 
     return baseOptions;
-  }, [selectedSeries, selectedEnvironment, selectedWattage, selectedCCT, searchTerm]);
+  }, [selectedSeries, selectedEnvironment, selectedPower, selectedCCT, searchTerm]);
 
-  const dynamicWattageFilters = useMemo(() => {
+  const dynamicPowerFilters = useMemo(() => {
     const available = new Set(
-      applyFilters({ wattage: 'all' })
-        .map((product) => product.specs?.wattage)
-        .filter((watt) => watt && watt !== 'TBD')
-        .map((watt) => watt.toLowerCase())
+      applyFilters({ power: 'all' })
+        .map((product) => product.specs?.power)
+        .filter((p) => p && p !== 'TBD')
+        .map((p) => p.toLowerCase())
     );
 
-    const filtered = wattageFilters.filter(
+    const filtered = powerFilters.filter(
       (option) => option.value === 'all' || available.has(option.value.toLowerCase())
     );
 
@@ -285,12 +254,12 @@ function App() {
       ),
     ].filter(Boolean);
 
-    if (selectedWattage !== 'all' && !sorted.some((opt) => opt.value === selectedWattage)) {
-      sorted.push({ value: selectedWattage, label: selectedWattage });
+    if (selectedPower !== 'all' && !sorted.some((opt) => opt.value === selectedPower)) {
+      sorted.push({ value: selectedPower, label: selectedPower });
     }
 
     return sorted;
-  }, [selectedType, selectedSeries, selectedEnvironment, selectedLumens, selectedWattage, selectedCCT, searchTerm]);
+  }, [selectedSeries, selectedEnvironment, selectedLumens, selectedPower, selectedCCT, searchTerm]);
 
   const dynamicCctFilters = useMemo(() => {
     const available = new Set(
@@ -322,36 +291,34 @@ function App() {
     }
 
     return sorted;
-  }, [selectedType, selectedSeries, selectedEnvironment, selectedLumens, selectedWattage, selectedCCT, searchTerm]);
+  }, [selectedSeries, selectedEnvironment, selectedLumens, selectedPower, selectedCCT, searchTerm]);
 
   const handlePrint = () => {
     window.print();
   };
 
   const resetFilters = () => {
-    setSelectedType('all');
     setSelectedSeries('all');
     setSelectedEnvironment('all');
     setSelectedLumens('all');
-    setSelectedWattage('all');
+    setSelectedPower('all');
     setSelectedCCT('all');
     setSearchTerm('');
   };
 
-  const filtersActive = 
-    selectedType !== 'all' ||
+  const filtersActive =
     selectedSeries !== 'all' ||
     selectedEnvironment !== 'all' ||
     selectedLumens !== 'all' ||
-    selectedWattage !== 'all' ||
+    selectedPower !== 'all' ||
     selectedCCT !== 'all';
 
   return (
     <div className="min-h-screen bg-acclaim-fog">
       {/* Hero */}
-      <header className="relative hero-gradient text-white pb-24">
+      <header className="relative hero-gradient text-white pb-16">
         <div className="absolute inset-0 opacity-60 bg-[radial-gradient(circle_at_60%_20%,rgba(242,108,95,0.4),transparent_55%)]" />
-        <div className="relative max-w-6xl mx-auto px-4 py-10">
+        <div className="relative max-w-6xl mx-auto px-12 py-10">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <div className="space-y-4">
               <img
@@ -365,42 +332,19 @@ function App() {
                 }}
               />
               <h1 className="pt-3 text-3xl md:text-4xl font-semibold tracking-tight">
-                Linear White Light Guide
+                LEDucation 2026 New Products Guide
               </h1>
               <p className="text-base md:text-lg text-white/75 max-w-2xl">
-                A quick reference companion for Acclaim&apos;s white light linear products and associated accessories.
+                A quick reference for Acclaim&apos;s newest product lines and innovations.
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-10 text-sm">
-            {[
-              { label: 'Guide Focus', value: 'White Light Linear Portfolio' },
-              !hidePricing && { label: 'Pricing Format', value: 'USA Distributor Net (DN)' },
-              { label: 'For official quotations', value: quoteEmail, isMail: true },
-            ]
-              .filter(Boolean)
-              .map((item) => (
-                <div key={item.label} className="bg-white/10 border border-white/10 rounded-xl px-4 py-3 backdrop-blur">
-                  <p className="text-white/60 uppercase text-[11px] tracking-[0.3em]">{item.label}</p>
-                  {item.isMail ? (
-                    <a
-                      href={`mailto:${item.value}`}
-                      className="text-base font-medium mt-1 inline-flex items-center gap-1 text-white hover:text-acclaim-teal transition"
-                    >
-                      {item.value}
-                    </a>
-                  ) : (
-                    <p className="text-base font-medium mt-1">{item.value}</p>
-                  )}
-                </div>
-              ))}
-          </div>
         </div>
       </header>
 
       {/* Controls Bar */}
-      <section className="relative -mt-12 px-4 no-print z-20">
+      <section className="relative -mt-12 px-12 no-print z-20">
         <div className="glass-panel max-w-6xl mx-auto p-6 sticky top-4 space-y-4">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             {/* Search */}
@@ -427,18 +371,6 @@ function App() {
             {/* Actions */}
             <div className="flex flex-wrap gap-2 justify-end">
               <button
-                onClick={expandAll}
-                className="px-4 py-2 text-sm rounded-xl bg-gradient-to-r from-acclaim-accent to-acclaim-coral text-white font-semibold tracking-wide shadow hover:opacity-95 transition"
-              >
-                Expand All
-              </button>
-              <button
-                onClick={collapseAll}
-                className="px-4 py-2 text-sm rounded-xl border border-acclaim-cloud text-acclaim-slate bg-white/60 hover:bg-acclaim-fog font-medium"
-              >
-                Collapse All
-              </button>
-              <button
                 onClick={handlePrint}
                 className="px-4 py-2 text-sm rounded-xl bg-acclaim-navy text-white font-medium flex items-center gap-2 shadow-sm hover:-translate-y-0.5 transition"
               >
@@ -449,17 +381,7 @@ function App() {
           </div>
 
           {/* Filter Row */}
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
-            <select
-              value={selectedType}
-              onChange={(e) => setSelectedType(e.target.value)}
-              className="px-3 py-2.5 rounded-xl border border-acclaim-cloud bg-acclaim-mist text-sm text-acclaim-slate focus:outline-none focus:ring-2 focus:ring-acclaim-accent/30"
-            >
-              {typeOptions.map((cat) => (
-                <option key={cat.id} value={cat.id}>{cat.name}</option>
-              ))}
-            </select>
-
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
             <select
               value={selectedSeries}
               onChange={(e) => setSelectedSeries(e.target.value)}
@@ -491,11 +413,11 @@ function App() {
             </select>
 
             <select
-              value={selectedWattage}
-              onChange={(e) => setSelectedWattage(e.target.value)}
+              value={selectedPower}
+              onChange={(e) => setSelectedPower(e.target.value)}
               className="px-3 py-2.5 rounded-xl border border-acclaim-cloud bg-acclaim-mist text-sm text-acclaim-slate focus:outline-none focus:ring-2 focus:ring-acclaim-accent/30"
             >
-              {dynamicWattageFilters.map((option) => (
+              {dynamicPowerFilters.map((option) => (
                 <option key={option.value} value={option.value}>{option.label}</option>
               ))}
             </select>
@@ -551,7 +473,7 @@ function App() {
                     }`}
                     aria-pressed={sortMode === 'price'}
                   >
-                    Price / ft
+                    Price
                   </button>
                 </div>
               </div>
@@ -561,14 +483,12 @@ function App() {
       </section>
 
       {/* Product List */}
-      <main className="max-w-6xl mx-auto px-4 py-10" ref={printRef}>
+      <main className="max-w-6xl mx-auto px-12 py-10" ref={printRef}>
         <div className="space-y-4">
           {filteredProducts.map(product => (
             <ProductCard
               key={product.id}
               product={product}
-              isExpanded={expandedProducts.has(product.id)}
-              onToggle={() => toggleProduct(product.id)}
             />
           ))}
         </div>
@@ -588,9 +508,9 @@ function App() {
 
       {/* Footer */}
       <footer className="bg-acclaim-midnight text-acclaim-cloud py-8 mt-20 no-print">
-        <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between gap-4 text-sm">
+        <div className="max-w-6xl mx-auto px-12 flex flex-col md:flex-row justify-between gap-4 text-sm">
           <div>
-            <p className="text-acclaim-steel mt-1">Last updated: {lastUpdated}</p>
+            <p className="text-acclaim-steel mt-1">Last updated: April 9, 2026</p>
             <p className="text-acclaim-steel mt-1">Contact Acclaim Lighting for availability and lead times</p>
           </div>
           <a 

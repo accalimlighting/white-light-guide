@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { ChevronDown, ChevronUp, Zap, ExternalLink, AlertTriangle, X } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { Zap, AlertTriangle, X } from 'lucide-react';
 
 const warmChip = 'bg-[#FCE3DB] text-[#8C2C19] border-[#F7C6B7]';
 const neutralChip = 'bg-[#E6EEF6] text-[#1F3550] border-[#C8D5E4]';
@@ -23,8 +24,47 @@ const cctBorderMap = {
   '4000K': '#D1D6E0',
 };
 
+const multiColorLetters = {
+  R: '#E53E3E',
+  G: '#38A169',
+  B: '#3182CE',
+  L: '#84CC16',
+  A: '#D97706',
+};
+
+const isMultiColorChip = (cct) => ['RGBL', 'RGBA', 'RGBW', 'RGBAL', 'DW'].includes(cct);
+
+const multiColorGradients = {
+  RGBL: 'linear-gradient(to right, #E53E3E, #38A169, #3182CE, #84CC16)',
+  RGBA: 'linear-gradient(to right, #E53E3E, #38A169, #3182CE, #D97706)',
+  RGBW: 'linear-gradient(to right, #E53E3E, #38A169, #3182CE, #E5E7EB)',
+  RGBAL: 'linear-gradient(to right, #E53E3E, #38A169, #3182CE, #D97706, #84CC16)',
+};
+
+const MultiColorChip = ({ cct }) => {
+  if (cct === 'DW') {
+    return (
+      <span
+        className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium text-acclaim-slate border border-transparent"
+        style={{ background: `linear-gradient(to right, ${cctColorMap['2400K']}, ${cctColorMap['4000K']})` }}
+      >
+        DW
+      </span>
+    );
+  }
+  return (
+    <span
+      className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium text-white border border-transparent"
+      style={{ background: multiColorGradients[cct] }}
+    >
+      {cct}
+    </span>
+  );
+};
+
 const getCCTClass = (cct) => {
   if (!cct) return 'bg-acclaim-mist text-acclaim-slate border-acclaim-cloud';
+  if (isMultiColorChip(cct)) return '';
   if (cct.includes('RGB')) return 'bg-gradient-to-r from-acclaim-accent/40 via-acclaim-teal/30 to-acclaim-accent/40 text-acclaim-slate border-transparent';
   if (cct === 'TBD') return 'bg-acclaim-mist text-acclaim-slate border-acclaim-cloud';
   if (cctColorMap[cct]) return 'text-acclaim-slate';
@@ -98,29 +138,45 @@ const AccessorySection = ({ title, items }) => {
 
 const hidePricing = import.meta.env.VITE_HIDE_PRICING === 'true';
 
-export default function ProductCard({ product, isExpanded, onToggle }) {
-  const lowestPrice = product.variants.reduce((min, v) => 
-    v.pricePer > 0 && v.pricePer < min ? v.pricePer : min, 
-    product.variants[0]?.pricePer || 0
-  );
-  const [wiringModal, setWiringModal] = useState(null);
+// Lumen breakdown chip colors
+const lumenChipStyles = {
+  white: 'bg-amber-50 text-amber-800 border-amber-200',
+  color: 'bg-purple-50 text-purple-800 border-purple-200',
+  scs: 'bg-blue-50 text-blue-800 border-blue-200',
+};
+
+export default function ProductCard({ product }) {
+  const lowestPrice = product.variants?.length
+    ? product.variants.reduce((min, v) =>
+        v.price > 0 && v.price < min ? v.price : min,
+        product.variants[0]?.price || 0
+      )
+    : 0;
+  const [imageModal, setImageModal] = useState(null);
 
   return (
     <div className={`glass-panel overflow-hidden transition-all duration-200 relative ${product.isPlaceholder ? 'ring-1 ring-amber-300/60' : ''}`}>
-      {/* Card Header - Always Visible */}
-      <div className="p-6 cursor-pointer" onClick={onToggle}>
+      {/* Card Content */}
+      <div className="p-6">
         <div className="flex items-start gap-5">
           {/* Product Image */}
-          <div className="flex-shrink-0 w-32 h-24 bg-white rounded-lg overflow-hidden border border-acclaim-cloud/80 shadow-inner">
-            <img 
-              src={product.image} 
+          <button
+            type="button"
+            className="flex-shrink-0 w-40 h-32 bg-white rounded-lg overflow-hidden border border-acclaim-cloud/80 shadow-inner cursor-zoom-in hover:ring-2 hover:ring-acclaim-accent/30 transition"
+            onClick={(e) => {
+              e.stopPropagation();
+              setImageModal({ src: product.image, alt: product.name });
+            }}
+          >
+            <img
+              src={product.image}
               alt={product.name}
-              className="w-full h-full object-contain p-2"
+              className={`w-full h-full object-contain ${product.imageScale || 'scale-100'}`}
               onError={(e) => {
                 e.target.src = '/placeholder.png';
               }}
             />
-          </div>
+          </button>
 
           {/* Product Info */}
           <div className="flex-1 min-w-0">
@@ -129,9 +185,6 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
                 <div className="flex items-center gap-2 flex-wrap">
                   <h3 className="text-xl font-semibold text-acclaim-slate tracking-tight">
                     {product.name}
-                    {product.subtitle && (
-                      <span className="text-xl font-semibold text-acclaim-slate tracking-tight"> {product.subtitle}</span>
-                    )}
                   </h3>
                   {product.isPlaceholder && (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-amber-100 text-amber-700 text-xs font-medium rounded-full">
@@ -140,238 +193,117 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
                     </span>
                   )}
                 </div>
-                <p className="text-acclaim-steel text-sm mt-1">{product.tagline}</p>
+                {product.subtitle && <p className="text-acclaim-steel text-sm mt-1">{product.subtitle}</p>}
+                {product.tagline && <p className="text-acclaim-steel text-sm mt-1">{product.tagline}</p>}
+                {product.bulletPoints && (
+                  <ul className="text-acclaim-steel text-sm mt-2 space-y-1 list-disc pl-4">
+                    {product.bulletPoints.map((bp, i) => <li key={i}>{bp}</li>)}
+                  </ul>
+                )}
               </div>
-              
-              <div className="ml-4 flex items-center text-acclaim-steel">
-                {isExpanded ? <ChevronUp className="w-6 h-6" /> : <ChevronDown className="w-6 h-6" />}
-              </div>
+
             </div>
 
             {/* Quick Specs Row */}
             <div className="flex flex-wrap items-center gap-3 mt-3">
               {/* IP Rating Badge */}
-              <span className={`px-2.5 py-1 text-xs font-semibold rounded-full ${getIPBadgeClass(product.specs.ip)}`}>
-                {product.specs.ip}
-              </span>
-              
-              {/* Wattage */}
-              <div className="flex items-center gap-1.5 text-sm text-acclaim-slate">
-                <Zap className="w-4 h-4 text-acclaim-accent" />
-                <span>{product.specs.wattage}</span>
-              </div>
-
-              {/* Lumens */}
-              {product.specs.lumens && (
-                <span className="px-2 py-0.5 text-xs font-semibold rounded-full bg-acclaim-mist text-acclaim-slate border border-acclaim-cloud">
-                  {product.displayOptions?.lumenChip || product.specs.lumens}
+              {product.specs.ip && product.specs.ip !== 'TBD' && (
+                <span className={`px-2.5 py-1 text-xs font-semibold rounded-full ${getIPBadgeClass(product.specs.ip)}`}>
+                  {product.specs.ip}
                 </span>
               )}
 
-              {/* CRI if available */}
-              {product.displayOptions?.showCriBadge !== false && product.specs.cri && product.specs.cri !== 'N/A' && (
-                <span className="text-sm text-acclaim-ocean font-semibold">
-                  CRI {product.specs.cri}
-                </span>
-              )}
-
-              {/* CCT Chips */}
-              <div className="flex flex-wrap gap-1.5">
-                {product.ccts.slice(0, 5).map(cct => (
-                  <span 
-                    key={cct} 
-                    className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${getCCTClass(cct)}`}
-                    style={getCCTStyle(cct)}
-                  >
-                    {cct}
-                  </span>
-                ))}
-                {product.ccts.length > 5 && (
-                  <span className="text-xs text-slate-500">+{product.ccts.length - 5} more</span>
-                )}
-              </div>
-
-              {/* Quick Ship + Price Per Foot */}
-              {(product.displayOptions?.quickShip || (!hidePricing && lowestPrice > 0)) && (
-                <div className="ml-auto flex items-center gap-2">
-                  {product.displayOptions?.quickShip && (
-                    <img
-                      src="/QuickShipLogo.svg"
-                      alt="Quick Ship"
-                      className="h-5 w-auto"
-                    />
-                  )}
-                  {!hidePricing && lowestPrice > 0 && (
-                    <>
-                      <span className="text-sm text-acclaim-steel">from</span>
-                      <span className="text-lg font-semibold text-acclaim-teal">${lowestPrice.toFixed(2)}/ft</span>
-                    </>
-                  )}
+              {/* Power */}
+              {product.specs.power && product.specs.power !== 'TBD' && (
+                <div className="flex items-center gap-1.5 text-sm text-acclaim-slate">
+                  <Zap className="w-4 h-4 text-acclaim-accent" />
+                  <span>{product.specs.power}</span>
                 </div>
               )}
+
+              {/* Lumen Breakdown Chips */}
+              {product.lumensBreakdown ? (
+                <div className="flex flex-wrap gap-1.5">
+                  {Object.entries(product.lumensBreakdown).map(([type, value]) => (
+                    <span
+                      key={type}
+                      className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${lumenChipStyles[type] || 'bg-acclaim-mist text-acclaim-slate border-acclaim-cloud'}`}
+                    >
+                      {type === 'scs' ? 'SCS' : type.charAt(0).toUpperCase() + type.slice(1)}: {value} lm
+                    </span>
+                  ))}
+                </div>
+              ) : product.specs.lumens && product.specs.lumens !== 'TBD' && product.specs.lumens !== 'N/A' && (
+                <span className="px-2 py-0.5 text-xs font-semibold rounded-full bg-acclaim-mist text-acclaim-slate border border-acclaim-cloud">
+                  {product.specs.lumens}
+                </span>
+              )}
+
             </div>
+
+            {/* CCT Chips - own row */}
+            {product.ccts?.length > 0 && (
+              <div className="flex flex-wrap gap-1.5 mt-2">
+                {product.ccts.map(cct =>
+                  isMultiColorChip(cct) ? (
+                    <MultiColorChip key={cct} cct={cct} />
+                  ) : (
+                    <span
+                      key={cct}
+                      className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${getCCTClass(cct)}`}
+                      style={getCCTStyle(cct)}
+                    >
+                      {cct}
+                    </span>
+                  )
+                )}
+              </div>
+            )}
+
+            {/* Technologies */}
+            {product.technologies && (
+              <div className="flex flex-wrap gap-2 mt-3">
+                {product.technologies.map((tech, i) => (
+                  <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-acclaim-ocean/10 border border-acclaim-ocean/20 text-sm">
+                    <span className="font-semibold text-acclaim-ocean">{tech.name}</span>
+                    <span className="text-acclaim-steel">— {tech.description}</span>
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {/* Price - always last */}
+            {!hidePricing && product.priceLines ? (
+              <div className="flex justify-end mt-3 space-y-1">
+                <div className="text-right">
+                  {product.priceLines.map((line, i) => (
+                    <div key={i}>
+                      <span className="text-sm text-acclaim-steel">USA DN </span>
+                      <span className="text-lg font-semibold text-acclaim-teal">${line.price.toFixed(2)}{product.priceUnit ? ` ${product.priceUnit}` : ''}</span>
+                      {line.note && <span className="block text-xs text-acclaim-steel">{line.note}</span>}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : !hidePricing && lowestPrice > 0 && (
+              <div className="flex justify-end mt-3">
+                <div className="text-right">
+                  <span className="text-sm text-acclaim-steel">USA DN </span>
+                  <span className="text-lg font-semibold text-acclaim-teal">${lowestPrice.toFixed(2)}{product.priceUnit ? ` ${product.priceUnit}` : ''}</span>
+                  {product.priceNote && (
+                    <span className="block text-xs text-acclaim-steel">{product.priceNote}</span>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Expanded Content */}
-      {isExpanded && (
-        <div className="border-t border-acclaim-cloud/60 bg-white/80">
-          {/* Specifications */}
-          <div className="p-6 bg-acclaim-mist/50">
-            <div className="flex items-center justify-between mb-4">
-              <h4 className="text-[11px] font-semibold text-acclaim-steel tracking-[0.3em]">SPECIFICATIONS</h4>
-              <a 
-                href={product.specSheetUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm text-acclaim-accent hover:text-acclaim-coral font-semibold"
-              >
-                View Product Page
-                <ExternalLink className="w-3.5 h-3.5" />
-              </a>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-              {Object.entries(product.specs).map(([key, value]) => (
-                <div key={key}>
-                  <dt className="text-[11px] text-acclaim-steel uppercase tracking-[0.25em]">{key.replace(/([A-Z])/g, ' $1').trim()}</dt>
-                  <dd className="text-sm font-semibold text-acclaim-slate mt-1">{value}</dd>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Variants & Pricing */}
-          <div className="p-6">
-            <h4 className="text-[11px] font-semibold text-acclaim-steel tracking-[0.3em] mb-4">VARIANTS & DN PRICING</h4>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="text-left text-acclaim-steel border-b border-acclaim-cloud/70 uppercase text-[11px] tracking-[0.3em]">
-                    {product.variants[0]?.length && <th className="pb-2">Length</th>}
-                    <th className="pb-2">CCT</th>
-                    <th className="pb-2">SKU</th>
-                    {product.variants[0]?.output && <th className="pb-2">Output</th>}
-                    {!hidePricing && <th className="pb-2 text-right">DN Price</th>}
-                    {!hidePricing && <th className="pb-2 text-right">$/ft</th>}
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-acclaim-cloud/60">
-                  {product.variants.map((variant, idx) => (
-                    <tr key={idx} className="hover:bg-acclaim-mist/50">
-                      {variant.length && <td className="py-2.5 font-medium text-acclaim-slate">{variant.length}</td>}
-                      <td className="py-2.5">
-                        <div className="flex flex-wrap gap-1.5">
-                          {(variant.cct?.includes(',')
-                            ? variant.cct.split(',').map(c => c.trim()).filter(Boolean)
-                            : [variant.cct]
-                          ).map((cctValue, idx) => (
-                            <span
-                              key={`${variant.sku || idx}-${cctValue}`}
-                              className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${getCCTClass(cctValue)}`}
-                              style={getCCTStyle(cctValue)}
-                            >
-                              {cctValue}
-                            </span>
-                          ))}
-                        </div>
-                      </td>
-                      <td className="py-2.5">
-                        <span className="font-semibold text-xs text-acclaim-slate bg-acclaim-mist px-1.5 py-0.5 rounded">
-                          {variant.sku}
-                        </span>
-                        {variant.note && (
-                          <span className="mt-1 inline-flex items-center rounded-full bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 text-[11px] font-semibold">
-                            {variant.note}
-                          </span>
-                        )}
-                      </td>
-                      {variant.output && <td className="py-2.5 text-acclaim-steel">{variant.output}</td>}
-                      {!hidePricing && (
-                        <>
-                          <td className="py-2.5 text-right font-semibold text-acclaim-teal">{formatPrice(variant.price)}</td>
-                          <td className="py-2.5 text-right font-bold text-acclaim-accent">{formatPrice(variant.pricePer)}/ft</td>
-                        </>
-                      )}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* Wiring Overview */}
-          {product.wiring && (
-            <div className="p-6 border-t border-acclaim-cloud/70 space-y-4">
-              <h4 className="text-[11px] font-semibold text-acclaim-steel tracking-[0.3em]">
-                {(product.wiring && product.wiring.heading) ? product.wiring.heading.toUpperCase() : 'TYPICAL WIRING'}
-              </h4>
-              <div className="flex flex-col lg:flex-row gap-6 pt-2">
-                {product.wiring.diagram && (
-                  <div className="flex-shrink-0 lg:w-1/2 p-4">
-                    <button
-                      type="button"
-                      onClick={() => setWiringModal({ src: product.wiring.diagram, alt: `Wiring diagram for ${product.name}` })}
-                      className="block w-full focus:outline-none focus:ring-2 focus:ring-acclaim-accent/50 rounded-2xl"
-                    >
-                      <img
-                        src={product.wiring.diagram}
-                        alt={`Wiring diagram for ${product.name}`}
-                        className="w-full rounded-2xl border border-acclaim-cloud/70 bg-white shadow-sm"
-                      />
-                    </button>
-                  </div>
-                )}
-                <div className="flex-1 space-y-3 text-sm text-acclaim-slate">
-                  {product.wiring.heading && (
-                    <p className="text-acclaim-slate font-semibold">{product.wiring.heading}</p>
-                  )}
-                  {product.wiring.description && <p>{product.wiring.description}</p>}
-                  {product.wiring.bullets && product.wiring.bullets.length > 0 && (
-                    <ul className="list-disc pl-5 space-y-1">
-                      {product.wiring.bullets.map((item, idx) => (
-                        <li key={idx}>{item}</li>
-                      ))}
-                    </ul>
-                  )}
-                  {product.wiring.driverRuns && product.wiring.driverRuns.length > 0 && (
-                    <div className="grid gap-2 sm:grid-cols-2">
-                      {product.wiring.driverRuns.map(({ name, detail }) => (
-                        <div key={name} className="rounded-xl border border-acclaim-cloud/70 bg-white/80 px-3 py-2">
-                          <p className="text-xs text-acclaim-steel uppercase tracking-[0.25em]">{name}</p>
-                          <p className="text-sm font-semibold text-acclaim-slate">{detail}</p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Accessories */}
-          {product.accessories && Object.keys(product.accessories).length > 0 && (
-            <div className="p-6 border-t border-acclaim-cloud/70">
-              <h4 className="text-[11px] font-semibold text-acclaim-steel tracking-[0.3em] mb-4">ACCESSORIES</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <AccessorySection title="Channels" items={product.accessories.channels} />
-                <AccessorySection title="Lenses" items={product.accessories.lenses} />
-                <AccessorySection title="Connectors" items={product.accessories.connectors} />
-                <AccessorySection title="Cables" items={product.accessories.cables} />
-                <AccessorySection title="Mounting" items={product.accessories.mounting} />
-                <AccessorySection title="Beam Control" items={product.accessories.beamControl} />
-                <AccessorySection title="Drivers & Power" items={product.accessories.drivers} />
-                <AccessorySection title="Control" items={product.accessories.control} />
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
-      {wiringModal && (
+      {imageModal && createPortal(
         <div
           className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
-          onClick={() => setWiringModal(null)}
+          onClick={() => setImageModal(null)}
         >
           <div
             className="relative max-w-6xl w-full"
@@ -379,19 +311,20 @@ export default function ProductCard({ product, isExpanded, onToggle }) {
           >
             <button
               type="button"
-              onClick={() => setWiringModal(null)}
+              onClick={() => setImageModal(null)}
               className="absolute -top-3 -right-3 bg-white text-acclaim-slate rounded-full shadow-lg p-2 hover:bg-acclaim-mist focus:outline-none focus:ring-2 focus:ring-white"
-              aria-label="Close wiring diagram"
+              aria-label="Close image"
             >
               <X className="w-5 h-5" />
             </button>
             <img
-              src={wiringModal.src}
-              alt={wiringModal.alt}
+              src={imageModal.src}
+              alt={imageModal.alt}
               className="w-full max-h-[80vh] object-contain rounded-2xl border border-acclaim-cloud/80 bg-white"
             />
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
