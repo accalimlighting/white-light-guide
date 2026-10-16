@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown, ChevronUp, Zap, ExternalLink, AlertTriangle, X } from 'lucide-react';
+import { getIPBadgeClass } from '../utils/ipBadge';
 
 const warmChip = 'bg-[#FCE3DB] text-[#8C2C19] border-[#F7C6B7]';
 const neutralChip = 'bg-[#E6EEF6] text-[#1F3550] border-[#C8D5E4]';
@@ -46,16 +47,6 @@ const getCCTStyle = (cct) => {
     borderWidth: cctBorderMap[cct] ? '1px' : undefined,
     borderStyle: cctBorderMap[cct] ? 'solid' : undefined,
   };
-};
-
-// IP Rating badge colors
-const getIPBadgeClass = (ip) => {
-  if (!ip) return 'bg-acclaim-mist text-acclaim-slate';
-  const normalized = ip.toLowerCase();
-  if (normalized.includes('ip6')) return 'bg-acclaim-teal text-white'; // apply IP68 color to IP68/67/66
-  if (normalized.includes('ip20') || normalized.includes('ip40')) return 'bg-[#002A41] text-white'; // apply IP20 color to IP20/IP40
-  if (normalized.includes('dry')) return 'bg-[#002A41] text-white';
-  return 'bg-acclaim-slate text-white';
 };
 
 // Format price

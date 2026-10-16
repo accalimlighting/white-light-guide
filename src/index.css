@@ -195,3 +195,21 @@ body {
     page-break-before: always;
   }
 }
+
+/* Comparison table print layout */
+@media print {
+  .glass-panel {
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+
+  table th,
+  table td {
+    position: static !important;
+    box-shadow: none !important;
+  }
+
+  table tr {
+    break-inside: avoid;
+  }
+}

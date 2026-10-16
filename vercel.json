@@ -12,5 +12,35 @@
         }
       ]
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "white-linear-us.acclaim.guide"
+        }
+      ],
+      "destination": "/white-light-guide",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "white-linear.acclaim.guide"
+        }
+      ],
+      "destination": "/white-light-guide",
+      "permanent": false
+    }
   ]
 }
