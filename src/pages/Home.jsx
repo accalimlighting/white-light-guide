@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import PageHero from '../components/PageHero';
-import { pageKinds, pages, quoteEmail, siteDomain } from '../site';
+import { pageKinds, pages, siteDomain } from '../site';
 import { products } from '../data/products.generated';
 import { comparisonProducts } from '../data/coveComparison';
 
@@ -21,11 +21,6 @@ export default function Home() {
         eyebrow={siteDomain}
         title="Acclaim product guides"
         description="Sales reference guides and comparison charts for Acclaim Lighting's product families, kept in step with the current specification sheets."
-        tiles={[
-          { label: 'Reference guides', value: `${guides.length}` },
-          { label: 'Comparison charts', value: `${charts.length}` },
-          { label: 'For official quotations', value: quoteEmail, isMail: true },
-        ]}
       />
 
       <main className="relative -mt-12 z-10 max-w-6xl mx-auto px-4 pb-10">

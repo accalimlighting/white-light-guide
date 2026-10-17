@@ -3,7 +3,6 @@ import { Search, Printer, X } from 'lucide-react';
 import { products, categories, ipRatings } from '../data/products.generated';
 import ProductCard from '../components/ProductCard';
 import PageHero from '../components/PageHero';
-import { quoteEmail } from '../site';
 
 const hidePricing = import.meta.env.VITE_HIDE_PRICING === 'true';
 const typeOptions = [
@@ -351,11 +350,6 @@ export default function WhiteLightGuide() {
         eyebrow="Reference guide"
         title="Linear White Light Guide"
         description="A quick reference companion for Acclaim's white light linear products and associated accessories."
-        tiles={[
-          { label: 'Guide Focus', value: 'White Light Linear Portfolio' },
-          !hidePricing && { label: 'Pricing Format', value: 'USA Distributor Net (DN)' },
-          { label: 'For official quotations', value: quoteEmail, isMail: true },
-        ].filter(Boolean)}
       />
 
       {/* Controls Bar */}

@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import { ArrowDown, ArrowUp, ArrowUpDown, Check, ExternalLink, Printer, Search, X } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import { ArrowDown, ArrowUp, ArrowUpDown, Check, ExternalLink, Printer, Search, X, ZoomIn } from 'lucide-react';
 import { comparisonFilters, comparisonGroups, comparisonProducts } from '../data/coveComparison';
 import { getIPBadgeClass } from '../utils/ipBadge';
 
@@ -307,7 +307,7 @@ const QuickShipCell = ({ quickShip, note }) =>
     <Dash />
   );
 
-const ProductIdentity = ({ product, compact = false }) => {
+const ProductIdentity = ({ product, compact = false, onPreview }) => {
   const title = (
     <span className="font-semibold text-acclaim-slate tracking-tight">
       {product.name}
@@ -316,48 +316,128 @@ const ProductIdentity = ({ product, compact = false }) => {
   );
   return (
     <div className="flex items-center gap-3 min-w-0">
-      <div className={`flex-shrink-0 bg-white rounded-lg overflow-hidden border border-acclaim-cloud/80 ${compact ? 'w-20 h-14' : 'w-[4.5rem] h-12'}`}>
+      <button
+        type="button"
+        onClick={() => onPreview?.(product)}
+        title={`Enlarge ${product.name} image`}
+        aria-label={`Enlarge ${product.name} image`}
+        className={`group/thumb relative flex-shrink-0 bg-white rounded-lg overflow-hidden border border-acclaim-cloud/80 focus:outline-none focus:ring-2 focus:ring-acclaim-accent/50 ${
+          compact ? 'w-24 h-16' : 'w-20 h-14'
+        }`}
+      >
         <img
           src={product.image}
           alt=""
           loading="lazy"
-          className="w-full h-full object-contain p-1"
+          className="w-full h-full object-contain p-1 transition-transform duration-200 group-hover/thumb:scale-105"
           onError={(e) => {
             e.currentTarget.src = '/placeholder.png';
           }}
         />
-      </div>
-      <div className="min-w-0 space-y-1">
-        <div className="flex items-center gap-1.5 flex-wrap text-sm">
-          {product.productUrl ? (
-            <a
-              href={product.productUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group/link inline-flex items-center gap-1 hover:text-acclaim-accent"
-              title="Open product page"
-            >
-              {title}
-              <ExternalLink className="w-3 h-3 text-acclaim-cloud group-hover/link:text-acclaim-accent transition" />
-            </a>
-          ) : (
-            title
-          )}
-          {product.status && (
-            <span className="inline-flex items-center rounded-full bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap">
-              {product.status}
-            </span>
-          )}
-        </div>
-        {product.badges?.length > 0 && (
-          <div className="flex flex-wrap gap-1">
-            {product.badges.map((b) => (
-              <span key={b} className="rounded border border-acclaim-cloud/70 bg-acclaim-mist px-1.5 py-0.5 text-[10px] font-medium text-acclaim-steel leading-tight">
-                {b}
-              </span>
-            ))}
-          </div>
+        <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-acclaim-navy/0 text-white opacity-0 transition group-hover/thumb:bg-acclaim-navy/35 group-hover/thumb:opacity-100 print:hidden">
+          <ZoomIn className="w-4 h-4 drop-shadow" />
+        </span>
+      </button>
+      <div className="min-w-0 flex flex-col gap-1 text-sm">
+        {product.productUrl ? (
+          <a
+            href={product.productUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group/link inline-flex items-center gap-1 hover:text-acclaim-accent"
+            title="Open product page"
+          >
+            {title}
+            <ExternalLink className="w-3 h-3 text-acclaim-cloud group-hover/link:text-acclaim-accent transition" />
+          </a>
+        ) : (
+          title
         )}
+        {product.status && (
+          <span className="self-start inline-flex items-center rounded-full bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap">
+            {product.status}
+          </span>
+        )}
+      </div>
+    </div>
+  );
+};
+
+/* -------------------------------------------------------------- lightbox */
+
+const ImageLightbox = ({ product, onClose }) => {
+  useEffect(() => {
+    if (!product) return undefined;
+    const onKey = (e) => e.key === 'Escape' && onClose();
+    window.addEventListener('keydown', onKey);
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = previous;
+    };
+  }, [product, onClose]);
+
+  if (!product) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-acclaim-midnight/85 backdrop-blur-sm p-4 sm:p-8"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${product.name} ${product.subtitle || ''} image`.trim()}
+    >
+      <div className="relative w-full max-w-4xl" onClick={(e) => e.stopPropagation()}>
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute -top-3 -right-3 z-10 rounded-full bg-white p-2 text-acclaim-slate shadow-lg hover:bg-acclaim-mist focus:outline-none focus:ring-2 focus:ring-white"
+          aria-label="Close image"
+        >
+          <X className="w-5 h-5" />
+        </button>
+        <div className="overflow-hidden rounded-2xl bg-white shadow-2xl">
+          <div className="flex items-center justify-center bg-[radial-gradient(circle_at_50%_40%,#ffffff,#eef2f7)] p-6 sm:p-10">
+            <img src={product.image} alt={`${product.name} ${product.subtitle || ''}`.trim()} className="max-h-[60vh] w-auto max-w-full object-contain" />
+          </div>
+          <div className="flex flex-col gap-3 border-t border-acclaim-cloud/60 px-6 py-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="space-y-1.5">
+              <div className="flex flex-wrap items-center gap-2">
+                <h3 className="text-lg font-semibold tracking-tight text-acclaim-slate">
+                  {product.name}
+                  {product.subtitle && <span className="text-acclaim-steel font-medium"> {product.subtitle}</span>}
+                </h3>
+                {product.status && (
+                  <span className="inline-flex items-center rounded-full bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 text-[10px] font-semibold">
+                    {product.status}
+                  </span>
+                )}
+              </div>
+              {product.badges?.length > 0 && (
+                <div className="flex flex-wrap gap-1.5">
+                  {product.badges.map((b) => (
+                    <span key={b} className="rounded border border-acclaim-cloud/70 bg-acclaim-mist px-2 py-0.5 text-[11px] font-medium text-acclaim-steel">
+                      {b}
+                    </span>
+                  ))}
+                </div>
+              )}
+              <p className="text-[11px] text-acclaim-steel">Source: {product.source}</p>
+            </div>
+            {product.productUrl && (
+              <a
+                href={product.productUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-acclaim-accent hover:text-acclaim-coral"
+              >
+                View product page
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -446,13 +526,13 @@ const GroupRow = ({ group, count }) => (
   </tr>
 );
 
-const ProductRow = ({ product }) => (
+const ProductRow = ({ product, onPreview }) => (
   <tr className="group border-t border-acclaim-cloud/60 hover:bg-acclaim-mist/40 transition-colors print:break-inside-avoid">
     <th
       scope="row"
       className={`${bodyCell} sticky left-0 z-10 bg-white group-hover:bg-[#F3F6FA] text-left font-normal border-r border-acclaim-cloud/60 shadow-[6px_0_12px_-8px_rgba(3,35,63,0.15)]`}
     >
-      <ProductIdentity product={product} />
+      <ProductIdentity product={product} onPreview={onPreview} />
     </th>
     {columns.map((col) => (
       <td key={col.key} className={`${bodyCell} ${col.className || ''} text-center`}>
@@ -495,10 +575,10 @@ const InlineCapability = ({ label, value, caption }) => (
   </div>
 );
 
-const ProductCardCompact = ({ product }) => (
+const ProductCardCompact = ({ product, onPreview }) => (
   <article className="glass-panel p-5 space-y-4">
     <div className="flex items-start justify-between gap-3">
-      <ProductIdentity product={product} compact />
+      <ProductIdentity product={product} compact onPreview={onPreview} />
       <QuickShipCell quickShip={product.quickShip} note={product.quickShipNote} />
     </div>
 
@@ -572,6 +652,7 @@ const Legend = () => (
 );
 
 export default function CoveComparisonTable({ results, sort, toggleSort, reset, filtersActive }) {
+  const [preview, setPreview] = useState(null);
   const grouped = !sort.key;
   const sections = grouped
     ? comparisonGroups
@@ -594,6 +675,8 @@ export default function CoveComparisonTable({ results, sort, toggleSort, reset, 
 
   return (
     <div className="space-y-6">
+      <ImageLightbox product={preview} onClose={() => setPreview(null)} />
+
       {/* Desktop / print: comparison table */}
       <div className="hidden md:block glass-panel overflow-hidden print:block print:shadow-none print:border print:rounded-none">
         <div className="overflow-x-auto print:overflow-visible">
@@ -637,7 +720,7 @@ export default function CoveComparisonTable({ results, sort, toggleSort, reset, 
             </thead>
             <tbody>
               {sections.map(({ group, items }) => (
-                <FragmentRows key={group?.id || 'flat'} group={group} items={items} />
+                <FragmentRows key={group?.id || 'flat'} group={group} items={items} onPreview={setPreview} />
               ))}
             </tbody>
           </table>
@@ -661,7 +744,7 @@ export default function CoveComparisonTable({ results, sort, toggleSort, reset, 
               </header>
             )}
             {items.map((p) => (
-              <ProductCardCompact key={p.id} product={p} />
+              <ProductCardCompact key={p.id} product={p} onPreview={setPreview} />
             ))}
           </section>
         ))}
@@ -673,11 +756,11 @@ export default function CoveComparisonTable({ results, sort, toggleSort, reset, 
   );
 }
 
-const FragmentRows = ({ group, items }) => (
+const FragmentRows = ({ group, items, onPreview }) => (
   <>
     {group && <GroupRow group={group} count={items.length} />}
     {items.map((p) => (
-      <ProductRow key={p.id} product={p} />
+      <ProductRow key={p.id} product={p} onPreview={onPreview} />
     ))}
   </>
 );
