@@ -108,7 +108,7 @@ export function useCoveComparison() {
 
 const FilterGroup = ({ label, options, value, onChange }) => (
   <div className="flex flex-col gap-1.5">
-    <span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-acclaim-steel">{label}</span>
+    <span className="text-[11px] font-semibold uppercase tracking-wider text-acclaim-steel">{label}</span>
     <div className="inline-flex flex-wrap rounded-xl border border-acclaim-cloud bg-white/70 p-0.5">
       {options.map((opt) => {
         const active = value === opt.id;
@@ -180,7 +180,7 @@ export function CoveComparisonControls({
         <FilterGroup label="Input" options={comparisonFilters.input} value={filters.input} onChange={(v) => setFilter('input', v)} />
         <FilterGroup label="Control" options={comparisonFilters.control} value={filters.control} onChange={(v) => setFilter('control', v)} />
         <div className="flex flex-col gap-1.5">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-acclaim-steel">Availability</span>
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-acclaim-steel">Availability</span>
           <button
             type="button"
             onClick={() => setQuickShipOnly(!quickShipOnly)}
@@ -274,7 +274,7 @@ const LocationCell = ({ ip, note }) => {
 
 const Metric = ({ value, unit, note, prefix }) => (
   <div className="flex flex-col items-center text-center leading-tight">
-    {prefix && <span className="text-[10px] uppercase tracking-[0.2em] text-acclaim-steel">{prefix}</span>}
+    {prefix && <span className="text-[10px] uppercase tracking-wide text-acclaim-steel">{prefix}</span>}
     <span className="font-semibold text-acclaim-slate">
       {value}
       {unit && <span className="text-xs font-medium text-acclaim-steel">{unit}</span>}
@@ -465,7 +465,7 @@ const SortHeader = ({ label, sortKey, sort, onSort }) => {
 };
 
 const groupStart = 'border-l border-acclaim-cloud/70';
-const headCell = 'px-2 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-acclaim-steel text-center align-bottom whitespace-nowrap';
+const headCell = 'px-2 py-2.5 text-[11px] font-semibold uppercase tracking-wide text-acclaim-steel text-center align-bottom whitespace-nowrap';
 const bodyCell = 'px-2.5 py-3.5 align-middle text-sm';
 
 const columns = [
@@ -516,7 +516,7 @@ const renderCell = (product, key) => {
 const GroupRow = ({ group, count }) => (
   <tr className="bg-acclaim-mist/70">
     <th colSpan={columns.length + 2} scope="colgroup" className="p-0 text-left">
-      <div className="sticky left-0 inline-flex items-baseline gap-3 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-acclaim-ocean">
+      <div className="sticky left-0 inline-flex items-baseline gap-3 px-4 py-2 text-[11px] font-semibold uppercase tracking-wider text-acclaim-ocean">
         <span>{group.name}</span>
         <span className="normal-case tracking-normal font-medium text-acclaim-steel">
           {group.blurb} · {count}
@@ -549,7 +549,7 @@ const ProductRow = ({ product, onPreview }) => (
 
 const CardField = ({ label, children }) => (
   <div>
-    <dt className="text-[10px] uppercase tracking-[0.2em] text-acclaim-steel">{label}</dt>
+    <dt className="text-[10px] uppercase tracking-wide text-acclaim-steel">{label}</dt>
     <dd className="mt-1 text-sm text-acclaim-slate">{children}</dd>
   </div>
 );
@@ -619,7 +619,7 @@ const ProductCardCompact = ({ product, onPreview }) => (
     </dl>
 
     <div className="space-y-2">
-      <p className="text-[10px] uppercase tracking-[0.2em] text-acclaim-steel">Input &amp; control</p>
+      <p className="text-[10px] uppercase tracking-wide text-acclaim-steel">Input &amp; control</p>
       <div className="grid gap-2 sm:grid-cols-2">
         <InlineCapability label="120–277V" value={product.input?.lineVoltage} />
         <InlineCapability label="24VDC" value={product.input?.lowVoltage} />
@@ -689,7 +689,7 @@ export default function CoveComparisonTable({ results, sort, toggleSort, reset, 
               <col style={{ width: QUICK_SHIP_WIDTH }} />
             </colgroup>
             <thead className="bg-white">
-              <tr className="text-[10px] font-semibold uppercase tracking-[0.3em] text-acclaim-steel/80">
+              <tr className="text-[10px] font-semibold uppercase tracking-wider text-acclaim-steel/80">
                 <th rowSpan={2} scope="col" className={`${headCell} sticky left-0 z-20 bg-white text-left border-b border-r border-acclaim-cloud/70`}>
                   Model
                 </th>
@@ -739,7 +739,7 @@ export default function CoveComparisonTable({ results, sort, toggleSort, reset, 
           <section key={group?.id || 'flat'} className="space-y-3">
             {group && (
               <header className="px-1">
-                <h3 className="text-[11px] font-semibold uppercase tracking-[0.3em] text-acclaim-ocean">{group.name}</h3>
+                <h3 className="text-[11px] font-semibold uppercase tracking-wider text-acclaim-ocean">{group.name}</h3>
                 <p className="text-xs text-acclaim-steel">{group.blurb}</p>
               </header>
             )}
